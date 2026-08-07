@@ -134,3 +134,7 @@
 | 2026-08-08 | 01:25 | Write | `W:\VS\LogisticDigi\apps\mobile\lib\firebase_options.dart` | ~293 |
 | 2026-08-08 | 01:25 | Write | `W:\VS\LogisticDigi\apps\mobile\lib\main.dart` | ~318 |
 | 2026-08-08 | 01:25 | Write | `W:\VS\LogisticDigi\apps\mobile\test\widget_test.dart` | ~102 |
+| 2026-08-08 | 01:36 | Write | `W:\VS\LogisticDigi\vercel.json` | ~28 |
+| 2026-08-08 | 01:36 | Edit | `W:\VS\LogisticDigi\vercel.json` | ~27 |
+| 2026-08-08 | 01:40 | Edit | `W:\VS\LogisticDigi\apps\web\next.config.ts` | ~213 |
+| 2026-08-08 | 01:40 | Write | `W:\VS\LogisticDigi\vercel.json` | ~24 |
