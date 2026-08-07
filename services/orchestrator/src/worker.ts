@@ -17,7 +17,23 @@ async function main(): Promise<void> {
   const runnerId = process.env.RUNNER_ID ?? `local:${process.pid}`;
   const orchestrator = new Orchestrator({ store: new FirestoreStore(), runnerId });
 
-  console.log(`[orchestrator] starting as "${runnerId}", ticking every ${TICK_INTERVAL_MS}ms`);
+  /*
+   * Bounded mode: TICKS=n runs exactly n ticks and exits.
+   *
+   * Two reasons this exists rather than just Ctrl-C'ing the loop. It is how
+   * you seed a demo with a known amount of history, and — because the process
+   * exits normally — Node actually flushes stdout, which it does not do on a
+   * SIGTERM'd infinite loop whose output is redirected to a file rather than
+   * a terminal. A worker whose logs vanish when you background it is not much
+   * of a worker.
+   */
+  const bounded = Number(process.env.TICKS ?? '0');
+
+  console.log(
+    bounded > 0
+      ? `[orchestrator] starting as "${runnerId}", running ${bounded} tick(s) then exiting`
+      : `[orchestrator] starting as "${runnerId}", ticking every ${TICK_INTERVAL_MS}ms`,
+  );
 
   const tick = async (): Promise<void> => {
     try {
@@ -33,6 +49,12 @@ async function main(): Promise<void> {
       console.error('[orchestrator] tick failed:', error);
     }
   };
+
+  if (bounded > 0) {
+    for (let i = 0; i < bounded; i += 1) await tick();
+    console.log(`[orchestrator] ${bounded} tick(s) done; ${orchestrator.activeRunIds.length} run(s) still open`);
+    return;
+  }
 
   await tick();
   setInterval(() => void tick(), TICK_INTERVAL_MS);
