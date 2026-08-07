@@ -3,9 +3,15 @@
 import { useRef, useEffect } from 'react';
 import './CursorGrid.css';
 
+const smoothFalloff = (t: number): number => t * t * (3 - 2 * t);
+
+// Record<string, T> compiles to an index signature, so under
+// noUncheckedIndexedAccess even a literal-key lookup like `.smooth` types as
+// possibly undefined. Falling back to `smoothFalloff` directly (not another
+// lookup into this record) is what lets `ease` below type as always-defined.
 const FALLOFF_CURVES: Record<string, (t: number) => number> = {
   linear: t => t,
-  smooth: t => t * t * (3 - 2 * t),
+  smooth: smoothFalloff,
   sharp: t => t * t * t,
 };
 
@@ -121,7 +127,7 @@ const CursorGrid = ({
       const p = propsRef.current;
       const cs = p.cellSize ?? 70;
       const r = Math.max(p.radius ?? 140, 1);
-      const ease = FALLOFF_CURVES[p.falloff ?? 'smooth'] ?? FALLOFF_CURVES.smooth;
+      const ease = FALLOFF_CURVES[p.falloff ?? 'smooth'] ?? smoothFalloff;
       const now = performance.now();
       const minCol = Math.max(0, Math.floor((x - r - offX) / cs));
       const maxCol = Math.min(cols - 1, Math.floor((x + r - offX) / cs));
@@ -134,7 +140,9 @@ const CursorGrid = ({
           const dist = Math.hypot(cx - x, cy - y);
           if (dist > r) continue;
           const level = ease(1 - dist / r) * (p.maxOpacity ?? 1) * (boost ?? 1);
-          if (level > alphas[i]) {
+          // `i` is derived from cRow/cCol within [0, rows) x [0, cols), so it
+          // is always in bounds for arrays sized cols * rows in rebuild().
+          if (level > alphas[i]!) {
             alphas[i] = level;
             touched[i] = now;
           } else if (level > 0) {
@@ -170,7 +178,8 @@ const CursorGrid = ({
       }
 
       for (let pi = pulses.length - 1; pi >= 0; pi--) {
-        const pulse = pulses[pi];
+        // pi walks [0, pulses.length) by construction.
+        const pulse = pulses[pi]!;
         const age = (now - pulse.t0) / 1000;
         const ringR = age * (p.pulseSpeed ?? 600);
         if (ringR > Math.hypot(w, h)) {
@@ -187,7 +196,7 @@ const CursorGrid = ({
             const i = cRow * cols + cCol;
             const [cx, cy] = cellCenter(i);
             const dist = Math.hypot(cx - pulse.x, cy - pulse.y);
-            if (Math.abs(dist - ringR) < band / 2 && (p.maxOpacity ?? 1) > alphas[i]) {
+            if (Math.abs(dist - ringR) < band / 2 && (p.maxOpacity ?? 1) > alphas[i]!) {
               alphas[i] = p.maxOpacity ?? 1;
               touched[i] = now;
             }
@@ -200,9 +209,9 @@ const CursorGrid = ({
       const half = cs / 2;
 
       for (let i = 0; i < alphas.length; i++) {
-        let a = alphas[i];
+        let a = alphas[i]!;
         if (a <= 0) continue;
-        if (now - touched[i] > (p.holdTime ?? 400)) {
+        if (now - touched[i]! > (p.holdTime ?? 400)) {
           a = Math.max(0, a - fadeStep);
           alphas[i] = a;
           if (a <= 0) continue;
@@ -284,7 +293,10 @@ const CursorGrid = ({
       container.removeEventListener('pointermove', onPointerMove);
       container.removeEventListener('pointerdown', onPointerDown);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Deliberately [cellSize] only: every other prop is read live off
+    // propsRef inside the closure (see propsRef.current assignment above),
+    // not captured at effect-setup time, so this effect only needs to
+    // re-run when the grid geometry itself changes.
   }, [cellSize]);
 
   useEffect(() => {
