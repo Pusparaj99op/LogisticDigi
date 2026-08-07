@@ -63,91 +63,100 @@ const RULES: readonly InjectionRule[] = [
     name: 'instruction_override',
     severity: 'high',
     description: 'attempts to discard the agent\'s existing instructions',
+    // Qualifiers stack in real attacks ("your prior system prompt"), so both
+    // the determiner and the descriptor groups repeat.
     pattern:
-      /\b(ignore|disregard|forget|override)\s+(all\s+|any\s+|your\s+|the\s+)?(previous|prior|earlier|above|preceding|system)\s+(instruction|prompt|rule|direction|message|context)s?\b/i,
+      /\b(?:ignore|disregard|forget|override)\s+(?:(?:all|any|your|the|these|those)\s+)*(?:(?:previous|prior|earlier|above|preceding|original|initial|system)\s+)+(?:instruction|prompt|rule|direction|message|context|guideline)s?\b/gi,
   },
   {
     name: 'role_hijack',
     severity: 'high',
     description: 'attempts to reassign the agent\'s role or identity',
     pattern:
-      /\b(you\s+are\s+now|from\s+now\s+on\s+you|act\s+as\s+(?:an?\s+)?(?:unrestricted|unfiltered|admin|root|developer)|pretend\s+to\s+be|new\s+(?:system\s+)?(?:persona|role|identity))\b/i,
+      /\b(you\s+are\s+now|from\s+now\s+on\s+you|act\s+as\s+(?:an?\s+)?(?:unrestricted|unfiltered|admin|root|developer)|pretend\s+to\s+be|new\s+(?:system\s+)?(?:persona|role|identity))\b/gi,
   },
   {
     name: 'approval_bypass',
     severity: 'high',
     description: 'attempts to skip a human approval gate',
     pattern:
-      /\b(skip|bypass|no\s+need\s+for|without|do\s+not\s+require|waive)\s+(the\s+|any\s+|human\s+|manual\s+)?(approval|authorisation|authorization|confirmation|review|sign-?off)\b/i,
+      /\b(?:skip|bypass|waive|no\s+need\s+for|without|do\s+not\s+require)\s+(?:(?:the|any|all|a)\s+)*(?:(?:human|manual|internal|final|second)\s+)*(?:approval|authorisation|authorization|confirmation|review|sign-?off)\b/gi,
   },
   {
     name: 'budget_override',
     severity: 'high',
     description: 'attempts to raise or ignore a spend limit',
     pattern:
-      /\b(ignore|raise|increase|remove|lift|exceed|disable)\s+(the\s+|your\s+|any\s+)?(budget|spend(?:ing)?|payment)\s*(cap|limit|ceiling|constraint|restriction)s?\b/i,
+      /\b(ignore|raise|increase|remove|lift|exceed|disable)\s+(the\s+|your\s+|any\s+)?(budget|spend(?:ing)?|payment)\s*(cap|limit|ceiling|constraint|restriction)s?\b/gi,
   },
   {
     name: 'unauthorised_payment',
     severity: 'high',
     description: 'attempts to direct a payment or redirect funds',
     pattern:
-      /\b(send|transfer|pay|release|forward|remit)\s+(the\s+|all\s+|your\s+|any\s+)?(funds?|payment|balance|money|usdc|algo)\b.{0,40}\b(to|address|wallet|account)\b/i,
+      /\b(send|transfer|pay|release|forward|remit)\s+(the\s+|all\s+|your\s+|any\s+)?(funds?|payment|balance|money|usdc|algo)\b.{0,40}\b(to|address|wallet|account)\b/gi,
   },
   {
     name: 'wallet_exfiltration',
     severity: 'high',
     description: 'attempts to extract keys, seed phrases, or credentials',
+    // `\w*` on the verbs catches inflections — "disclosed", "sharing" — which
+    // a trailing \b would otherwise reject.
     pattern:
-      /\b(private\s+key|seed\s+phrase|mnemonic|secret\s+key|api\s+key|credential|service\s+account)s?\b.{0,40}\b(reveal|share|send|show|print|output|disclose|provide)\b|\b(reveal|share|send|show|print|output|disclose|provide)\b.{0,40}\b(private\s+key|seed\s+phrase|mnemonic|secret\s+key|api\s+key)s?\b/i,
+      /\b(?:private\s+key|seed\s+phrase|mnemonic|secret\s+key|api\s+key|credential|service\s+account)s?\b.{0,40}?\b(?:reveal|shar|send|show|print|output|disclos|provid|expos)\w*\b|\b(?:reveal|shar|send|show|print|output|disclos|provid|expos)\w*\b.{0,40}?\b(?:private\s+key|seed\s+phrase|mnemonic|secret\s+key|api\s+key)s?\b/gi,
   },
   {
     name: 'system_prompt_exfiltration',
     severity: 'medium',
     description: 'attempts to extract the agent\'s instructions',
     pattern:
-      /\b(repeat|reveal|print|show|output|display|summari[sz]e)\b.{0,30}\b(system\s+prompt|initial\s+instruction|your\s+instruction|prior\s+context)s?\b/i,
+      /\b(repeat|reveal|print|show|output|display|summari[sz]e)\b.{0,30}\b(system\s+prompt|initial\s+instruction|your\s+instruction|prior\s+context)s?\b/gi,
   },
   {
     name: 'delimiter_injection',
     severity: 'medium',
     description: 'contains chat or markup delimiters that could break framing',
     pattern:
-      /(<\/?(?:system|assistant|user|instruction)s?>|\[\/?(?:INST|SYS)\]|<\|(?:im_start|im_end|endoftext|system)\|>|###\s*(?:system|instruction)\s*:)/i,
+      /(<\/?(?:system|assistant|user|instruction)s?>|\[\/?(?:INST|SYS)\]|<\|(?:im_start|im_end|endoftext|system)\|>|###\s*(?:system|instruction)\s*:)/gi,
   },
   {
     name: 'tool_invocation',
     severity: 'medium',
     description: 'attempts to name a tool or function for the agent to call',
+    // Allows a few words between the verb and the noun ("invoke the
+    // settlement function") without spanning a whole sentence.
     pattern:
-      /\b(call|invoke|execute|run|use)\s+(the\s+)?(tool|function|command|api|endpoint)\b|\b(tool_call|function_call)\s*[:(]/i,
+      /\b(?:call|invoke|execute|run|use)\s+(?:the\s+)?(?:\w+\s+){0,3}?(?:tool|function|command|api|endpoint)\b|\b(?:tool_call|function_call)\s*[:(]/gi,
   },
   {
     name: 'false_authority',
     severity: 'medium',
     description: 'claims administrative or system authority inside offer text',
     pattern:
-      /\b(this\s+is\s+(?:an?\s+)?(?:system|admin|administrator|official|urgent\s+system)\s+(?:message|instruction|override|notice)|as\s+(?:the\s+)?(?:system\s+)?administrator|on\s+behalf\s+of\s+(?:the\s+)?(?:system|platform)\s+admin)\b/i,
+      /\b(this\s+is\s+(?:an?\s+)?(?:system|admin|administrator|official|urgent\s+system)\s+(?:message|instruction|override|notice)|as\s+(?:the\s+)?(?:system\s+)?administrator|on\s+behalf\s+of\s+(?:the\s+)?(?:system|platform)\s+admin)\b/gi,
   },
   {
     name: 'hidden_text_marker',
     severity: 'medium',
     description: 'contains text styled to be invisible to a human reviewer',
-    pattern: /(color\s*:\s*(?:#fff(?:fff)?|white)|font-size\s*:\s*0|display\s*:\s*none|opacity\s*:\s*0)/i,
+    pattern: /(color\s*:\s*(?:#fff(?:fff)?|white)|font-size\s*:\s*0|display\s*:\s*none|opacity\s*:\s*0)/gi,
   },
   {
     name: 'confidence_manipulation',
     severity: 'low',
     description: 'pressures the agent to act without verification',
     pattern:
-      /\b(do\s+not|don't|no\s+need\s+to)\s+(verify|validate|check|question|confirm)\b|\btrust\s+(?:me|this)\s+(?:completely|fully|without)\b/i,
+      /\b(do\s+not|don't|no\s+need\s+to)\s+(verify|validate|check|question|confirm)\b|\btrust\s+(?:me|this)\s+(?:completely|fully|without)\b/gi,
   },
 ];
 
 /** Zero-width and bidirectional characters used to hide payloads from humans. */
-const INVISIBLE_CHARACTERS = /[​-‏‪-‮⁠-⁤﻿]/g;
+const INVISIBLE_CHARACTERS = /[\u200B-\u200F\u202A-\u202E\u2060-\u2064\uFEFF]/g;
 
 const EXCERPT_LIMIT = 120;
+
+/** Per-rule cap on recorded matches, so one input cannot flood a trace. */
+const MATCHES_PER_RULE_LIMIT = 3;
 
 function excerptOf(text: string, index: number, length: number): string {
   const raw = text.slice(index, index + Math.min(length, EXCERPT_LIMIT));
@@ -179,10 +188,12 @@ export function scanText(text: string): InjectionScanResult {
   const normalised = text.replace(INVISIBLE_CHARACTERS, '');
 
   for (const rule of RULES) {
-    // Rules are authored without /g; exec once for the first occurrence,
-    // which is all the trace needs to justify a block.
-    const match = rule.pattern.exec(normalised);
-    if (match) {
+    // Every occurrence is recorded, not just the first: repeated pressure of
+    // the same kind is itself a signal, and the escalation rule below counts
+    // low-severity hits. Capped so a pathological input cannot flood a trace.
+    let recorded = 0;
+    for (const match of normalised.matchAll(rule.pattern)) {
+      if (recorded >= MATCHES_PER_RULE_LIMIT) break;
       findings.push({
         rule: rule.name,
         severity: rule.severity,
@@ -190,6 +201,7 @@ export function scanText(text: string): InjectionScanResult {
         excerpt: excerptOf(normalised, match.index, match[0].length),
         index: match.index,
       });
+      recorded += 1;
     }
   }
 
@@ -243,9 +255,10 @@ export function encloseUntrusted(text: string, source: string): string {
   const fence = 'UNTRUSTED_DATA';
   const cleaned = text
     .replace(INVISIBLE_CHARACTERS, '')
-    // Break any forged fence so the envelope cannot be closed early.
-    .replaceAll(`[/${fence}]`, `[/${fence}​]`.replace(INVISIBLE_CHARACTERS, '_'))
-    .replaceAll(`[${fence}`, `[_${fence}`);
+    // Defang any forged fence so the envelope cannot be closed early and the
+    // remainder promoted out of the data context.
+    .replaceAll(`[/${fence}]`, `[_${fence}_CLOSE_ATTEMPT]`)
+    .replaceAll(`[${fence}`, `[_${fence}_OPEN_ATTEMPT`);
 
   return [
     `[${fence} source="${source.replace(/"/g, "'")}"]`,
