@@ -7,8 +7,8 @@
  */
 
 import { type FirebaseApp, type FirebaseOptions, getApp, getApps, initializeApp } from 'firebase/app';
-import { type Auth, getAuth } from 'firebase/auth';
-import { type Firestore, getFirestore } from 'firebase/firestore';
+import { type Auth, connectAuthEmulator, getAuth } from 'firebase/auth';
+import { type Firestore, connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 
 /**
  * Read the config, or return null when it is absent.
@@ -60,10 +60,32 @@ export function firebaseApp(): FirebaseApp {
   return getApps().length > 0 ? getApp() : initializeApp(config);
 }
 
+/**
+ * Local emulator host, e.g. "127.0.0.1" — set NEXT_PUBLIC_EMULATOR_HOST to
+ * point this app at `firebase emulators:start` instead of the real project.
+ *
+ * Opt-in and absent from production builds by construction: the variable is
+ * inlined at build time, so a deployed bundle built without it cannot be
+ * talked into connecting to a developer's machine. Guarded against
+ * double-connecting because Next's fast refresh re-runs module code while the
+ * FirebaseApp instance survives, and connect*Emulator throws on a second call.
+ */
+const EMULATOR_HOST = process.env.NEXT_PUBLIC_EMULATOR_HOST;
+let emulatorsConnected = false;
+
 export function firebaseAuth(): Auth {
-  return getAuth(firebaseApp());
+  const auth = getAuth(firebaseApp());
+  if (EMULATOR_HOST && !emulatorsConnected) {
+    emulatorsConnected = true;
+    connectAuthEmulator(auth, `http://${EMULATOR_HOST}:9099`, { disableWarnings: true });
+    connectFirestoreEmulator(getFirestore(firebaseApp()), EMULATOR_HOST, 8080);
+  }
+  return auth;
 }
 
 export function firestore(): Firestore {
+  // Routed through firebaseAuth() so the emulator wiring happens exactly once
+  // regardless of which of the two a screen reaches for first.
+  if (EMULATOR_HOST && !emulatorsConnected) firebaseAuth();
   return getFirestore(firebaseApp());
 }
