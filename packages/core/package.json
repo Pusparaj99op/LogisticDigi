@@ -1,0 +1,19 @@
+{
+  "name": "@logisticdigi/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Domain model, workflow DAG compiler, and policy/budget engine. Pure TypeScript: no Firebase, no Next.js, so the eval harness can run it headlessly.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "zod": "^3.24.1"
+  }
+}
