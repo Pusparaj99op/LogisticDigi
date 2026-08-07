@@ -190,3 +190,6 @@
 | 2026-08-08 | 03:56 | Edit | `W:\VS\LogisticDigi\apps\mobile\lib\main.dart` | ~323 |
 | 2026-08-08 | 03:56 | Edit | `W:\VS\LogisticDigi\apps\mobile\lib\main.dart` | ~426 |
 | 2026-08-08 | 04:03 | Edit | `W:\VS\LogisticDigi\firebase.json` | ~40 |
+| 2026-08-08 | 04:13 | Edit | `W:\VS\LogisticDigi\apps\web\src\components\landing\globe-field.tsx` | ~751 |
+| 2026-08-08 | 04:13 | Edit | `W:\VS\LogisticDigi\apps\web\src\components\landing\globe-field.tsx` | ~751 |
+| 2026-08-08 | 04:24 | Edit | `W:\VS\LogisticDigi\.gitignore` | ~214 |
