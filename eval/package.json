@@ -1,0 +1,23 @@
+{
+  "name": "@logisticdigi/eval",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Reproducible evaluation harness: scenarios, a guarded orchestrator against an unguarded baseline, metrics, and honest failure reporting.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "eval": "tsx src/main.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@logisticdigi/agents": "workspace:*",
+    "@logisticdigi/core": "workspace:*",
+    "@logisticdigi/sim": "workspace:*",
+    "@logisticdigi/x402": "workspace:*",
+    "algosdk": "^3.5.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2"
+  }
+}
