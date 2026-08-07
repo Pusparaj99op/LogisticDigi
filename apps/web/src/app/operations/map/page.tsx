@@ -3,6 +3,7 @@
 import { Empty, Eyebrow, FloorPanel, Marker } from '@/components/primitives';
 import { useShipments } from '@/components/live';
 import { CargoGlobe } from '@/components/cargo-globe';
+import { useSession } from '@/lib/auth-context';
 
 /**
  * Cargo in transit.
@@ -22,7 +23,8 @@ const MODE_LABEL: Record<string, string> = {
 };
 
 export default function MapPage() {
-  const shipments = useShipments();
+  const session = useSession();
+  const shipments = useShipments(session.tenantId);
 
   return (
     <div className="space-y-8">
