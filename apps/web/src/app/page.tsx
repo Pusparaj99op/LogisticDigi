@@ -1,11 +1,12 @@
-import { redirect } from 'next/navigation';
+import type { Metadata } from 'next';
+import { Landing } from '@/components/landing/landing';
 
-/**
- * Placeholder root.
- *
- * The marketing landing page replaces this. Until then, send visitors to the
- * thing that exists rather than showing them a stub.
- */
+export const metadata: Metadata = {
+  title: 'LogisticDigi — your agents negotiate, you decide',
+  description:
+    'Specialist agents find surplus stock across companies, bargain over it, and settle on Algorand. They stop and ask before spending past your limit.',
+};
+
 export default function Home() {
-  redirect('/sign-in');
+  return <Landing />;
 }

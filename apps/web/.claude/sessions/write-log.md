@@ -21,3 +21,14 @@
 | 2026-08-07 | 23:06 | Write | `W:\VS\LogisticDigi\apps\web\src\app\operations\ledger\page.tsx` | ~445 |
 | 2026-08-07 | 23:06 | Write | `W:\VS\LogisticDigi\apps\web\src\app\operations\admin\page.tsx` | ~1003 |
 | 2026-08-07 | 23:07 | Write | `W:\VS\LogisticDigi\apps\web\src\app\operations\map\page.tsx` | ~456 |
+| 2026-08-07 | 23:13 | Write | `W:\VS\LogisticDigi\apps\web\src\components\landing\smooth-scroll.tsx` | ~204 |
+| 2026-08-07 | 23:13 | Write | `W:\VS\LogisticDigi\apps\web\src\components\landing\globe-field.tsx` | ~546 |
+| 2026-08-07 | 23:13 | Edit | `W:\VS\LogisticDigi\apps\web\src\components\landing\globe-field.tsx` | ~574 |
+| 2026-08-07 | 23:13 | Edit | `W:\VS\LogisticDigi\apps\web\src\components\landing\globe-field.tsx` | ~574 |
+| 2026-08-07 | 23:13 | Edit | `W:\VS\LogisticDigi\apps\web\src\components\landing\globe-field.tsx` | ~613 |
+| 2026-08-07 | 23:14 | Write | `W:\VS\LogisticDigi\apps\web\src\components\landing\thinking.ts` | ~494 |
+| 2026-08-07 | 23:14 | Write | `W:\VS\LogisticDigi\apps\web\src\components\landing\negotiation.tsx` | ~746 |
+| 2026-08-07 | 23:15 | Write | `W:\VS\LogisticDigi\apps\web\src\components\landing\landing.tsx` | ~1675 |
+| 2026-08-07 | 23:15 | Write | `W:\VS\LogisticDigi\apps\web\src\app\page.tsx` | ~79 |
+| 2026-08-07 | 23:22 | Edit | `W:\VS\LogisticDigi\apps\web\src\components\landing\negotiation.tsx` | ~787 |
+| 2026-08-07 | 23:32 | Edit | `W:\VS\LogisticDigi\apps\web\src\components\landing\globe-field.tsx` | ~752 |
