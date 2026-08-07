@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +15,21 @@ Future<void> main() async {
   String? initError;
   try {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+    // Point at a local `firebase emulators:start` instead of the real
+    // project. Opt-in and compiled in, so a store build cannot be talked into
+    // connecting to a developer's machine:
+    //
+    //   flutter run --dart-define=EMULATOR_HOST=192.168.1.5
+    //
+    // Note this must be the host machine's LAN address, not localhost — on a
+    // physical device localhost is the phone itself.
+    const emulatorHost = String.fromEnvironment('EMULATOR_HOST');
+    if (emulatorHost.isNotEmpty) {
+      FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
+      await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
+      debugPrint('[logisticdigi] using Firebase emulators at $emulatorHost');
+    }
   } catch (cause) {
     // Mirrors apps/web's firebaseConfigured check: a missing/placeholder
     // config produces a clear in-app message rather than a crash.
