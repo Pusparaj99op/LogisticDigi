@@ -1,0 +1,201 @@
+/* ─── HeroIntro ─────────────────────────────────────────────────────────────
+   Full-viewport intro overlay.
+   LogisticDigi palette:
+     --void    #0b0b0c
+     --steel   #17181b
+     --hazard  #ffc400
+     --chalk   #f2f2f0
+     --mono    IBM Plex Mono
+     --display Archivo
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* ── root overlay ──────────────────────────────────────────────────────────── */
+.hero-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  /* start fully visible; JS fades this to 0 at the end */
+  opacity: 1;
+  /* prevent interaction with the page beneath */
+  pointer-events: all;
+  overflow: hidden;
+}
+
+/* ── solid background behind the resting frame ─────────────────────────────── */
+.hero-intro__bg {
+  position: absolute;
+  inset: 0;
+  background: #0b0b0c;
+}
+
+/* ── the expanding frame ───────────────────────────────────────────────────── */
+.hero-intro__frame {
+  position: absolute;
+  inset: 0;
+  /* JS writes clip-path here — same formula as ScrollExpand */
+  clip-path: inset(21% 29% 21% 29% round 24px);
+  will-change: clip-path;
+  overflow: hidden;
+}
+
+/* ── media: warehouse-floor gradient, no real image needed ─────────────────── */
+.hero-intro__media {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  transform-origin: center;
+  transform: scale(1.35);
+  /* Diagonal hazard-stripe pattern on a near-black field */
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 196, 0, 0.07) 0px,
+      rgba(255, 196, 0, 0.07) 1px,
+      transparent 1px,
+      transparent 36px
+    ),
+    radial-gradient(
+      ellipse 120% 80% at 60% 55%,
+      #1c1a13 0%,
+      #0b0b0c 70%
+    );
+}
+
+/* Subtle animated shimmer so the frame doesn't look static while at rest */
+@keyframes hero-shimmer {
+  0%   { background-position: 0 0, center; }
+  100% { background-position: 200px 200px, center; }
+}
+.hero-intro__media {
+  animation: hero-shimmer 6s linear infinite;
+  background-size: 36px 36px, cover;
+}
+
+/* ── gradient scrim — keeps text legible ───────────────────────────────────── */
+.hero-intro__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(11, 11, 12, 0.90) 0%,
+    rgba(11, 11, 12, 0.10) 45%,
+    rgba(11, 11, 12, 0.35) 100%
+  );
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* ── resting-frame headline (lifts away during expansion) ──────────────────── */
+.hero-intro__title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  will-change: opacity, transform;
+
+  font-family: 'Archivo', 'Arial Narrow', sans-serif;
+  font-variation-settings: 'wdth' 112;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  /* Clamp between 2.5rem and 7rem */
+  font-size: clamp(2.5rem, 9vw, 7rem);
+
+  color: #f2f2f0;
+  text-shadow: 0 2px 32px rgba(11, 11, 12, 0.8);
+}
+
+/* ── loading hint ──────────────────────────────────────────────────────────── */
+.hero-intro__hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1.5rem;
+  text-align: center;
+  pointer-events: none;
+  will-change: opacity, transform;
+
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 196, 0, 0.55);
+}
+
+/* Pulsing dot after "Loading" */
+.hero-intro__hint::after {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffc400;
+  margin-left: 8px;
+  vertical-align: middle;
+  animation: hero-pulse 1.1s ease-in-out infinite;
+}
+
+@keyframes hero-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50%       { opacity: 1;   transform: scale(1.2); }
+}
+
+/* ── overlay content (fades in at full-bleed) ──────────────────────────────── */
+.hero-intro__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6%;
+  opacity: 0;
+  will-change: opacity, transform;
+  gap: 1rem;
+}
+
+.hero-intro__eyebrow {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 196, 0, 0.7);
+  margin: 0;
+}
+
+.hero-intro__overlay-headline {
+  font-family: 'Archivo', 'Arial Narrow', sans-serif;
+  font-variation-settings: 'wdth' 112;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  line-height: 0.95;
+  font-size: clamp(2rem, 5.5vw, 5rem);
+  color: #f2f2f0;
+  margin: 0;
+}
+
+.hero-intro__accent {
+  color: #ffc400;
+}
+
+.hero-intro__overlay-body {
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: clamp(0.875rem, 1.4vw, 1.1rem);
+  color: rgba(242, 242, 240, 0.55);
+  max-width: 38ch;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── reduced motion: skip immediately ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hero-intro {
+    display: none;
+  }
+}
