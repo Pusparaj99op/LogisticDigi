@@ -120,3 +120,17 @@
 | 2026-08-07 | 22:53 | Write | `W:\VS\LogisticDigi\.github\workflows\ci.yml` | ~362 |
 | 2026-08-07 | 22:56 | Write | `W:\VS\LogisticDigi\apps\web\package.json` | ~68 |
 | 2026-08-07 | 23:08 | Edit | `W:\VS\LogisticDigi\eslint.config.mjs` | ~96 |
+| 2026-08-08 | 01:22 | Edit | `W:\VS\LogisticDigi\apps\mobile\pubspec.yaml` | ~715 |
+| 2026-08-08 | 01:22 | Write | `W:\VS\LogisticDigi\apps\mobile\lib\theme.dart` | ~488 |
+| 2026-08-08 | 01:22 | Write | `W:\VS\LogisticDigi\apps\mobile\lib\models.dart` | ~653 |
+| 2026-08-08 | 01:22 | Write | `W:\VS\LogisticDigi\apps\mobile\lib\session.dart` | ~442 |
+| 2026-08-08 | 01:23 | Write | `W:\VS\LogisticDigi\apps\mobile\lib\live.dart` | ~236 |
+| 2026-08-08 | 01:23 | Write | `W:\VS\LogisticDigi\apps\mobile\lib\widgets\primitives.dart` | ~746 |
+| 2026-08-08 | 01:23 | Write | `W:\VS\LogisticDigi\apps\mobile\lib\screens\sign_in_screen.dart` | ~577 |
+| 2026-08-08 | 01:24 | Write | `W:\VS\LogisticDigi\apps\mobile\lib\screens\approvals_screen.dart` | ~720 |
+| 2026-08-08 | 01:24 | Write | `W:\VS\LogisticDigi\apps\mobile\lib\screens\ledger_screen.dart` | ~492 |
+| 2026-08-08 | 01:24 | Write | `W:\VS\LogisticDigi\apps\mobile\lib\screens\floor_screen.dart` | ~826 |
+| 2026-08-08 | 01:24 | Write | `W:\VS\LogisticDigi\apps\mobile\lib\screens\operations_shell.dart` | ~213 |
+| 2026-08-08 | 01:25 | Write | `W:\VS\LogisticDigi\apps\mobile\lib\firebase_options.dart` | ~293 |
+| 2026-08-08 | 01:25 | Write | `W:\VS\LogisticDigi\apps\mobile\lib\main.dart` | ~318 |
+| 2026-08-08 | 01:25 | Write | `W:\VS\LogisticDigi\apps\mobile\test\widget_test.dart` | ~102 |

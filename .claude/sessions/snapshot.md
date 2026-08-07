@@ -1,27 +1,27 @@
-# Session Snapshot â€” 2026-08-07 22:55
+# Session Snapshot â€” 2026-08-08 01:28
 
 ## Files Changed
-- .claude/sessions/snapshot.md
 - .claude/sessions/token-log.md
 - .claude/sessions/write-log.md
-- packages/x402/.claude/sessions/.token-guard-checked
-- packages/x402/.claude/sessions/token-log.md
-- packages/x402/.claude/sessions/write-log.md
-- packages/x402/package.json
-- packages/x402/src/algorand.test.ts
-- packages/x402/src/algorand.ts
-- packages/x402/src/facilitator.test.ts
+- .env.example
+- apps/mobile/.claude/sessions/.token-guard-checked
+- apps/mobile/.claude/sessions/token-log.md
+- apps/mobile/.claude/sessions/write-log.md
+- apps/mobile/.gitignore
+- apps/mobile/.metadata
+- apps/mobile/analysis_options.yaml
+- apps/mobile/android/.gitignore
 
 ## Recent Commits
-- 689aa2a phase 2
-- b78fb72 phase 0B
-- 193e533 phase 1C
-- c4e937a phase 1B
-- 205db53 Update token-log.md
+- b074ace phase 6
+- ee8d9f0 Create .claude-md-validated-2026-08-08
+- 9d1c7c1 Create .ghost-checked-20260808
+- 2ff34be Create .notification-shown-2026-08-08
+- 2197610 Create .snapshot-injected-2026-08-08
 
 ## Token Estimate
 ~361 tokens in auto-loaded files
 
 ## Last Turn
-Next is Phase 4 — the Next.js dashboard, admin panel, and 3D map.
+Deliberately left out: the 3D map and admin/kill-switch panel — console-only tools, not something an operator needs from
 
