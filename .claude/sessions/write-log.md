@@ -42,3 +42,6 @@
 | 2026-08-07 | 20:31 | Edit | `W:\VS\LogisticDigi\packages\core\src\policy\injection.ts` | ~1543 |
 | 2026-08-07 | 20:32 | Write | `W:\VS\LogisticDigi\packages\core\src\index.ts` | ~26 |
 | 2026-08-07 | 20:34 | Write | `C:\Users\kalvi\AppData\Local\Temp\claude\W--VS-LogisticDigi\b8404954-bd8a-41cb-b706-61f532ebfb48\scratchpad\escape_invisibles.py` | ~128 |
+| 2026-08-07 | 21:35 | Write | `W:\VS\LogisticDigi\packages\core\src\runtime\lease.ts` | ~1309 |
+| 2026-08-07 | 21:36 | Write | `W:\VS\LogisticDigi\packages\core\src\runtime\lease.test.ts` | ~1339 |
+| 2026-08-07 | 21:38 | Write | `W:\VS\LogisticDigi\packages\core\src\runtime\run.ts` | ~2733 |
