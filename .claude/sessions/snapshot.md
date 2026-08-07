@@ -1,24 +1,27 @@
-# Session Snapshot — 2026-08-08 01:52
+# Session Snapshot — 2026-08-08 02:30
 
 ## Files Changed
 - .claude/sessions/token-log.md
 - .claude/sessions/write-log.md
-- .gitignore
-- apps/web/.claude/sessions/token-log.md
-- apps/web/.claude/sessions/write-log.md
-- apps/web/next.config.ts
-- vercel.json
+- apps/web/src/app/sign-in/page.tsx
+- pnpm-lock.yaml
+- services/orchestrator/.claude/sessions/.token-guard-checked
+- services/orchestrator/.claude/sessions/token-log.md
+- services/orchestrator/.claude/sessions/write-log.md
+- services/orchestrator/package.json
+- services/orchestrator/README.md
+- services/orchestrator/src/admin.ts
 
 ## Recent Commits
-- 3a3a1e6 fix production deploy: static export + monorepo build wiring
-- cb8219d phase 6
-- b074ace phase 6
-- ee8d9f0 Create .claude-md-validated-2026-08-08
-- 9d1c7c1 Create .ghost-checked-20260808
+- ccd8bf7 phase 7: live orchestrator
+- 7dffe81 Update token-log.md
+- 66b0488 Update write-log.md
+- 8a14638 Update token-log.md
+- ae75830 Update write-log.md
 
 ## Token Estimate
 ~361 tokens in auto-loaded files
 
 ## Last Turn
-Once those three toggles are flipped, sign-in/signup on the live site will work with no further code changes needed.
+**Left untouched, not mine:** `apps/web/src/app/sign-in/page.tsx` and `apps/web/src/components/CursorGrid.{tsx,css}` are
 
