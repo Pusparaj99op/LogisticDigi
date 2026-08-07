@@ -148,3 +148,180 @@ const Map<String, String> ledgerKindMeaning = {
   'released': 'earmark returned unused',
   'refunded': 'recovered from the counterparty',
 };
+
+/// One step of a run, as the orchestrator recorded it.
+class RunStep {
+  final String stepId;
+  final String status;
+  final String role;
+  final String kind;
+  final int attempt;
+  final String? error;
+  final String? skipReason;
+  final int? startedAt;
+  final int? completedAt;
+
+  RunStep({
+    required this.stepId,
+    required this.status,
+    required this.role,
+    required this.kind,
+    required this.attempt,
+    this.error,
+    this.skipReason,
+    this.startedAt,
+    this.completedAt,
+  });
+
+  factory RunStep.fromDoc(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data();
+    return RunStep(
+      stepId: (data['stepId'] ?? doc.id) as String,
+      status: (data['status'] ?? '') as String,
+      role: (data['role'] ?? '') as String,
+      kind: (data['kind'] ?? '') as String,
+      attempt: (data['attempt'] ?? 0) as int,
+      error: data['error'] as String?,
+      skipReason: data['skipReason'] as String?,
+      startedAt: data['startedAt'] as int?,
+      completedAt: data['completedAt'] as int?,
+    );
+  }
+}
+
+/// One entry in the immutable audit trail.
+///
+/// `seq` is a per-run counter rather than a timestamp, so two events in the
+/// same millisecond still have a defined order — see the TraceEvent docstring
+/// in packages/core/src/runtime/run.ts.
+class TraceEvent {
+  final int seq;
+  final int at;
+  final String type;
+  final String? stepId;
+  final String summary;
+
+  TraceEvent({
+    required this.seq,
+    required this.at,
+    required this.type,
+    this.stepId,
+    required this.summary,
+  });
+
+  factory TraceEvent.fromDoc(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data();
+    return TraceEvent(
+      seq: (data['seq'] ?? 0) as int,
+      at: (data['at'] ?? 0) as int,
+      type: (data['type'] ?? '') as String,
+      stepId: data['stepId'] as String?,
+      summary: (data['summary'] ?? '') as String,
+    );
+  }
+}
+
+class Negotiation {
+  final String id;
+  final String buyerTenantId;
+  final String sellerTenantId;
+  final String sellerName;
+  final String runId;
+  final String title;
+  final int startedAt;
+
+  Negotiation({
+    required this.id,
+    required this.buyerTenantId,
+    required this.sellerTenantId,
+    required this.sellerName,
+    required this.runId,
+    required this.title,
+    required this.startedAt,
+  });
+
+  factory Negotiation.fromDoc(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data();
+    return Negotiation(
+      id: doc.id,
+      buyerTenantId: (data['buyerTenantId'] ?? '') as String,
+      sellerTenantId: (data['sellerTenantId'] ?? '') as String,
+      sellerName: (data['sellerName'] ?? '') as String,
+      runId: (data['runId'] ?? '') as String,
+      title: (data['title'] ?? '') as String,
+      startedAt: (data['startedAt'] ?? 0) as int,
+    );
+  }
+}
+
+class AgentMessage {
+  final String id;
+  final String from;
+  final String fromRole;
+  final String text;
+  final int sentAt;
+  final String kind;
+
+  AgentMessage({
+    required this.id,
+    required this.from,
+    required this.fromRole,
+    required this.text,
+    required this.sentAt,
+    required this.kind,
+  });
+
+  factory AgentMessage.fromDoc(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data();
+    return AgentMessage(
+      id: doc.id,
+      from: (data['from'] ?? '') as String,
+      fromRole: (data['fromRole'] ?? '') as String,
+      text: (data['text'] ?? '') as String,
+      sentAt: (data['sentAt'] ?? 0) as int,
+      kind: (data['kind'] ?? 'note') as String,
+    );
+  }
+}
+
+class Shipment {
+  final String id;
+  final String mode;
+  final String status;
+  final String originName;
+  final String destinationName;
+  final double progress;
+  final int etaDays;
+  final int updatedAt;
+
+  Shipment({
+    required this.id,
+    required this.mode,
+    required this.status,
+    required this.originName,
+    required this.destinationName,
+    required this.progress,
+    required this.etaDays,
+    required this.updatedAt,
+  });
+
+  factory Shipment.fromDoc(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data();
+    return Shipment(
+      id: doc.id,
+      mode: (data['mode'] ?? 'truck') as String,
+      status: (data['status'] ?? '') as String,
+      originName: (data['originName'] ?? '') as String,
+      destinationName: (data['destinationName'] ?? '') as String,
+      progress: ((data['progress'] ?? 0) as num).toDouble(),
+      etaDays: (data['etaDays'] ?? 0) as int,
+      updatedAt: (data['updatedAt'] ?? 0) as int,
+    );
+  }
+}
+
+const Map<String, String> shipmentModeLabel = {
+  'truck': 'Road',
+  'ship': 'Sea',
+  'plane': 'Air',
+};
