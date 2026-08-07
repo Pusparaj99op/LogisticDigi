@@ -10,6 +10,9 @@ import { Negotiation } from './negotiation';
 import { SmoothScroll } from './smooth-scroll';
 import { HeroIntro } from '@/components/HeroIntro';
 
+import { Navbar } from '@/components/Navbar';
+import { Footer } from '@/components/Footer';
+
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /** The six specialists, each with the authority it actually holds. */
@@ -49,20 +52,57 @@ export function Landing() {
 
       // Sections rise as they enter. One reveal, applied consistently, rather
       // than a different effect per section.
-      gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((element) => {
+      gsap.utils.toArray<HTMLElement>('.fade-up').forEach((element) => {
         gsap.from(element, {
-          y: 28,
+          y: 40,
           opacity: 0,
-          duration: 0.7,
-          ease: 'power2.out',
+          duration: 0.8,
+          ease: 'power3.out',
           scrollTrigger: { trigger: element, start: 'top 85%' },
         });
       });
 
-      // The hazard rule draws across as the approval section arrives. It is
-      // the one scrubbed animation on the page, because it is the one moment
-      // that deserves the reader's hand on the scrollbar.
-      const rule = root.current?.querySelector('[data-hazard-draw]');
+      // Floating mock terminal
+      gsap.to('.mock-terminal', {
+        y: -8,
+        duration: 3,
+        yoyo: true,
+        repeat: -1,
+        ease: 'sine.inOut'
+      });
+
+      // Agent cards stagger
+      gsap.from('.agent-card', {
+        y: 50,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: 'back.out(1.2)',
+        scrollTrigger: { trigger: '.agent-grid', start: 'top 80%' }
+      });
+
+      // Table rows stagger
+      gsap.from('.table-row-stagger', {
+        y: 20,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.05,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: 'table', start: 'top 80%' }
+      });
+
+      // Quick 3-steps stagger
+      gsap.from('.quick-step', {
+        x: -40,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.2,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: '#how-it-works-quick', start: 'top 75%' }
+      });
+
+      // Hazard bar draw and pulse
+      const rule = root.current?.querySelector('.hazard-bar');
       if (rule) {
         gsap.fromTo(
           rule,
@@ -71,6 +111,9 @@ export function Landing() {
             scaleX: 1,
             ease: 'none',
             scrollTrigger: { trigger: rule, start: 'top 90%', end: 'top 45%', scrub: 0.4 },
+            onComplete: () => {
+              gsap.to(rule, { opacity: 0.4, yoyo: true, repeat: -1, duration: 1.5, ease: 'sine.inOut' });
+            }
           },
         );
       }
@@ -135,6 +178,12 @@ export function Landing() {
                   Open the console
                 </Link>
                 <a
+                  href="#how-it-works-quick"
+                  className="rounded-[2px] border border-[var(--color-seam)] px-5 py-3 text-sm text-[var(--color-chalk)] transition-colors hover:border-[var(--color-chalk-faint)]"
+                >
+                  How it works in 30s
+                </a>
+                <a
                   href="#evidence"
                   className="rounded-[2px] border border-[var(--color-seam)] px-5 py-3 text-sm text-[var(--color-chalk)] transition-colors hover:border-[var(--color-chalk-faint)]"
                 >
@@ -143,7 +192,7 @@ export function Landing() {
               </div>
             </div>
 
-            <div className="flex justify-center lg:justify-end">
+            <div className="flex justify-center lg:justify-end mock-terminal">
               <Negotiation />
             </div>
           </div>
@@ -152,7 +201,7 @@ export function Landing() {
         {/* ---------------- the swarm ---------------- */}
         <section className="border-t border-[var(--color-seam)] px-6 py-28">
           <div className="mx-auto max-w-7xl">
-            <div data-reveal className="max-w-2xl">
+            <div className="fade-up max-w-2xl">
               <p className="eyebrow">One agent per company, six specialists beneath it</p>
               <h2 className="mt-4 text-[clamp(2rem,3.6vw,3.2rem)] text-[var(--color-chalk)]">
                 Nobody holds
@@ -166,9 +215,9 @@ export function Landing() {
               </p>
             </div>
 
-            <ul data-reveal className="mt-14 grid gap-px bg-[var(--color-seam)] sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="mt-14 grid gap-px bg-[var(--color-seam)] sm:grid-cols-2 lg:grid-cols-3 agent-grid">
               {SWARM.map((agent) => (
-                <li key={agent.name} className="bg-[var(--color-void)] p-6">
+                <li key={agent.name} className="agent-card bg-[var(--color-void)] p-6">
                   <h3 className="text-lg text-[var(--color-chalk)]">{agent.name}</h3>
                   <p className="mt-3 text-sm text-[var(--color-chalk-soft)]">{agent.can}</p>
                   <p className="mt-2 text-sm text-[var(--color-chalk-faint)]">{agent.cannot}</p>
@@ -181,9 +230,9 @@ export function Landing() {
         {/* ---------------- the approval moment ---------------- */}
         <section className="border-t border-[var(--color-seam)] px-6 py-28">
           <div className="mx-auto max-w-7xl">
-            <div data-hazard-draw className="hazard-bar" />
+            <div className="hazard-bar" />
             <div className="mt-10 grid gap-14 lg:grid-cols-2">
-              <div data-reveal>
+              <div className="fade-up">
                 <p className="eyebrow">Where autonomy stops</p>
                 <h2 className="mt-4 text-[clamp(2rem,3.6vw,3.2rem)] text-[var(--color-chalk)]">
                   The machine
@@ -200,7 +249,7 @@ export function Landing() {
                 </p>
               </div>
 
-              <div data-reveal className="paper p-6">
+              <div className="fade-up paper p-6">
                 <p className="eyebrow eyebrow--paper">Waiting for a person</p>
                 <div className="mt-4 flex items-start justify-between gap-6">
                   <p className="text-[var(--color-ink)]">
@@ -231,7 +280,7 @@ export function Landing() {
         {/* ---------------- settlement ---------------- */}
         <section className="border-t border-[var(--color-seam)] px-6 py-28">
           <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1fr_1.1fr]">
-            <div data-reveal>
+            <div className="fade-up">
               <p className="eyebrow">Settlement</p>
               <h2 className="mt-4 text-[clamp(2rem,3.6vw,3.2rem)] text-[var(--color-chalk)]">
                 Paid once,
@@ -249,7 +298,7 @@ export function Landing() {
               </p>
             </div>
 
-            <div data-reveal className="rounded-[2px] border border-[var(--color-seam)] bg-[var(--color-steel)] p-6">
+            <div className="fade-up rounded-[2px] border border-[var(--color-seam)] bg-[var(--color-steel)] p-6">
               <p className="eyebrow">Receipt</p>
               <dl className="mt-4 space-y-3 text-sm">
                 {[
@@ -274,7 +323,7 @@ export function Landing() {
         {/* ---------------- evidence ---------------- */}
         <section id="evidence" className="border-t border-[var(--color-seam)] px-6 py-28">
           <div className="mx-auto max-w-5xl">
-            <div data-reveal>
+            <div className="fade-up">
               <p className="eyebrow">Evaluation · nine seeded scenarios</p>
               <h2 className="mt-4 text-[clamp(2rem,3.6vw,3.2rem)] text-[var(--color-chalk)]">
                 Measured against
@@ -288,7 +337,7 @@ export function Landing() {
               </p>
             </div>
 
-            <table data-reveal className="mt-12 w-full border-collapse text-sm">
+            <table className="mt-12 w-full border-collapse text-sm">
               <thead>
                 <tr className="border-b border-[var(--color-seam)]">
                   <th className="eyebrow py-3 text-left font-normal">Measure</th>
@@ -298,7 +347,7 @@ export function Landing() {
               </thead>
               <tbody>
                 {EVIDENCE.map((row) => (
-                  <tr key={row.metric} className="border-b border-[var(--color-seam)]">
+                  <tr key={row.metric} className="table-row-stagger border-b border-[var(--color-seam)]">
                     <td className="py-4 text-[var(--color-chalk-soft)]">
                       {row.metric}
                       {row.note ? (
@@ -318,14 +367,44 @@ export function Landing() {
               </tbody>
             </table>
 
-            <p data-reveal className="mt-6 text-xs text-[var(--color-chalk-faint)]">
+            <p className="fade-up mt-6 text-xs text-[var(--color-chalk-faint)]">
               The suite is seeded, so these numbers reproduce on any machine. It runs on every
               commit and the full report — failures included — is published with the build.
             </p>
           </div>
         </section>
 
+        {/* ---------------- 30 seconds ---------------- */}
+        <section id="how-it-works-quick" className="border-t border-[var(--color-seam)] px-6 py-28 bg-[#111318]">
+          <div className="mx-auto max-w-4xl">
+            <h2 className="fade-up text-[clamp(2rem,3.6vw,3.2rem)] text-[var(--color-chalk)] mb-16 text-center">
+              How it works in 30s
+            </h2>
+            <div className="space-y-12 relative before:absolute before:inset-0 before:ml-[19px] md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:-translate-x-px md:before:w-0.5 before:bg-[#1E2128]">
+              {[
+                { step: '1', title: 'Agents negotiate autonomously', desc: 'Specialist AI bots scan your inventory and search supplier databases, matching surplus directly with counterparties.' },
+                { step: '2', title: 'You set the boundaries', desc: 'You configure strict budget caps and compliance rules. If an agent hits a limit, it halts and flags you for review.' },
+                { step: '3', title: 'Atomic settlement on Algorand', desc: 'Approved deals execute instantly via smart contracts with USDC, logging immutable receipts to the public ledger.' },
+              ].map((s, i) => (
+                <div key={s.step} className={`quick-step relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active`}>
+                  <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[#6EE7B7]/50 bg-[#0A0B0E] text-[#6EE7B7] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 font-[family-name:var(--font-jetbrains-mono)]">
+                    {s.step}
+                  </div>
+                  <div className="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] bg-[#0A0B0E] p-6 rounded-lg border border-[#1E2128]">
+                    <h3 className="font-bold text-lg mb-2 text-[#F3F4F6]">{s.title}</h3>
+                    <p className="text-[#6B7280] text-sm">{s.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-16 text-center fade-up">
+               <Link href="/how-it-works" className="text-[#6EE7B7] hover:underline">Read the deep dive →</Link>
+            </div>
+          </div>
+        </section>
+
         {/* ---------------- close ---------------- */}
+        <div className="hidden">
         <footer className="border-t border-[var(--color-seam)] px-6 py-24">
           <div className="mx-auto flex max-w-7xl flex-wrap items-end justify-between gap-10">
             <div data-reveal>
@@ -346,6 +425,8 @@ export function Landing() {
             </p>
           </div>
         </footer>
+        </div>
+        <Footer />
       </div>
     </SmoothScroll>
       </div>
