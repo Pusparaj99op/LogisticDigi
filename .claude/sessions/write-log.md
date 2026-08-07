@@ -28,3 +28,4 @@
 | 2026-08-07 | 18:52 | Write | `W:\VS\LogisticDigi\packages\core\src\workflow\graph.ts` | ~2863 |
 | 2026-08-07 | 18:52 | Edit | `W:\VS\LogisticDigi\packages\core\src\workflow\graph.ts` | ~2869 |
 | 2026-08-07 | 18:53 | Write | `W:\VS\LogisticDigi\packages\core\src\workflow\graph.test.ts` | ~1764 |
+| 2026-08-07 | 18:54 | Write | `W:\VS\LogisticDigi\packages\core\src\index.ts` | ~15 |
