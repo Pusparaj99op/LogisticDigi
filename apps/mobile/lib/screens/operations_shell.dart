@@ -9,6 +9,8 @@ import '../theme.dart';
 import 'approvals_screen.dart';
 import 'floor_screen.dart';
 import 'ledger_screen.dart';
+import 'negotiations_screen.dart';
+import 'runs_screen.dart';
 
 class OperationsShell extends StatefulWidget {
   const OperationsShell({super.key});
@@ -27,7 +29,9 @@ class _OperationsShellState extends State<OperationsShell> {
     final session = context.watch<Session>();
     final screens = [
       FloorScreen(onNavigate: _goTo),
+      const RunsScreen(),
       const ApprovalsScreen(),
+      const NegotiationsScreen(),
       const LedgerScreen(),
     ];
 
@@ -59,7 +63,9 @@ class _OperationsShellState extends State<OperationsShell> {
         onDestinationSelected: _goTo,
         destinations: const [
           NavigationDestination(icon: Icon(Icons.dashboard_outlined), label: 'Floor'),
+          NavigationDestination(icon: Icon(Icons.timeline_outlined), label: 'Runs'),
           NavigationDestination(icon: Icon(Icons.gavel_outlined), label: 'Approvals'),
+          NavigationDestination(icon: Icon(Icons.forum_outlined), label: 'Deals'),
           NavigationDestination(icon: Icon(Icons.receipt_long_outlined), label: 'Ledger'),
         ],
       ),
