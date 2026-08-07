@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from '@/lib/auth-context';
 import { firebaseConfigured } from '@/lib/firebase';
 import { Button, Eyebrow } from '@/components/primitives';
+import CursorGrid from '@/components/CursorGrid';
 
 export default function SignInPage() {
   const session = useSession();
@@ -51,6 +52,24 @@ export default function SignInPage() {
         not a marketing hero.
       */}
       <section className="relative hidden flex-col justify-between overflow-hidden border-r border-[var(--color-seam)] p-12 lg:flex">
+        {/* Interactive CursorGrid background */}
+        <div aria-hidden className="absolute inset-0 z-0">
+          <CursorGrid
+            cellSize={60}
+            color="#ffe200"
+            radius={130}
+            falloff="smooth"
+            holdTime={400}
+            fadeDuration={900}
+            lineWidth={1}
+            maxOpacity={0.55}
+            fillOpacity={0.04}
+            gridOpacity={0.04}
+            cellRadius={0}
+            clickPulse
+            pulseSpeed={550}
+          />
+        </div>
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-[0.06]"
