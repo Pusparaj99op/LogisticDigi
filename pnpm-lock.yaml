@@ -30,11 +30,26 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@22.20.1)
 
+  packages/agents:
+    dependencies:
+      '@logisticdigi/core':
+        specifier: workspace:*
+        version: link:../core
+      zod:
+        specifier: ^3.24.1
+        version: 3.25.76
+
   packages/core:
     dependencies:
       zod:
         specifier: ^3.24.1
         version: 3.25.76
+
+  packages/sim:
+    dependencies:
+      '@logisticdigi/core':
+        specifier: workspace:*
+        version: link:../core
 
 packages:
 
