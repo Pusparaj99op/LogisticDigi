@@ -20,6 +20,22 @@ export function adminApp(): App {
     return app;
   }
 
+  // Against the emulator the Admin SDK needs no credential at all — the
+  // emulator accepts any caller, which is the whole point of it. This is the
+  // path that lets the orchestrator produce real live data on a machine that
+  // has no service account key, so the dashboards can be demonstrated
+  // end-to-end before anyone provisions one.
+  if (process.env.FIRESTORE_EMULATOR_HOST) {
+    const projectId =
+      process.env.GCLOUD_PROJECT ?? process.env.FIREBASE_PROJECT_ID ?? 'logisticdigi';
+    console.log(
+      `[orchestrator] using the Firestore emulator at ${process.env.FIRESTORE_EMULATOR_HOST} ` +
+        `(project "${projectId}") — no credential needed`,
+    );
+    app = initializeApp({ projectId });
+    return app;
+  }
+
   const inline = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
   if (inline) {
     app = initializeApp({ credential: cert(JSON.parse(inline)) });
