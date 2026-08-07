@@ -130,12 +130,14 @@ function toFirestoreSafe(value: unknown): unknown {
   return value;
 }
 
-export function stepDocFrom(run: RunState, stepId: string): StepDoc {
+export function stepDocFrom(run: RunState, stepId: string, step: CompiledStep): StepDoc {
   const record = run.steps.get(stepId);
   if (!record) throw new Error(`run ${run.runId} has no step "${stepId}"`);
   return {
     stepId: record.stepId,
     status: record.status,
+    role: step.role,
+    kind: step.kind,
     attempt: record.attempt,
     output: toFirestoreSafe(record.output),
     error: record.error,

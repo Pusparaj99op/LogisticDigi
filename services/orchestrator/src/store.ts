@@ -24,6 +24,13 @@ export interface RunDoc {
 export interface StepDoc {
   readonly stepId: string;
   readonly status: string;
+  /**
+   * Which specialist agent owns this step. Carried on the document because
+   * the client has no compiled workflow to look it up in, and the agent rail
+   * in apps/web needs it to say which agent is currently working.
+   */
+  readonly role: string;
+  readonly kind: string;
   readonly attempt: number;
   readonly output: unknown;
   readonly error: string | null;

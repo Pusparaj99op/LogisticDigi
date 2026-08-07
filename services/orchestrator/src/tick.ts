@@ -97,7 +97,7 @@ export async function driveRun(store: Store, runnerId: string, live: LiveRun, no
       if (!claimResult.ok) continue;
       run = markClaimed(run, stepId, claimResult.lease, now);
       progressed = true;
-      await store.putStep(run.runId, stepDocFrom(run, stepId));
+      await store.putStep(run.runId, stepDocFrom(run, stepId, step));
 
       const disp = disposition(run, step, workflow);
       if (disp.action === 'skip') {
@@ -205,7 +205,7 @@ export async function driveRun(store: Store, runnerId: string, live: LiveRun, no
         }
       }
 
-      await store.putStep(run.runId, stepDocFrom(run, stepId));
+      await store.putStep(run.runId, stepDocFrom(run, stepId, step));
     }
 
     run = finalise(run, workflow, now);

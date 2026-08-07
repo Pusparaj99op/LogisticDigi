@@ -80,6 +80,62 @@ export function useRuns(tenantId: string | null, max = 20): LiveResult<RunSummar
   );
 }
 
+/**
+ * One step of a run, as the orchestrator recorded it.
+ *
+ * `output` is whatever the agent produced, already bigint-stringified by the
+ * orchestrator's mirror (Firestore cannot store bigint), so amounts arrive as
+ * decimal strings rather than numbers.
+ */
+export interface RunStep {
+  readonly id: string;
+  readonly stepId: string;
+  readonly status: string;
+  /** Which specialist agent owns this step, and what the step does. */
+  readonly role: string;
+  readonly kind: string;
+  readonly attempt: number;
+  readonly output: unknown;
+  readonly error: string | null;
+  readonly startedAt: number | null;
+  readonly completedAt: number | null;
+  readonly skipReason: string | null;
+}
+
+export function useRunSteps(runId: string | null): LiveResult<RunStep> {
+  return useCollection<RunStep>(
+    runId ? `runs/${runId}/steps` : null,
+    [],
+    `steps:${runId}`,
+  );
+}
+
+/**
+ * The immutable audit trail.
+ *
+ * `seq` is a per-run counter rather than a timestamp, so two events in the
+ * same millisecond still have a defined order — see the TraceEvent docstring
+ * in packages/core/src/runtime/run.ts. Ordering by it is what makes a replay
+ * mean anything.
+ */
+export interface TraceEvent {
+  readonly id: string;
+  readonly seq: number;
+  readonly at: number;
+  readonly type: string;
+  readonly stepId: string | null;
+  readonly summary: string;
+  readonly detail: Readonly<Record<string, unknown>>;
+}
+
+export function useRunTrace(runId: string | null, max = 300): LiveResult<TraceEvent> {
+  return useCollection<TraceEvent>(
+    runId ? `runs/${runId}/trace` : null,
+    [orderBy('seq', 'asc'), limitTo(max)],
+    `trace:${runId}:${max}`,
+  );
+}
+
 export interface AgentMessage {
   readonly id: string;
   readonly from: string;

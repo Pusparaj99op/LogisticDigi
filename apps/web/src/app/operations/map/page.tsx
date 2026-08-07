@@ -2,14 +2,17 @@
 
 import { Empty, Eyebrow, FloorPanel, Marker } from '@/components/primitives';
 import { useShipments } from '@/components/live';
+import { CargoGlobe } from '@/components/cargo-globe';
 
 /**
  * Cargo in transit.
  *
- * The 3D globe layer needs a Mapbox token. Rather than render an empty grey
- * rectangle or a fake map, the page says plainly what is missing and still
- * shows every shipment as data — the information is the point, and the map is
- * how it is presented rather than the only way to get it.
+ * The globe is rendered with react-globe.gl over a plain Phong sphere — the
+ * same approach as the landing page's backdrop, and deliberately not Mapbox:
+ * a token that has to be provisioned before the page works at all is a
+ * fragility, and the information here is the routes, which need no basemap
+ * imagery to read. The shipment list below carries the same data in full,
+ * because the globe shows where cargo is going and the table says what it is.
  */
 
 const MODE_LABEL: Record<string, string> = {
@@ -20,7 +23,6 @@ const MODE_LABEL: Record<string, string> = {
 
 export default function MapPage() {
   const shipments = useShipments();
-  const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
   return (
     <div className="space-y-8">
@@ -33,21 +35,14 @@ export default function MapPage() {
         </p>
       </div>
 
-      {!token ? (
-        <div className="rounded-[2px] border border-[var(--color-seam)] bg-[var(--color-steel)] p-6">
-          <p className="text-sm text-[var(--color-chalk)]">The map needs a Mapbox token.</p>
-          <p className="mt-2 max-w-xl text-sm text-[var(--color-chalk-soft)]">
-            Add <code className="tabular">NEXT_PUBLIC_MAPBOX_TOKEN</code> to{' '}
-            <code className="tabular">apps/web/.env.local</code> and reload. Until then, shipments
-            are listed below — the data is the same, only the presentation differs.
+      <div className="relative h-[28rem] overflow-hidden rounded-[2px] border border-[var(--color-seam)] bg-[var(--color-steel)]">
+        <CargoGlobe shipments={shipments.items} className="absolute inset-0" />
+        {shipments.ready && shipments.items.length === 0 ? (
+          <p className="absolute inset-x-0 bottom-4 text-center text-xs text-[var(--color-chalk-faint)]">
+            No cargo booked yet — the globe fills in as the logistics agent books capacity.
           </p>
-        </div>
-      ) : (
-        <div
-          id="cargo-map"
-          className="h-[28rem] rounded-[2px] border border-[var(--color-seam)] bg-[var(--color-steel)]"
-        />
-      )}
+        ) : null}
+      </div>
 
       <FloorPanel title="Shipments">
         {!shipments.ready ? (
