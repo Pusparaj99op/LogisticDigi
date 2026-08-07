@@ -66,7 +66,6 @@ pnpm --filter @logisticdigi/orchestrator run provision -- \
   --email you@gmail.com --tenant tenant_a --role owner
 ```
 
-Without this step, you'll be signed in but the dashboard will be empty — Firestore security rules won't let your account read the data until your claims are set.
 
 ### 5. Start the orchestrator
 
@@ -75,9 +74,3 @@ This is the background process that actually runs procurement scenarios and writ
 ```bash
 pnpm --filter @logisticdigi/orchestrator run worker
 ```
-
-Within a few seconds, the Floor, Approvals, and Ledger tabs on the dashboard should start filling in. The orchestrator runs a new procurement scenario every 5 seconds, pausing when it hits an approval gate.
-
-## License
-
-MIT — see [LICENSE](./LICENSE)
