@@ -1,3 +1,22 @@
+import java.util.Properties
+
+/*
+ * Release signing.
+ *
+ * Credentials live in android/key.properties, which is gitignored along with
+ * the keystore itself — committing either would let anyone ship an update
+ * impersonating this app. When the file is absent (a fresh clone, or CI that
+ * only ever builds debug), `signingConfigs` below falls back to the debug key
+ * so `flutter build apk --debug` and `flutter test` still work; a release
+ * build in that state is unsigned-for-distribution on purpose rather than
+ * silently signed with a key anyone can generate.
+ */
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("key.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+val hasReleaseSigning = keystoreProperties.getProperty("storeFile") != null
+
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -28,11 +47,33 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+                storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (hasReleaseSigning) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
+            // Shrink and obfuscate. The Flutter engine's own ProGuard rules
+            // ship with the plugin; this only adds R8 over the Kotlin/Java
+            // side, which is where the size actually is.
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 }

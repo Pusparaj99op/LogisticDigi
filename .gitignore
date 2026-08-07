@@ -51,3 +51,11 @@ npm-debug.log*
 pnpm-debug.log*
 
 .vercel
+
+# Android signing material. Committing any of this would let anyone publish
+# an update impersonating this app, so it never enters the repository — the
+# keystore lives only on the machine that builds releases, and is backed up
+# out of band. See apps/mobile/README.md.
+*.jks
+*.keystore
+**/key.properties

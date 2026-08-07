@@ -1,0 +1,26 @@
+# The Vercel CLI uploads from the working directory, not from git, so
+# .gitignore does not apply here. Without this, `vercel --prod` tries to
+# upload the Flutter app's build output — a ~150MB debug APK plus Gradle and
+# Dart caches — and fails on the 100MB per-file limit.
+#
+# Deliberately NOT excluding services/ or eval/: those are pnpm workspace
+# members (see pnpm-workspace.yaml), and removing their package.json files
+# would make the lockfile fail Vercel's frozen-lockfile install. apps/mobile
+# is not a workspace member, so it can go entirely.
+
+apps/mobile/
+
+# Build output, regenerated on Vercel by vercel.json's buildCommand.
+**/build/
+**/dist/
+**/.next/
+**/out/
+**/node_modules/
+**/.dart_tool/
+**/.gradle/
+
+# Signing material must never leave this machine.
+**/*.apk
+**/*.aab
+**/*.keystore
+**/*.jks
