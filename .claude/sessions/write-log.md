@@ -31,3 +31,4 @@
 | 2026-08-07 | 18:54 | Write | `W:\VS\LogisticDigi\packages\core\src\index.ts` | ~15 |
 | 2026-08-07 | 19:15 | Write | `W:\VS\LogisticDigi\packages\core\src\policy\budget.ts` | ~2225 |
 | 2026-08-07 | 19:16 | Write | `W:\VS\LogisticDigi\packages\core\src\policy\budget.test.ts` | ~1869 |
+| 2026-08-07 | 19:17 | Write | `W:\VS\LogisticDigi\packages\core\src\policy\injection.ts` | ~1396 |
