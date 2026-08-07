@@ -233,6 +233,9 @@ export function useLedger(tenantId: string | null, max = 100): LiveResult<Ledger
 
 export interface Shipment {
   readonly id: string;
+  readonly buyerTenantId: string;
+  readonly sellerTenantId: string;
+  readonly runId: string;
   readonly mode: 'truck' | 'ship' | 'plane';
   readonly status: string;
   readonly originName: string;
@@ -244,10 +247,22 @@ export interface Shipment {
   readonly updatedAt: number;
 }
 
-export function useShipments(max = 50): LiveResult<Shipment> {
+/**
+ * Shipments this tenant bought.
+ *
+ * Filtered by `buyerTenantId` rather than fetched unfiltered: Firestore
+ * evaluates security rules against the *query*, not its results, so a query
+ * with no tenant predicate is rejected outright by the `memberOf` check on
+ * /shipments in firebase/firestore.rules — it cannot prove every matched
+ * document would be readable. The rule permits either party, but a single
+ * query cannot express an OR across two fields, and every seller here is a
+ * simulated provider rather than a signed-in tenant (the same reasoning as
+ * useNegotiations), so the buyer side is the one that matches a real session.
+ */
+export function useShipments(tenantId: string | null, max = 50): LiveResult<Shipment> {
   return useCollection<Shipment>(
-    'shipments',
-    [orderBy('updatedAt', 'desc'), limitTo(max)],
-    `shipments:${max}`,
+    tenantId ? 'shipments' : null,
+    [where('buyerTenantId', '==', tenantId), orderBy('updatedAt', 'desc'), limitTo(max)],
+    `shipments:${tenantId}:${max}`,
   );
 }
