@@ -1,0 +1,51 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build output
+dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+
+# env & secrets
+.env
+.env.*
+!.env.example
+*-service-account*.json
+serviceAccountKey.json
+.mnemonic
+*.key
+
+# platform tooling
+.vercel/
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# eval + trace output (regenerated, never committed raw)
+eval/out/
+eval/.cache/
+
+# flutter / dart
+apps/mobile/build/
+apps/mobile/.dart_tool/
+apps/mobile/.flutter-plugins
+apps/mobile/.flutter-plugins-dependencies
+apps/mobile/android/local.properties
+apps/mobile/ios/Pods/
+apps/mobile/**/GoogleService-Info.plist
+apps/mobile/**/google-services.json
+
+# editors & OS
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*

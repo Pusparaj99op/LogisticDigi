@@ -1,0 +1,8 @@
+node_modules
+dist
+.next
+out
+pnpm-lock.yaml
+apps/mobile
+eval/out
+Doc
