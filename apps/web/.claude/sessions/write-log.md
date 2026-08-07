@@ -45,3 +45,5 @@
 | 2026-08-08 | 03:22 | Edit | `W:\VS\LogisticDigi\services\orchestrator\src\store.ts` | ~755 |
 | 2026-08-08 | 03:22 | Edit | `W:\VS\LogisticDigi\services\orchestrator\src\mirror.ts` | ~1417 |
 | 2026-08-08 | 03:42 | Edit | `W:\VS\LogisticDigi\apps\mobile\README.md` | ~738 |
+| 2026-08-08 | 04:32 | Edit | `W:\VS\LogisticDigi\apps\web\src\components\HeroIntro.tsx` | ~993 |
+| 2026-08-08 | 04:32 | Edit | `W:\VS\LogisticDigi\apps\web\src\components\HeroIntro.tsx` | ~1068 |
