@@ -102,6 +102,31 @@ export function useNegotiationMessages(
   );
 }
 
+export interface Negotiation {
+  readonly id: string;
+  readonly buyerTenantId: string;
+  readonly sellerTenantId: string;
+  readonly sellerName: string;
+  readonly runId: string;
+  readonly title: string;
+  readonly startedAt: number;
+}
+
+/**
+ * Negotiations this tenant is the buyer in. `firebase/firestore.rules`
+ * grants a party read access as either buyer or seller, but every
+ * counterparty in this system is a simulated provider rather than another
+ * signed-in tenant, so the tenant a console renders for is always the buyer
+ * — a `sellerTenantId` filter would never match a real session.
+ */
+export function useNegotiations(tenantId: string | null, max = 20): LiveResult<Negotiation> {
+  return useCollection<Negotiation>(
+    tenantId ? 'negotiations' : null,
+    [where('buyerTenantId', '==', tenantId), orderBy('startedAt', 'desc'), limitTo(max)],
+    `negotiations:${tenantId}:${max}`,
+  );
+}
+
 export interface ApprovalRequest {
   readonly id: string;
   readonly tenantId: string;

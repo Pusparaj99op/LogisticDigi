@@ -88,6 +88,44 @@ export interface ReceiptDoc {
   readonly settledAt: number;
 }
 
+export interface NegotiationDoc {
+  readonly id: string;
+  readonly buyerTenantId: string;
+  readonly sellerTenantId: string;
+  readonly sellerName: string;
+  readonly runId: string;
+  readonly title: string;
+  readonly startedAt: number;
+}
+
+export interface MessageDoc {
+  readonly id: string;
+  readonly from: string;
+  readonly fromRole: string;
+  readonly to: string;
+  readonly text: string;
+  readonly sentAt: number;
+  readonly kind: 'proposal' | 'counter' | 'accept' | 'reject' | 'note';
+  readonly blocked?: boolean;
+}
+
+export interface ShipmentDoc {
+  readonly id: string;
+  readonly tenantId: string;
+  readonly buyerTenantId: string;
+  readonly sellerTenantId: string;
+  readonly runId: string;
+  readonly mode: 'truck' | 'ship' | 'plane';
+  readonly status: string;
+  readonly originName: string;
+  readonly destinationName: string;
+  readonly origin: readonly [number, number];
+  readonly destination: readonly [number, number];
+  readonly progress: number;
+  readonly etaDays: number;
+  readonly updatedAt: number;
+}
+
 /**
  * The write surface a tick uses. Every method is a document upsert or
  * append — nothing here reads back a run's full state, because the
@@ -103,4 +141,7 @@ export interface Store {
   getApproval(runId: string, stepId: string): Promise<ApprovalDoc | null>;
   putLedgerEntry(entry: LedgerDoc): Promise<void>;
   putReceipt(receipt: ReceiptDoc): Promise<void>;
+  putNegotiation(negotiation: NegotiationDoc): Promise<void>;
+  appendMessages(negotiationId: string, messages: readonly MessageDoc[]): Promise<void>;
+  putShipment(shipment: ShipmentDoc): Promise<void>;
 }

@@ -18,6 +18,7 @@ const IDLE_STATES: readonly AgentState[] = [];
 const SECTIONS = [
   { href: '/operations', label: 'Floor' },
   { href: '/operations/approvals', label: 'Approvals' },
+  { href: '/operations/negotiations', label: 'Negotiations' },
   { href: '/operations/ledger', label: 'Ledger' },
   { href: '/operations/map', label: 'Map' },
 ];

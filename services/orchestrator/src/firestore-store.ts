@@ -11,8 +11,11 @@ import { adminApp } from './admin.js';
 import type {
   ApprovalDoc,
   LedgerDoc,
+  MessageDoc,
+  NegotiationDoc,
   ReceiptDoc,
   RunDoc,
+  ShipmentDoc,
   Store,
   StepDoc,
   TraceDoc,
@@ -63,5 +66,23 @@ export class FirestoreStore implements Store {
 
   async putReceipt(receipt: ReceiptDoc): Promise<void> {
     await this.#db.collection('receipts').doc(receipt.id).set(receipt);
+  }
+
+  async putNegotiation(negotiation: NegotiationDoc): Promise<void> {
+    await this.#db.collection('negotiations').doc(negotiation.id).set(negotiation, { merge: true });
+  }
+
+  async appendMessages(negotiationId: string, messages: readonly MessageDoc[]): Promise<void> {
+    if (messages.length === 0) return;
+    const batch = this.#db.batch();
+    const thread = this.#db.collection('negotiations').doc(negotiationId).collection('messages');
+    for (const message of messages) {
+      batch.set(thread.doc(message.id), message);
+    }
+    await batch.commit();
+  }
+
+  async putShipment(shipment: ShipmentDoc): Promise<void> {
+    await this.#db.collection('shipments').doc(shipment.id).set(shipment, { merge: true });
   }
 }

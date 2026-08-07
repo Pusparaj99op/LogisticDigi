@@ -7,8 +7,11 @@
 import type {
   ApprovalDoc,
   LedgerDoc,
+  MessageDoc,
+  NegotiationDoc,
   ReceiptDoc,
   RunDoc,
+  ShipmentDoc,
   Store,
   StepDoc,
   TraceDoc,
@@ -21,6 +24,9 @@ export class MemoryStore implements Store {
   readonly approvals = new Map<string, ApprovalDoc>();
   readonly ledger: LedgerDoc[] = [];
   readonly receipts: ReceiptDoc[] = [];
+  readonly negotiations = new Map<string, NegotiationDoc>();
+  readonly messages = new Map<string, MessageDoc[]>();
+  readonly shipments = new Map<string, ShipmentDoc>();
 
   async putRun(run: RunDoc): Promise<void> {
     this.runs.set(run.id, run);
@@ -51,6 +57,19 @@ export class MemoryStore implements Store {
 
   async putReceipt(receipt: ReceiptDoc): Promise<void> {
     this.receipts.push(receipt);
+  }
+
+  async putNegotiation(negotiation: NegotiationDoc): Promise<void> {
+    this.negotiations.set(negotiation.id, negotiation);
+  }
+
+  async appendMessages(negotiationId: string, messages: readonly MessageDoc[]): Promise<void> {
+    const existing = this.messages.get(negotiationId) ?? [];
+    this.messages.set(negotiationId, [...existing, ...messages]);
+  }
+
+  async putShipment(shipment: ShipmentDoc): Promise<void> {
+    this.shipments.set(shipment.id, shipment);
   }
 
   /** Test helper: apply a human decision the way the console would. */

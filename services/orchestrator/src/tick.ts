@@ -30,7 +30,7 @@ import {
 import type { World } from '@logisticdigi/eval';
 import type { CompiledWorkflow } from '@logisticdigi/core';
 import { startDemoRun, type DemoRun } from './demo.js';
-import { ledgerEntriesFor, stepDocFrom, traceDocsFrom } from './mirror.js';
+import { ledgerEntriesFor, negotiationDocsFrom, shipmentDocFrom, stepDocFrom, traceDocsFrom } from './mirror.js';
 import { runStep } from './step-runner.js';
 import type { Store } from './store.js';
 
@@ -126,6 +126,38 @@ export async function driveRun(store: Store, runnerId: string, live: LiveRun, no
             output: outcome.output,
             at: now,
           });
+
+          // A negotiated deal, presented as the exchange it was — see
+          // mirror.ts's negotiationDocsFrom for why this is real offer data,
+          // not invented dialogue.
+          if (step.kind === 'negotiate' && world.agreedOffer && world.agreedPrice) {
+            const { negotiation, messages } = negotiationDocsFrom(step, world.agreedOffer, world.agreedPrice, {
+              tenantId: live.tenantId,
+              runId: run.runId,
+              at: now,
+            });
+            await store.putNegotiation(negotiation);
+            await store.appendMessages(negotiation.id, messages);
+          }
+
+          // A freight quote is where a shipment is booked — see
+          // mirror.ts's shipmentDocFrom for why this only fires for the one
+          // scenario spec that actually models freight as its own step
+          // (three_provider_conditional's quote_freight), not invented for
+          // every run.
+          if (step.kind === 'quote' && step.role === 'logistics') {
+            const offerId = typeof outcome.output.offerId === 'string' ? outcome.output.offerId : null;
+            const offer = offerId ? world.offersSeen.find((entry) => entry.id === offerId) : undefined;
+            if (offer) {
+              const shipment = shipmentDocFrom(offer, {
+                tenantId: live.tenantId,
+                sellerTenantId: offer.providerId,
+                runId: run.runId,
+                at: now,
+              });
+              if (shipment) await store.putShipment(shipment);
+            }
+          }
         } else if (outcome.kind === 'skipped') {
           run = skipStep(run, stepId, outcome.reason, now);
         } else {
