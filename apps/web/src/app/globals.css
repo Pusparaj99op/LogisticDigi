@@ -42,9 +42,18 @@
   --color-refused: #e5484d;
   --color-clear: #4fb286;
 
-  --font-display: 'Archivo', 'Arial Narrow', sans-serif;
-  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-display: 'DM Serif Display', 'Archivo', 'Arial Narrow', sans-serif;
+  --font-body: 'Inter', 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* --- brand tokens --- */
+  --color-brand-bg: #0a0b0e;
+  --color-brand-surface: #111318;
+  --color-brand-border: #1e2128;
+  --color-brand-accent: #6ee7b7;
+  --color-brand-gold: #f59e0b;
+  --color-brand-muted: #6b7280;
+  --color-brand-text: #f3f4f6;
 
   --radius-plate: 2px;
 }
