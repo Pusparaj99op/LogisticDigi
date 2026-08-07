@@ -16,8 +16,6 @@ Think of it as an "autopilot for your supply chain" that still asks permission b
 
 ## Technical Stack
 
-List the technologies used in this project:
-
 * Frontend: Next.js, GSAP, Framer Motion, Three.js, Three-globe, Tailwind CSS
 * Backend: Firebase Functions, TypeScript, Firebase Admin
 * Database: Cloud Firestore, SQL Server
@@ -26,13 +24,6 @@ List the technologies used in this project:
 * AI / LLM: Anthropic Claude (cloud), Ollama (local fallback)
 * Deployment: Vercel (web), Firebase (auth + database)
 
-
-### Prerequisites
-
-- Node.js >= 22
-- pnpm >= 10 (`npm install -g pnpm`)
-- A Firebase project (free tier works fine)
-- An Anthropic API key **or** Ollama running locally
 
 ### 1. Clone and install
 
