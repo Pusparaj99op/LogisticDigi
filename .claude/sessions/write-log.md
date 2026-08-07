@@ -26,3 +26,4 @@
 | 2026-08-07 | 18:50 | Edit | `W:\VS\LogisticDigi\packages\core\src\workflow\condition.ts` | ~1816 |
 | 2026-08-07 | 18:50 | Edit | `W:\VS\LogisticDigi\packages\core\src\workflow\condition.test.ts` | ~1236 |
 | 2026-08-07 | 18:52 | Write | `W:\VS\LogisticDigi\packages\core\src\workflow\graph.ts` | ~2863 |
+| 2026-08-07 | 18:52 | Edit | `W:\VS\LogisticDigi\packages\core\src\workflow\graph.ts` | ~2869 |
