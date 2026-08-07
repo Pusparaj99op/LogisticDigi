@@ -13,3 +13,12 @@
 | 2026-08-08 | 02:54 | Edit | `W:\VS\LogisticDigi\firebase\firestore.indexes.json` | ~313 |
 | 2026-08-08 | 02:55 | Write | `W:\VS\LogisticDigi\apps\web\src\app\operations\negotiations\page.tsx` | ~543 |
 | 2026-08-08 | 02:55 | Edit | `W:\VS\LogisticDigi\apps\web\src\app\operations\layout.tsx` | ~416 |
+| 2026-08-08 | 03:23 | Edit | `W:\VS\LogisticDigi\apps\web\src\app\operations\layout.tsx` | ~692 |
+| 2026-08-08 | 03:23 | Edit | `W:\VS\LogisticDigi\apps\web\src\app\operations\layout.tsx` | ~698 |
+| 2026-08-08 | 03:23 | Edit | `W:\VS\LogisticDigi\apps\web\src\app\operations\layout.tsx` | ~698 |
+| 2026-08-08 | 03:23 | Edit | `W:\VS\LogisticDigi\apps\web\src\app\operations\map\page.tsx` | ~497 |
+| 2026-08-08 | 03:23 | Edit | `W:\VS\LogisticDigi\apps\web\src\app\operations\map\page.tsx` | ~492 |
+| 2026-08-08 | 03:23 | Edit | `W:\VS\LogisticDigi\apps\web\src\app\operations\map\page.tsx` | ~474 |
+| 2026-08-08 | 03:24 | Write | `W:\VS\LogisticDigi\apps\web\src\components\cargo-globe.tsx` | ~793 |
+| 2026-08-08 | 04:01 | Edit | `W:\VS\LogisticDigi\firebase.json` | ~133 |
+| 2026-08-08 | 04:02 | Edit | `W:\VS\LogisticDigi\firebase.json` | ~48 |
