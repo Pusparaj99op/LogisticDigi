@@ -146,6 +146,31 @@ importers:
         specifier: ^3.5.0
         version: 3.6.0
 
+  services/orchestrator:
+    dependencies:
+      '@logisticdigi/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@logisticdigi/eval':
+        specifier: workspace:*
+        version: link:../../eval
+      '@logisticdigi/sim':
+        specifier: workspace:*
+        version: link:../../packages/sim
+      '@logisticdigi/x402':
+        specifier: workspace:*
+        version: link:../../packages/x402
+      algosdk:
+        specifier: ^3.5.0
+        version: 3.6.0
+      firebase-admin:
+        specifier: ^13.0.2
+        version: 13.10.0(@firebase/app-compat@0.5.16)(@firebase/app@0.16.0)
+    devDependencies:
+      tsx:
+        specifier: ^4.19.2
+        version: 4.23.11
+
 packages:
 
   '@alloc/quick-lru@5.2.0':

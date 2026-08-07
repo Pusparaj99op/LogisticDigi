@@ -1,0 +1,27 @@
+{
+  "name": "@logisticdigi/orchestrator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The live orchestrator: drives demo procurement runs through the guarded executor and mirrors every step, approval, and ledger movement to Firestore for the web and mobile consoles to watch.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "worker": "tsx src/worker.ts",
+    "serve": "tsx src/server.ts",
+    "provision": "tsx src/provision.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@logisticdigi/core": "workspace:*",
+    "@logisticdigi/eval": "workspace:*",
+    "@logisticdigi/sim": "workspace:*",
+    "@logisticdigi/x402": "workspace:*",
+    "algosdk": "^3.5.0",
+    "firebase-admin": "^13.0.2"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2"
+  }
+}
