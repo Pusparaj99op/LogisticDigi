@@ -8,7 +8,7 @@ import {
   type Lease,
   LeaseError,
   mayCommit,
-  release,
+  releaseLease,
   renew,
 } from './lease.js';
 
@@ -179,28 +179,28 @@ describe('renew', () => {
   });
 });
 
-describe('release', () => {
+describe('releaseLease', () => {
   it('frees the step for immediate pickup', () => {
     const lease = take(null, 'vercel:a', T0);
-    const released = release(lease, 'vercel:a', T0 + 5_000);
+    const released = releaseLease(lease, 'vercel:a', T0 + 5_000);
     expect(claim(released, 'worker:local', T0 + 5_000).ok).toBe(true);
   });
 
   it('preserves the fencing token so the next claim does not reuse it', () => {
     const lease = take(null, 'vercel:a', T0);
-    const released = release(lease, 'vercel:a', T0 + 5_000);
+    const released = releaseLease(lease, 'vercel:a', T0 + 5_000);
     expect(take(released, 'worker:local', T0 + 5_000).fenceToken).toBe(2);
   });
 
   it('invalidates the releaser\'s own pending writes', () => {
     const lease = take(null, 'vercel:a', T0);
-    const released = release(lease, 'vercel:a', T0 + 5_000);
+    const released = releaseLease(lease, 'vercel:a', T0 + 5_000);
     expect(mayCommit(released, 'vercel:a', lease.fenceToken, T0 + 5_000)).toBe(false);
   });
 
   it('refuses release by a non-holder', () => {
     const lease = take(null, 'vercel:a', T0);
-    expect(() => release(lease, 'worker:local', T0 + 1_000)).toThrow(LeaseError);
+    expect(() => releaseLease(lease, 'worker:local', T0 + 1_000)).toThrow(LeaseError);
   });
 });
 

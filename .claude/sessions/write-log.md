@@ -45,3 +45,8 @@
 | 2026-08-07 | 21:35 | Write | `W:\VS\LogisticDigi\packages\core\src\runtime\lease.ts` | ~1309 |
 | 2026-08-07 | 21:36 | Write | `W:\VS\LogisticDigi\packages\core\src\runtime\lease.test.ts` | ~1339 |
 | 2026-08-07 | 21:38 | Write | `W:\VS\LogisticDigi\packages\core\src\runtime\run.ts` | ~2733 |
+| 2026-08-07 | 21:39 | Write | `W:\VS\LogisticDigi\packages\core\src\runtime\run.test.ts` | ~3188 |
+| 2026-08-07 | 21:39 | Edit | `W:\VS\LogisticDigi\packages\core\src\runtime\run.ts` | ~2901 |
+| 2026-08-07 | 21:40 | Edit | `W:\VS\LogisticDigi\packages\core\src\runtime\run.test.ts` | ~3334 |
+| 2026-08-07 | 21:40 | Write | `W:\VS\LogisticDigi\packages\core\src\index.ts` | ~36 |
+| 2026-08-07 | 21:41 | Edit | `W:\VS\LogisticDigi\packages\core\src\runtime\lease.ts` | ~1309 |

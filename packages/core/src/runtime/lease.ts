@@ -148,7 +148,7 @@ export function renew(
 }
 
 /** Release a lease early so another runner can pick the step up immediately. */
-export function release(current: Lease, owner: string, now: number): Lease {
+export function releaseLease(current: Lease, owner: string, now: number): Lease {
   if (current.owner !== owner) {
     throw new LeaseError(`"${owner}" cannot release a lease held by "${current.owner}"`);
   }

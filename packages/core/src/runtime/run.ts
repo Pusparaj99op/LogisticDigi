@@ -246,19 +246,44 @@ function describeSkip(condition: Condition, result: ConditionResult): string {
     : `condition evaluated false with ${reads}`;
 }
 
-/** Steps that are ready and not currently leased by a live runner. */
+/**
+ * Steps a runner may take right now.
+ *
+ * Two populations, and the second is what makes the system self-healing:
+ *
+ *  1. Steps whose prerequisites are satisfied and that hold no live lease.
+ *  2. Steps stuck in `running` whose lease has expired — their runner crashed,
+ *     timed out, or was killed mid-turn. Without this, a single cold-start
+ *     timeout would wedge the workflow permanently, because a `running` step
+ *     is never "ready" again. Reclaiming is safe: the new holder gets a fresh
+ *     fencing token, so the dead runner's write can no longer land.
+ */
 export function claimableSteps(
   run: RunState,
   workflow: CompiledWorkflow,
   now: number,
 ): readonly string[] {
   if (run.status !== 'running') return [];
-  return readySteps(workflow, statusMap(run)).filter((stepId) => {
-    const record = run.steps.get(stepId);
-    if (!record) return false;
-    if (record.lease === null) return true;
-    return now >= record.lease.expiresAt;
+
+  const statuses = statusMap(run);
+  const fresh = readySteps(workflow, statuses).filter((stepId) => {
+    const lease = run.steps.get(stepId)?.lease;
+    return !lease || now >= lease.expiresAt;
   });
+
+  const abandoned = workflow.order.filter((stepId) => {
+    const record = run.steps.get(stepId);
+    return (
+      record !== undefined &&
+      record.status === 'running' &&
+      record.lease !== null &&
+      now >= record.lease.expiresAt
+    );
+  });
+
+  // Preserve topological order and de-duplicate.
+  const claimable = new Set([...fresh, ...abandoned]);
+  return workflow.order.filter((stepId) => claimable.has(stepId));
 }
 
 /** Record that a runner has taken a step, before it begins work. */
