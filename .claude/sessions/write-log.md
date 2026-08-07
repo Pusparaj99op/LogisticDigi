@@ -118,3 +118,5 @@
 | 2026-08-07 | 22:52 | Edit | `W:\VS\LogisticDigi\eval\src\scenarios.ts` | ~1487 |
 | 2026-08-07 | 22:53 | Write | `W:\VS\LogisticDigi\eval\src\harness.test.ts` | ~995 |
 | 2026-08-07 | 22:53 | Write | `W:\VS\LogisticDigi\.github\workflows\ci.yml` | ~362 |
+| 2026-08-07 | 22:56 | Write | `W:\VS\LogisticDigi\apps\web\package.json` | ~68 |
+| 2026-08-07 | 23:08 | Edit | `W:\VS\LogisticDigi\eslint.config.mjs` | ~96 |

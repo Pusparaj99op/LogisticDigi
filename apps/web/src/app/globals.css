@@ -1,0 +1,182 @@
+@import 'tailwindcss';
+
+/*
+ * LogisticDigi design tokens.
+ *
+ * The palette is not a theme applied to a dashboard — it is the subject's own
+ * vernacular. Yellow-and-black diagonal striping is the real-world signage for
+ * "caution, machinery operating", which is precisely what this product is:
+ * autonomous agents spending a company's money. Everything else is quiet so
+ * that the hazard marking means something when it appears.
+ *
+ * Two surfaces, because the product has two modes:
+ *   FLOOR — near-black. Live agents, motion, the map, the workflow graph.
+ *   PAPER — warm off-white. Money and evidence: receipts, ledger, approvals.
+ *           Rendered as freight documents, because that is what they are.
+ */
+
+@theme {
+  /* --- floor: the machine hall --- */
+  --color-void: #0b0b0c;
+  --color-steel: #17181b;
+  --color-steel-raised: #1f2126;
+  --color-seam: #2b2e34;
+
+  /* --- hazard: the signal --- */
+  --color-hazard: #ffc400;
+  --color-hazard-deep: #c99700;
+  --color-hazard-wash: #ffc4001a;
+
+  /* --- paper: documents and evidence --- */
+  --color-paper: #f7f5ef;
+  --color-paper-shade: #e9e5da;
+  --color-ink: #101114;
+  --color-ink-soft: #55565c;
+
+  /* --- text on the floor --- */
+  --color-chalk: #f2f2f0;
+  --color-chalk-soft: #9a9ca3;
+  --color-chalk-faint: #64666d;
+
+  /* --- states. Sparing: hazard already carries "attention". --- */
+  --color-refused: #e5484d;
+  --color-clear: #4fb286;
+
+  --font-display: 'Archivo', 'Arial Narrow', sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --radius-plate: 2px;
+}
+
+/*
+ * Container-plate lettering: wide, uppercase, tightly tracked at large sizes.
+ * Archivo's expanded axis is what gives headings their stencilled, stamped
+ * quality rather than generic bold sans.
+ */
+@layer base {
+  * {
+    border-color: var(--color-seam);
+  }
+
+  body {
+    background: var(--color-void);
+    color: var(--color-chalk);
+    font-family: var(--font-body);
+    font-feature-settings: 'cv05' 1;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 112;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 0.95;
+  }
+
+  /* Figures that must align in columns: amounts, rounds, txids. */
+  .tabular {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-hazard);
+    outline-offset: 2px;
+  }
+}
+
+/*
+ * THE SIGNATURE.
+ *
+ * A 45-degree hazard rule marking the boundary where autonomy stops and a
+ * human decision begins. It appears once per screen and nowhere else, so its
+ * presence is information: something here needs a person.
+ */
+.hazard-bar {
+  height: 10px;
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--color-hazard) 0 12px,
+    var(--color-void) 12px 24px
+  );
+}
+
+.hazard-bar--paper {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--color-hazard) 0 12px,
+    var(--color-ink) 12px 24px
+  );
+}
+
+/* An item the compliance agent blocked. Same language, applied edge-on. */
+.hazard-edge {
+  border-left: 3px solid transparent;
+  border-image: repeating-linear-gradient(
+      45deg,
+      var(--color-hazard) 0 6px,
+      var(--color-void) 6px 12px
+    )
+    1;
+}
+
+/*
+ * Paper surfaces carry a torn-manifest edge. Documents in this product are
+ * evidence, and evidence should not look like a rounded card.
+ */
+.paper {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  border-radius: var(--radius-plate);
+}
+
+.paper--perforated {
+  -webkit-mask-image: radial-gradient(circle at 6px 50%, transparent 4px, black 4.5px);
+  mask-image: radial-gradient(circle at 6px 50%, transparent 4px, black 4.5px);
+}
+
+/* Eyebrow labels: small, spaced, mono. Used to name a region, never to decorate. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-chalk-faint);
+}
+
+.eyebrow--paper {
+  color: var(--color-ink-soft);
+}
+
+/* A new message arriving in the live stream. One motion, used once. */
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+    border-left-color: var(--color-hazard);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    border-left-color: var(--color-seam);
+  }
+}
+
+.arriving {
+  animation: arrive 320ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
