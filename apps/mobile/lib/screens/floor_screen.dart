@@ -79,7 +79,7 @@ class FloorScreen extends StatelessWidget {
                                 style: const TextStyle(color: AppColors.inkSoft, fontSize: 11)),
                             const SizedBox(height: 10),
                             TextButton(
-                              onPressed: () => onNavigate?.call(1),
+                              onPressed: () => onNavigate?.call(2),
                               style: TextButton.styleFrom(padding: EdgeInsets.zero),
                               child: const Text('Review this payment',
                                   style: TextStyle(color: AppColors.ink, decoration: TextDecoration.underline)),
@@ -91,7 +91,7 @@ class FloorScreen extends StatelessWidget {
                     ],
                     if (approvals.length > 2)
                       TextButton(
-                        onPressed: () => onNavigate?.call(1),
+                        onPressed: () => onNavigate?.call(2),
                         style: TextButton.styleFrom(padding: EdgeInsets.zero),
                         child: Text('${approvals.length - 2} more waiting',
                             style: const TextStyle(
@@ -136,6 +136,37 @@ class FloorScreen extends StatelessWidget {
                                 Expanded(
                                     child: _Stat(label: 'Waiting on you', value: '${approvals.length}')),
                               ],
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          // Cargo lives on the Floor rather than in its own
+                          // tab: the phone's bottom bar is already at the
+                          // five destinations Material recommends, and "what
+                          // is moving" is part of the overview this screen is.
+                          FloorPanel(
+                            title: 'Cargo in transit',
+                            child: StreamBuilder<List<Shipment>>(
+                              stream: watchShipments(tenantId),
+                              builder: (context, shipSnap) {
+                                if (shipSnap.hasError) {
+                                  return EmptyState('Could not load shipments: ${shipSnap.error}');
+                                }
+                                if (!shipSnap.hasData) {
+                                  return const EmptyState('Connecting to your workspace.');
+                                }
+                                final shipments = shipSnap.data!;
+                                if (shipments.isEmpty) {
+                                  return const EmptyState(
+                                    'Nothing is moving yet. Once the logistics agent books '
+                                    'capacity, the cargo appears here.',
+                                  );
+                                }
+                                return Column(
+                                  children: [
+                                    for (final shipment in shipments) _ShipmentRow(shipment: shipment),
+                                  ],
+                                );
+                              },
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -210,6 +241,55 @@ class _RunRow extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Marker(run.status, tone: _runTone[run.status] ?? Tone.neutral),
+        ],
+      ),
+    );
+  }
+}
+
+class _ShipmentRow extends StatelessWidget {
+  final Shipment shipment;
+  const _ShipmentRow({required this.shipment});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.seam))),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text('${shipment.originName} → ${shipment.destinationName}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: AppColors.chalk, fontSize: 13)),
+              ),
+              const SizedBox(width: 8),
+              Marker(shipment.status),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            '${shipmentModeLabel[shipment.mode] ?? shipment.mode} · arrives in ${shipment.etaDays} days',
+            style: const TextStyle(color: AppColors.chalkFaint, fontSize: 11),
+          ),
+          const SizedBox(height: 8),
+          // Progress as a plain bar: the percentage is the whole story.
+          Semantics(
+            label: '${(shipment.progress * 100).round()} per cent of the way',
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(1),
+              child: LinearProgressIndicator(
+                value: shipment.progress.clamp(0.0, 1.0),
+                minHeight: 4,
+                backgroundColor: AppColors.seam,
+                valueColor: const AlwaysStoppedAnimation<Color>(AppColors.hazard),
+              ),
+            ),
+          ),
         ],
       ),
     );
