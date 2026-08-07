@@ -1,13 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { useRef } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { GlobeField } from './globe-field';
 import { Negotiation } from './negotiation';
 import { SmoothScroll } from './smooth-scroll';
+import { HeroIntro } from '@/components/HeroIntro';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -38,6 +39,8 @@ const EVIDENCE: readonly { metric: string; ours: string; without: string; note?:
 
 export function Landing() {
   const root = useRef<HTMLDivElement>(null);
+  const [introDone, setIntroDone] = useState(false);
+  const handleIntroDone = useCallback(() => setIntroDone(true), []);
 
   useGSAP(
     () => {
@@ -76,6 +79,18 @@ export function Landing() {
   );
 
   return (
+    <>
+      {/* ── loading intro — auto-plays then unmounts ── */}
+      <HeroIntro onDone={handleIntroDone} />
+
+      {/* ── main page — rendered beneath, becomes interactive after intro ── */}
+      <div
+        style={{
+          opacity: introDone ? 1 : 0,
+          transition: 'opacity 400ms ease',
+          pointerEvents: introDone ? 'auto' : 'none',
+        }}
+      >
     <SmoothScroll>
       <div ref={root} className="overflow-x-hidden">
         {/* ---------------- hero ---------------- */}
@@ -333,5 +348,7 @@ export function Landing() {
         </footer>
       </div>
     </SmoothScroll>
+      </div>
+    </>
   );
 }
