@@ -10,6 +10,7 @@
     "worker": "tsx src/worker.ts",
     "serve": "tsx src/server.ts",
     "provision": "tsx src/provision.ts",
+    "verify": "tsx src/verify.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run"
   },

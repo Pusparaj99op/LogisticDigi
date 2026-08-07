@@ -66,6 +66,10 @@ real write to the `logisticdigi` project has not been done from here — say
 so plainly rather than claim it.
 
 ```bash
+# Confirm the credential actually works before anything else — writes and
+# deletes one throwaway document.
+pnpm --filter @logisticdigi/orchestrator run verify
+
 # One-time: give your signed-up account a workspace to see.
 pnpm --filter @logisticdigi/orchestrator run provision -- \
   --email you@example.com --tenant tenant_a --role owner
