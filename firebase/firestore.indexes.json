@@ -83,6 +83,14 @@
         { "fieldPath": "buyerTenantId", "order": "ASCENDING" },
         { "fieldPath": "startedAt", "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "shipments",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "buyerTenantId", "order": "ASCENDING" },
+        { "fieldPath": "updatedAt", "order": "DESCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []
