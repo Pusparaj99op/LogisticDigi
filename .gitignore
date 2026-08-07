@@ -62,3 +62,10 @@ pnpm-debug.log*
 
 # Firestore/Auth emulator seed data (local demo only)
 .emulator-data/
+
+# Firebase Admin service account keys. These bypass every security rule in
+# firebase/firestore.rules — anyone holding one can forge the audit trail the
+# whole product is premised on. They must never enter the repository.
+key/
+**/*-firebase-adminsdk-*.json
+**/serviceAccount*.json

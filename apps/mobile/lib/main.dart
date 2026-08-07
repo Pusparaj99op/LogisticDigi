@@ -18,16 +18,25 @@ Future<void> main() async {
 
     // Point at a local `firebase emulators:start` instead of the real
     // project. Opt-in and compiled in, so a store build cannot be talked into
-    // connecting to a developer's machine:
+    // connecting to a developer's machine.
     //
-    //   flutter run --dart-define=EMULATOR_HOST=192.168.1.5
+    // Over USB — works with Wi-Fi off, and the emulators stay on loopback:
+    //     adb reverse tcp:8080 tcp:8080 && adb reverse tcp:9099 tcp:9099
+    //     flutter run --dart-define=EMULATOR_HOST=127.0.0.1
+    // Over Wi-Fi, pass the host machine's LAN address instead (and bind the
+    // emulators to 0.0.0.0 so they accept it).
     //
-    // Note this must be the host machine's LAN address, not localhost — on a
-    // physical device localhost is the phone itself.
+    // automaticHostMapping: false is essential. FlutterFire otherwise
+    // rewrites "127.0.0.1"/"localhost" to 10.0.2.2 on Android — the *Android
+    // emulator's* alias for its host, which is unroutable on a real handset,
+    // so the adb-reverse tunnel would be silently bypassed and every query
+    // would hang rather than fail.
     const emulatorHost = String.fromEnvironment('EMULATOR_HOST');
     if (emulatorHost.isNotEmpty) {
-      FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
-      await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
+      FirebaseFirestore.instance
+          .useFirestoreEmulator(emulatorHost, 8080, automaticHostMapping: false);
+      await FirebaseAuth.instance
+          .useAuthEmulator(emulatorHost, 9099, automaticHostMapping: false);
       debugPrint('[logisticdigi] using Firebase emulators at $emulatorHost');
     }
   } catch (cause) {
