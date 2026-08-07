@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import { Archivo, IBM_Plex_Mono, IBM_Plex_Sans } from 'next/font/google';
+import { Archivo, IBM_Plex_Mono, IBM_Plex_Sans, Inter, DM_Serif_Display, JetBrains_Mono } from 'next/font/google';
 import { SessionProvider } from '@/lib/auth-context';
+import { LenisProvider } from '@/app/providers/LenisProvider';
 import './globals.css';
 
 /**
@@ -30,6 +31,27 @@ const plexMono = IBM_Plex_Mono({
   display: 'swap',
 });
 
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+const dmSerif = DM_Serif_Display({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-dm-serif',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
   title: 'LogisticDigi — agent operations',
   description:
@@ -39,8 +61,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${archivo.variable} ${plexSans.variable} ${plexMono.variable}`}>
-        <SessionProvider>{children}</SessionProvider>
+      <body className={`${archivo.variable} ${plexSans.variable} ${plexMono.variable} ${inter.variable} ${dmSerif.variable} ${jetbrainsMono.variable}`}>
+        <LenisProvider>
+          <SessionProvider>{children}</SessionProvider>
+        </LenisProvider>
       </body>
     </html>
   );
