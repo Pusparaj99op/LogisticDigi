@@ -21,7 +21,6 @@ export function Navbar() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
-  const activeLineRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     if (!navRef.current) return;

@@ -12,12 +12,12 @@ import { FadeUp } from '@/components/animations/FadeUp';
 
 // Lazy load Lotties so they don't block paint
 const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
-import inventoryAnim from '@/public/lotties/inventory.json';
-import procurementAnim from '@/public/lotties/procurement.json';
-import negotiationAnim from '@/public/lotties/negotiation.json';
-import complianceAnim from '@/public/lotties/compliance.json';
-import settlementAnim from '@/public/lotties/settlement.json';
-import logisticsAnim from '@/public/lotties/logistics.json';
+import inventoryAnim from '@/lotties/inventory.json';
+import procurementAnim from '@/lotties/procurement.json';
+import negotiationAnim from '@/lotties/negotiation.json';
+import complianceAnim from '@/lotties/compliance.json';
+import settlementAnim from '@/lotties/settlement.json';
+import logisticsAnim from '@/lotties/logistics.json';
 
 gsap.registerPlugin(ScrollTrigger);
 
