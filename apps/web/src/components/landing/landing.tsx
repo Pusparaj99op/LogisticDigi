@@ -134,6 +134,7 @@ export function Landing() {
           pointerEvents: introDone ? 'auto' : 'none',
         }}
       >
+    <Navbar />
     <SmoothScroll>
       <div ref={root} className="overflow-x-hidden">
         {/* ---------------- hero ---------------- */}
