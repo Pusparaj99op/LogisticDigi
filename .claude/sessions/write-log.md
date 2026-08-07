@@ -32,3 +32,13 @@
 | 2026-08-07 | 19:15 | Write | `W:\VS\LogisticDigi\packages\core\src\policy\budget.ts` | ~2225 |
 | 2026-08-07 | 19:16 | Write | `W:\VS\LogisticDigi\packages\core\src\policy\budget.test.ts` | ~1869 |
 | 2026-08-07 | 19:17 | Write | `W:\VS\LogisticDigi\packages\core\src\policy\injection.ts` | ~1396 |
+| 2026-08-07 | 20:28 | Edit | `W:\VS\LogisticDigi\packages\core\src\policy\injection.ts` | ~1407 |
+| 2026-08-07 | 20:29 | Write | `W:\VS\LogisticDigi\packages\core\src\policy\injection.test.ts` | ~1284 |
+| 2026-08-07 | 20:30 | Edit | `W:\VS\LogisticDigi\packages\core\src\policy\injection.ts` | ~1441 |
+| 2026-08-07 | 20:30 | Edit | `W:\VS\LogisticDigi\packages\core\src\policy\injection.ts` | ~1465 |
+| 2026-08-07 | 20:31 | Edit | `W:\VS\LogisticDigi\packages\core\src\policy\injection.ts` | ~1491 |
+| 2026-08-07 | 20:31 | Edit | `W:\VS\LogisticDigi\packages\core\src\policy\injection.ts` | ~1491 |
+| 2026-08-07 | 20:31 | Edit | `W:\VS\LogisticDigi\packages\core\src\policy\injection.ts` | ~1515 |
+| 2026-08-07 | 20:31 | Edit | `W:\VS\LogisticDigi\packages\core\src\policy\injection.ts` | ~1543 |
+| 2026-08-07 | 20:32 | Write | `W:\VS\LogisticDigi\packages\core\src\index.ts` | ~26 |
+| 2026-08-07 | 20:34 | Write | `C:\Users\kalvi\AppData\Local\Temp\claude\W--VS-LogisticDigi\b8404954-bd8a-41cb-b706-61f532ebfb48\scratchpad\escape_invisibles.py` | ~128 |
