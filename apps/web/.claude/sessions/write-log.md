@@ -32,3 +32,4 @@
 | 2026-08-07 | 23:15 | Write | `W:\VS\LogisticDigi\apps\web\src\app\page.tsx` | ~79 |
 | 2026-08-07 | 23:22 | Edit | `W:\VS\LogisticDigi\apps\web\src\components\landing\negotiation.tsx` | ~787 |
 | 2026-08-07 | 23:32 | Edit | `W:\VS\LogisticDigi\apps\web\src\components\landing\globe-field.tsx` | ~752 |
+| 2026-08-08 | 01:48 | Edit | `W:\VS\LogisticDigi\apps\web\next.config.ts` | ~282 |
