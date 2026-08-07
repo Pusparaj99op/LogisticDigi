@@ -17,15 +17,21 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "eval": "pnpm --filter @logisticdigi/eval run eval"
+    "eval": "pnpm --filter @logisticdigi/eval run eval",
+    "firebase:emulate": "firebase emulators:start --only auth,firestore",
+    "test:rules": "firebase emulators:exec --only firestore \"vitest run --config vitest.rules.config.ts\""
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild"]
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
+    "@firebase/rules-unit-testing": "^5.0.1",
     "@types/node": "^22.10.2",
     "eslint": "^9.17.0",
+    "firebase": "^12.17.1",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.1",

@@ -1,0 +1,243 @@
+rules_version = '2';
+
+// LogisticDigi Firestore security rules.
+//
+// The governing principle: the audit trail must not be forgeable by the
+// party it describes. Runs, step records, traces, tool-call audits, payment
+// receipts, and the ledger are therefore READ-ONLY to every client. They are
+// written exclusively by the orchestrator through the Admin SDK, which
+// bypasses these rules. A tenant can read its own history but can never
+// rewrite it, so a trace a judge inspects means something.
+//
+// Isolation is by tenant, carried in a custom claim set at sign-up and on
+// tenant switch. Claims are chosen over a membership document lookup because
+// the claim is signed by Firebase Auth and cannot be edited by the client,
+// and because it avoids a read on every single rule evaluation.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------- helpers ----------
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function claims() {
+      return request.auth.token;
+    }
+
+    // The tenant this user is currently acting for.
+    function callerTenant() {
+      return signedIn() ? claims().get('tenantId', '') : '';
+    }
+
+    function memberOf(tenantId) {
+      return signedIn() && callerTenant() == tenantId && tenantId != '';
+    }
+
+    // Tenant-level administrator: may change that tenant's settings.
+    function tenantAdmin(tenantId) {
+      return memberOf(tenantId) && claims().get('role', 'member') in ['admin', 'owner'];
+    }
+
+    // Platform owner. Gated on a custom claim rather than an email literal so
+    // that rotating the owner account does not require a rules deploy.
+    function platformOwner() {
+      return signedIn() && claims().get('platformOwner', false) == true;
+    }
+
+    // Only these fields may be changed by a client on an otherwise
+    // server-owned document.
+    function changedKeys() {
+      return request.resource.data.diff(resource.data).affectedKeys();
+    }
+
+    // Membership check that tolerates a missing document.
+    //
+    // `resource` is null when the document does not exist, and reading
+    // `resource.data` then raises an evaluation error rather than returning
+    // false. Firestore evaluates the update rule even for a create-shaped
+    // write, so without this guard a create attempt denies by erroring. An
+    // error denies too, but a rule that is accidentally safe is a rule
+    // nobody can reason about.
+    function memberOfExisting() {
+      return resource != null && memberOf(resource.data.get('tenantId', ''));
+    }
+
+    // ---------- platform configuration ----------
+
+    // Feature flags read live by every runtime: counterparty mode, runtime
+    // mode, LLM routing, autonomy level, budget caps, kill switch.
+    // Everyone signed in must be able to READ these (the kill switch has to
+    // reach every client), but only the platform owner may change them.
+    match /config/{document} {
+      allow read: if signedIn();
+      allow write: if platformOwner();
+    }
+
+    // ---------- tenants ----------
+
+    match /tenants/{tenantId} {
+      // A tenant's public profile is visible to all signed-in users: this is
+      // a marketplace, and counterparties need to know who they are dealing
+      // with before a negotiation opens.
+      allow read: if signedIn();
+      allow update: if tenantAdmin(tenantId);
+      // Creation and deletion run server-side so that wallet provisioning and
+      // claim assignment happen atomically with the document.
+      allow create, delete: if false;
+
+      // Stock levels are commercially sensitive and never cross-tenant.
+      match /inventory/{itemId} {
+        allow read: if memberOf(tenantId);
+        allow write: if false; // agent-mediated only, via the inventory tool
+      }
+
+      // Per-tenant policy: budget caps, approval thresholds, autonomy level.
+      match /policy/{document} {
+        allow read: if memberOf(tenantId);
+        allow write: if tenantAdmin(tenantId);
+      }
+
+      // Wallet metadata. The address is readable by the tenant; no secret
+      // material is ever stored in Firestore at all.
+      match /wallet/{document} {
+        allow read: if memberOf(tenantId);
+        allow write: if false;
+      }
+    }
+
+    // ---------- marketplace ----------
+
+    // Published offers are the shared discovery surface, readable by any
+    // signed-in tenant. Writes go through the server so that injection
+    // scanning runs before an offer becomes visible to other agents.
+    match /offers/{offerId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    // ---------- negotiations ----------
+
+    // Visible only to the two tenants party to it.
+    function negotiationParticipant() {
+      return resource != null
+        && (memberOf(resource.data.get('buyerTenantId', ''))
+            || memberOf(resource.data.get('sellerTenantId', '')));
+    }
+
+    // Same test for a subcollection, which must fetch the parent thread.
+    function negotiationParty(negotiationId) {
+      return exists(/databases/$(database)/documents/negotiations/$(negotiationId))
+        && (memberOf(get(/databases/$(database)/documents/negotiations/$(negotiationId))
+              .data.get('buyerTenantId', ''))
+            || memberOf(get(/databases/$(database)/documents/negotiations/$(negotiationId))
+              .data.get('sellerTenantId', '')));
+    }
+
+    match /negotiations/{negotiationId} {
+      allow read: if negotiationParticipant();
+      allow write: if false;
+
+      // The live agent-to-agent conversation the dashboard and app stream.
+      // Read-only to clients: messages are authored by agents server-side,
+      // so a tenant cannot fabricate what its counterparty "said".
+      match /messages/{messageId} {
+        allow read: if negotiationParty(negotiationId);
+        allow write: if false;
+      }
+    }
+
+    // ---------- runs, traces, and the ledger ----------
+
+    // Everything below is append-only server-side state. Clients read their
+    // own tenant's history and write none of it.
+
+    // A run's subcollections inherit the parent's tenant, which must be
+    // fetched: a subcollection document does not carry tenantId itself.
+    // Without this, any signed-in tenant could read another tenant's trace —
+    // prices, counterparties, and negotiation terms — just by knowing a run
+    // id. `exists` is checked first so a missing parent denies cleanly
+    // instead of raising an evaluation error.
+    function runTenant(runId) {
+      return exists(/databases/$(database)/documents/runs/$(runId))
+        ? get(/databases/$(database)/documents/runs/$(runId)).data.get('tenantId', '')
+        : '';
+    }
+
+    function memberOfRun(runId) {
+      return memberOf(runTenant(runId));
+    }
+
+    match /runs/{runId} {
+      allow read: if memberOfExisting();
+      allow write: if false;
+
+      match /steps/{stepId} {
+        allow read: if memberOfRun(runId);
+        allow write: if false;
+      }
+
+      // The immutable audit trail. Forgeability here would invalidate the
+      // whole evidence story.
+      match /trace/{eventId} {
+        allow read: if memberOfRun(runId);
+        allow write: if false;
+      }
+
+      // Tool-call authorisation log, including refusals.
+      match /toolAudit/{entryId} {
+        allow read: if memberOfRun(runId);
+        allow write: if false;
+      }
+    }
+
+    // Approval gates. This is the one place a human genuinely acts, so it is
+    // the one collection a client may write — and only the decision fields,
+    // only for their own tenant, and only while still pending.
+    match /approvals/{approvalId} {
+      allow read: if memberOfExisting();
+      allow create: if false;
+      allow update: if memberOfExisting()
+        && resource.data.status == 'pending'
+        && request.resource.data.status in ['approved', 'rejected']
+        && changedKeys().hasOnly(['status', 'decidedBy', 'decidedAt', 'note'])
+        // The decision must be attributed to the user actually making it.
+        && request.resource.data.decidedBy == request.auth.uid;
+      allow delete: if false;
+    }
+
+    // Payment receipts carry on-chain transaction ids. Read-only always:
+    // a receipt is evidence, and evidence a party can edit is not evidence.
+    match /receipts/{receiptId} {
+      allow read: if memberOfExisting();
+      allow write: if false;
+    }
+
+    // Double-entry ledger across reservations, settlements, and refunds.
+    match /ledger/{entryId} {
+      allow read: if memberOfExisting();
+      allow write: if false;
+    }
+
+    // Shipments the 3D map renders. Readable by the two parties to the deal
+    // only — a cargo's route, contents, and counterparty are commercially
+    // sensitive, so this is not a public feed.
+    match /shipments/{shipmentId} {
+      allow read: if resource != null
+        && (memberOf(resource.data.get('buyerTenantId', ''))
+            || memberOf(resource.data.get('sellerTenantId', '')));
+      allow write: if false;
+    }
+
+    // ---------- default deny ----------
+
+    // Any collection not named above is closed. Adding a feature therefore
+    // requires deciding its access rules explicitly rather than inheriting
+    // an accidental allow.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

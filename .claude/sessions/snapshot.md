@@ -1,23 +1,27 @@
-# Session Snapshot — 2026-08-07 21:51
+# Session Snapshot — 2026-08-07 22:15
 
 ## Files Changed
 - .claude/sessions/snapshot.md
 - .claude/sessions/token-log.md
 - .claude/sessions/write-log.md
-- packages/core/src/index.ts
-- packages/core/src/runtime/lease.test.ts
-- packages/core/src/runtime/lease.ts
-- packages/core/src/runtime/run.test.ts
-- packages/core/src/runtime/run.ts
-- pnpm-lock.yaml
+- package.json
+- packages/agents/package.json
+- packages/agents/src/capabilities.ts
+- packages/agents/src/index.ts
+- packages/agents/src/toolbox.test.ts
+- packages/agents/src/toolbox.ts
+- packages/agents/tsconfig.json
 
 ## Recent Commits
+- 193e533 phase 1C
 - c4e937a phase 1B
 - 205db53 Update token-log.md
 - 30acdf8 Update write-log.md
 - 09f3d9d Create lease.test.ts
-- 118bb04 Create lease.ts
 
 ## Token Estimate
 ~361 tokens in auto-loaded files
+
+## Last Turn
+Next: Phase 2 � x402 and Algorand TestNet settlement.
 
