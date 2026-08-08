@@ -1,5 +1,13 @@
 # CodeRush 2.0 | Team Project Repository
 
+<!-- Buttons: quick links -->
+<p>
+  <a href="https://logisticdigi.vercel.app/" style="background:#FFD400;color:#000;padding:8px 12px;border-radius:6px;text-decoration:none;font-weight:600;margin-right:8px;display:inline-block">Logistic Digi Web</a>
+  <a href="https://github.com/Pusparaj99op/LogisticDigi" style="background:#FFD400;color:#fff;padding:8px 12px;border-radius:6px;text-decoration:none;font-weight:600;margin-right:8px;display:inline-block">Logistoc Digi Git Repo</a>
+  <a href="https://logisticdigi.vercel.app/" style="background:#FF5A00;color:#000;padding:8px 12px;border-radius:6px;text-decoration:none;font-weight:600;margin-right:8px;display:inline-block">Logistic Digi Web</a>
+  <a href="https://github.com/Pusparaj99op/CodeRush2.0_CoDevians_INF-03" style="background:#FF5A00;color:#fff;padding:8px 12px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">Logistoc Digi Git Repo</a>
+</p>
+
 ## Project Information
 
 * Team Name: CoDevians
@@ -8,7 +16,7 @@
 
 ## Project Description
 
-LogisticDigi is a full-stack monorepo that connects an **AI orchestrator** to a **live operations dashboard**. The AI continuously runs procurement workflows in the background — negotiating with freight providers, tracking budgets, and settling payments on the Algorand blockchain. When a decision crosses a budget threshold, it pauses and waits for a human operator to approve or reject it through the web or mobile app.
+LogisticDigi is a full-stack monorepo that connects an **AI orchestrator** to a **live operations dashboard**. The AI continuously runs procurement workflows in the background — negotiating with[...] 
 
 Think of it as an "autopilot for your supply chain" that still asks permission before spending big.
 
