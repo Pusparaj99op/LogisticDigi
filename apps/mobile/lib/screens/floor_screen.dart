@@ -163,7 +163,10 @@ class FloorScreen extends StatelessWidget {
                                           stream: watchRunSteps(activeRunId),
                                           builder: (context, stepsSnap) {
                                             final steps = stepsSnap.data ?? const <RunStep>[];
-                                            return AgentMesh(activity: agentActivityFrom(steps));
+                                            return AgentMesh(
+                                              activity: agentActivityFrom(steps),
+                                              callerListener: callerListenerFrom(steps),
+                                            );
                                           },
                                         ),
                                   const SizedBox(height: 8),
