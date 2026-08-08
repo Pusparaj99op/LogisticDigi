@@ -10,6 +10,7 @@ import 'approvals_screen.dart';
 import 'floor_screen.dart';
 import 'ledger_screen.dart';
 import 'negotiations_screen.dart';
+import 'profile_screen.dart';
 import 'runs_screen.dart';
 
 class OperationsShell extends StatefulWidget {
@@ -49,9 +50,19 @@ class _OperationsShellState extends State<OperationsShell> {
             ),
           ),
           IconButton(
-            tooltip: 'Sign out',
-            icon: const Icon(Icons.logout, size: 20),
-            onPressed: () => session.leave(),
+            tooltip: 'Profile',
+            icon: CircleAvatar(
+              radius: 14,
+              backgroundColor: AppColors.hazardWash,
+              backgroundImage:
+                  session.user?.photoURL != null ? NetworkImage(session.user!.photoURL!) : null,
+              child: session.user?.photoURL == null
+                  ? const Icon(Icons.person_outline, size: 16, color: AppColors.hazard)
+                  : null,
+            ),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const ProfileScreen()),
+            ),
           ),
         ],
       ),
