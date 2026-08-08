@@ -1,11 +1,10 @@
 # CodeRush 2.0 | Team Project Repository
 
 <!-- Buttons: quick links -->
-<p>
-  <a href="https://logisticdigi.vercel.app/" style="background:#FFD400;color:#000;padding:8px 12px;border-radius:6px;text-decoration:none;font-weight:600;margin-right:8px;display:inline-block">Logistic Digi Web</a>
-  <a href="https://github.com/Pusparaj99op/LogisticDigi" style="background:#FFD400;color:#fff;padding:8px 12px;border-radius:6px;text-decoration:none;font-weight:600;margin-right:8px;display:inline-block">Logistoc Digi Git Repo</a>
-  <a href="https://logisticdigi.vercel.app/" style="background:#FF5A00;color:#000;padding:8px 12px;border-radius:6px;text-decoration:none;font-weight:600;margin-right:8px;display:inline-block">Logistic Digi Web</a>
-  <a href="https://github.com/Pusparaj99op/CodeRush2.0_CoDevians_INF-03" style="background:#FF5A00;color:#fff;padding:8px 12px;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block">Logistoc Digi Git Repo</a>
+<p align="left">
+  <a href="https://logisticdigi.vercel.app/" style="background:#FFD400;color:#000;padding:9px 16px;border-radius:0px;text-decoration:none;font-weight:700;margin:4px;display:inline-block;font-size:14px">🌐 LogisticDigi Live</a>
+  <a href="https://github.com/Pusparaj99op/LogisticDigi" style="background:#24292e;color:#fff;padding:9px 16px;border-radius:0px;text-decoration:none;font-weight:700;margin:4px;display:inline-block;font-size:14px">🐙 LogisticDigi Repo</a>
+  <a href="https://github.com/Pusparaj99op/CodeRush2.0_CoDevians_INF-03" style="background:#FF5A00;color:#fff;padding:9px 16px;border-radius:0px;text-decoration:none;font-weight:700;margin:4px;display:inline-block;font-size:14px">🏆 CodeRush 2.0 Repo</a>
 </p>
 
 ## Project Information
@@ -16,7 +15,7 @@
 
 ## Project Description
 
-LogisticDigi is a full-stack monorepo that connects an **AI orchestrator** to a **live operations dashboard**. The AI continuously runs procurement workflows in the background — negotiating with[...] 
+LogisticDigi is a full-stack monorepo that connects an **AI orchestrator** to a **live operations dashboard**. The AI continuously runs procurement workflows in the background — negotiating with[...]
 
 Think of it as an "autopilot for your supply chain" that still asks permission before spending big.
 
