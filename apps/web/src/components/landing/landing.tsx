@@ -388,7 +388,7 @@ export function Landing() {
                 { step: '3', title: 'Atomic settlement on Algorand', desc: 'Approved deals execute instantly via smart contracts with USDC, logging immutable receipts to the public ledger.' },
               ].map((s) => (
                 <div key={s.step} className={`quick-step relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active`}>
-                  <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[#6EE7B7]/50 bg-[#0A0B0E] text-[#6EE7B7] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 font-[family-name:var(--font-jetbrains-mono)]">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[#FFC400]/50 bg-[#0A0B0E] text-[#FFC400] shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 font-[family-name:var(--font-jetbrains-mono)]">
                     {s.step}
                   </div>
                   <div className="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] bg-[#0A0B0E] p-6 rounded-lg border border-[#1E2128]">
@@ -399,7 +399,7 @@ export function Landing() {
               ))}
             </div>
             <div className="mt-16 text-center fade-up">
-               <Link href="/how-it-works" className="text-[#6EE7B7] hover:underline">Read the deep dive →</Link>
+               <Link href="/how-it-works" className="text-[#FFC400] hover:underline">Read the deep dive →</Link>
             </div>
           </div>
         </section>
