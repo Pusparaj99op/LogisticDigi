@@ -8,6 +8,7 @@ import '../models.dart';
 import '../session.dart';
 import '../theme.dart';
 import '../widgets/primitives.dart';
+import '../widgets/agent_mesh.dart';
 
 const Map<String, Tone> _runTone = {
   'running': Tone.hazard,
@@ -144,6 +145,36 @@ class FloorScreen extends StatelessWidget {
                                       return _AgentRoster(activity: agentActivityFrom(steps));
                                     },
                                   ),
+                          ),
+                          const SizedBox(height: 16),
+                          // Same mesh graph as apps/web/src/components/agent-mesh.tsx —
+                          // every agent wired to every other agent, lit up when actually
+                          // talking, instead of the plain negotiation transcript.
+                          FloorPanel(
+                            title: 'Agent network',
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  activeRunId == null
+                                      ? const AgentMesh(activity: {})
+                                      : StreamBuilder<List<RunStep>>(
+                                          stream: watchRunSteps(activeRunId),
+                                          builder: (context, stepsSnap) {
+                                            final steps = stepsSnap.data ?? const <RunStep>[];
+                                            return AgentMesh(activity: agentActivityFrom(steps));
+                                          },
+                                        ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Settlement also runs one real, separate wallet check via '
+                                    'the Zerion API on every payment.',
+                                    style: TextStyle(fontSize: 11, color: AppColors.chalkFaint),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 16),
                           FloorPanel(

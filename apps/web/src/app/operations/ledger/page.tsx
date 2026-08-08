@@ -40,6 +40,19 @@ export default function LedgerPage() {
           Written by the orchestrator and read-only to everyone, including us. Settled entries link
           to the transaction on Algorand so you can check them yourself.
         </p>
+        <p className="mt-1 max-w-2xl text-xs text-[var(--color-chalk-faint)]">
+          Settlement also runs a live wallet check via the{' '}
+          <a
+            href="https://developers.zerion.io"
+            target="_blank"
+            rel="noreferrer"
+            className="underline underline-offset-2"
+          >
+            Zerion API
+          </a>{' '}
+          on every payment step — a real, separate call the agent makes, not part of the Algorand
+          settlement itself.
+        </p>
       </div>
 
       <div className="overflow-x-auto rounded-[2px] border border-[var(--color-seam)]">

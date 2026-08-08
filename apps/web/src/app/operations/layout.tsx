@@ -3,11 +3,9 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { AgentRail, type AgentActivity, type AgentState } from '@/components/agent-rail';
+import { AgentRail, useAgentStates } from '@/components/agent-rail';
 import { Eyebrow } from '@/components/primitives';
-import { useRuns, useRunSteps } from '@/components/live';
 import { useSession } from '@/lib/auth-context';
-import type { AgentRole } from '@logisticdigi/core';
 
 const SECTIONS = [
   { href: '/operations', label: 'Floor' },
@@ -17,52 +15,6 @@ const SECTIONS = [
   { href: '/operations/ledger', label: 'Ledger' },
   { href: '/operations/map', label: 'Map' },
 ];
-
-/**
- * What a step's status means for the agent executing it.
- *
- * Only these four map to something worth showing. A `pending` or `succeeded`
- * step says nothing about what its agent is doing *now*, so it leaves the
- * agent idle rather than inventing activity — the rail must not claim an
- * agent is busy when it is not.
- */
-const ACTIVITY_BY_STEP_STATUS: Record<string, AgentActivity> = {
-  running: 'working',
-  awaiting_approval: 'waiting',
-  failed: 'blocked',
-  cancelled: 'blocked',
-};
-
-/**
- * Live rail state, derived from the newest run that is still going.
- *
- * One run rather than every active run at once: the rail has a single row per
- * agent, so aggregating several concurrent runs into it would have to pick a
- * winner anyway, and "the run you are most likely looking at" is the honest
- * choice. When nothing is running every agent shows idle, which is true.
- */
-function useAgentStates(tenantId: string | null): readonly AgentState[] {
-  const runs = useRuns(tenantId, 20);
-  const active = runs.items.find((run) => run.status === 'running') ?? null;
-  const steps = useRunSteps(active?.id ?? null);
-
-  const states: AgentState[] = [];
-  for (const step of steps.items) {
-    const activity = ACTIVITY_BY_STEP_STATUS[step.status];
-    if (!activity) continue;
-    states.push({
-      role: step.role as AgentRole,
-      activity,
-      detail:
-        activity === 'blocked'
-          ? (step.error ?? step.skipReason ?? `${step.kind} could not complete`)
-          : activity === 'waiting'
-            ? 'waiting on your decision'
-            : `${step.kind} — ${step.stepId}`,
-    });
-  }
-  return states;
-}
 
 export default function OperationsLayout({ children }: { children: React.ReactNode }) {
   const session = useSession();

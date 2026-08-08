@@ -5,6 +5,7 @@ import { formatMoney } from '@logisticdigi/core';
 import { Document, Empty, Eyebrow, Figure, FloorPanel, HazardBar, Marker } from '@/components/primitives';
 import { usePendingApprovals, useRuns } from '@/components/live';
 import { useSession } from '@/lib/auth-context';
+import { AgentMesh } from '@/components/agent-mesh';
 
 function money(units: string | undefined, asset: string = 'USDC'): string {
   if (!units) return '—';
@@ -77,6 +78,17 @@ export default function OperationsFloor() {
           ) : null}
         </section>
       ) : null}
+
+      <FloorPanel title="Agent network">
+        <div className="p-4">
+          <AgentMesh />
+          <p className="mt-2 text-xs text-[var(--color-chalk-faint)]">
+            Every line is a channel the agents can use to reach each other. Lit, dashed lines mark
+            who is actually talking right now. Settlement also runs one real, honestly-separate
+            wallet check via the Zerion API on every payment — see the Ledger for its result.
+          </p>
+        </div>
+      </FloorPanel>
 
       <div className="grid gap-6 xl:grid-cols-[1.4fr_1fr]">
         <FloorPanel title="Runs">

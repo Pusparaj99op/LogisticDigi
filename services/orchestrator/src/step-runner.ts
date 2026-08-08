@@ -20,6 +20,16 @@ import { guardedExecutor, type World } from '@logisticdigi/eval';
 import { routedClient, type LlmClient } from './llm/client.js';
 import { negotiateWithLlm, type NegotiateResult } from './negotiate-llm.js';
 import type { ApprovalDoc, Store } from './store.js';
+import { zerionClientFromEnv, type ZerionClient } from './zerion/client.js';
+
+/**
+ * A well-known, publicly-tracked Ethereum wallet — used only as the address
+ * the Settlement agent's real Zerion API call reads, since the product's own
+ * facilitator wallet is Algorand and Zerion does not index that chain (see
+ * zerion/client.ts's docstring). Overridable so a demo can point at any
+ * address without a code change.
+ */
+const DEFAULT_ZERION_DEMO_WALLET = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045';
 
 export type StepOutcome =
   | {
@@ -139,12 +149,52 @@ async function runNegotiateStep(params: StepRunnerParams): Promise<StepOutcome> 
   };
 }
 
+/**
+ * A `pay` step: guardedExecutor still runs first, unchanged, and settles the
+ * real Algorand x402 payment exactly as before. Only after it succeeds does
+ * the Settlement agent make one additional, genuinely real call — a Zerion
+ * Wallet API portfolio lookup — attached to the step's output as
+ * `zerionCheck`. This does not touch, replace, or verify the Algorand
+ * settlement; it is an honestly-separate real tool call by the same agent,
+ * skipped (not faked) when ZERION_API_KEY is unset.
+ */
+async function runPayStep(params: StepRunnerParams, zerion: ZerionClient): Promise<StepOutcome> {
+  const result = await guardedExecutor(params.step, params.world);
+  if (result.status !== 'succeeded') {
+    if (result.status === 'skipped') {
+      const reason = typeof result.output.reason === 'string' ? result.output.reason : 'skipped';
+      return { kind: 'skipped', reason };
+    }
+    return { kind: 'failed', error: result.error ?? `"${params.step.id}" failed with no message` };
+  }
+
+  const wallet = process.env.ZERION_DEMO_WALLET || DEFAULT_ZERION_DEMO_WALLET;
+  try {
+    const summary = await zerion.getPortfolioSummary(wallet);
+    return {
+      kind: 'succeeded',
+      output: { ...result.output, zerionCheck: { ...summary, status: 'ok' as const } },
+    };
+  } catch (cause) {
+    return {
+      kind: 'succeeded',
+      output: {
+        ...result.output,
+        zerionCheck: { address: wallet, status: 'skipped' as const, reason: (cause as Error).message },
+      },
+    };
+  }
+}
+
 export async function runStep(params: StepRunnerParams): Promise<StepOutcome> {
   if (params.step.kind === 'approve') {
     return runApproveStep(params);
   }
   if (params.step.kind === 'negotiate') {
     return runNegotiateStep(params);
+  }
+  if (params.step.kind === 'pay') {
+    return runPayStep(params, zerionClientFromEnv());
   }
 
   const result = await guardedExecutor(params.step, params.world);
