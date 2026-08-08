@@ -23,7 +23,6 @@ export function CargoMap({ shipments, className = '' }: CargoMapProps) {
   const leafletInstance = useRef<L.Map | null>(null);
   const tileLayerRef = useRef<L.TileLayer | null>(null);
   const [mapStyle, setMapStyle] = useState<'standard' | 'dark'>('dark');
-  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -164,7 +163,6 @@ export function CargoMap({ shipments, className = '' }: CargoMapProps) {
       });
 
       leafletInstance.current = map;
-      setIsLoaded(true);
     }
 
     initMap();
