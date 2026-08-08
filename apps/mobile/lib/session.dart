@@ -62,6 +62,15 @@ class Session extends ChangeNotifier {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
   }
 
+  /// Re-reads the current user after an out-of-band profile change (e.g. a
+  /// new photo uploaded from ProfileScreen) — Auth doesn't push those through
+  /// idTokenChanges, so the session has to go get them itself.
+  Future<void> refreshUser() async {
+    await FirebaseAuth.instance.currentUser?.reload();
+    user = FirebaseAuth.instance.currentUser;
+    notifyListeners();
+  }
+
   Future<void> leave() async {
     await FirebaseAuth.instance.signOut();
     await GoogleSignIn().signOut();
