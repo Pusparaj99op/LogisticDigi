@@ -82,3 +82,32 @@ This is the background process that actually runs procurement scenarios and writ
 ```bash
 pnpm --filter @logisticdigi/orchestrator run worker
 ```
+
+---
+
+## Team Members
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="./ProfilePhotos/Pranay%20Gajbhiye.png" width="150" alt="Pranay Gajbhiye"/><br />
+      <b>Pranay Gajbhiye</b>
+    </td>
+    <td align="center">
+      <img src="./ProfilePhotos/Rasika%20Pande.jpg" width="150" alt="Rasika Pande"/><br />
+      <b>Rasika Pande</b>
+    </td>
+    <td align="center">
+      <img src="./ProfilePhotos/Soham%20Pise.png" width="150" alt="Soham Pise"/><br />
+      <b>Soham Pise</b>
+    </td>
+    <td align="center">
+      <img src="./ProfilePhotos/Vikramaditya%20Kambani.png" width="150" alt="Vikramaditya Kambani"/><br />
+      <b>Vikramaditya Kambani</b>
+    </td>
+    <td align="center">
+      <img src="./ProfilePhotos/Vineet%20Mandhalkar.png" width="150" alt="Vineet Mandhalkar"/><br />
+      <b>Vineet Mandhalkar</b>
+    </td>
+  </tr>
+</table>
