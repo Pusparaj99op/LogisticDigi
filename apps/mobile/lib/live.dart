@@ -147,6 +147,38 @@ Map<String, AgentActivity> agentActivityFrom(List<RunStep> steps) {
   return activity;
 }
 
+/// Who is calling whom right now — Dart twin of
+/// apps/web/src/components/agent-rail.tsx's callerListenerFrom(). Derived
+/// from real startedAt/completedAt timestamps already on each step: the
+/// listener is whichever step is running, the caller is the step that most
+/// recently completed before it started (the handoff), or 'major' if this
+/// is the run's first step.
+({String caller, String listener})? callerListenerFrom(List<RunStep> steps) {
+  RunStep? running;
+  for (final step in steps) {
+    if (step.status == 'running') {
+      running = step;
+      break;
+    }
+  }
+  if (running == null) return null;
+
+  var caller = 'major';
+  var latestCompletedAt = -1 << 62;
+  for (final step in steps) {
+    final completedAt = step.completedAt;
+    if (completedAt == null) continue;
+    final startedAt = running.startedAt;
+    if (startedAt != null && completedAt > startedAt) continue;
+    if (completedAt > latestCompletedAt) {
+      latestCompletedAt = completedAt;
+      caller = step.role;
+    }
+  }
+
+  return (caller: caller, listener: running.role);
+}
+
 /// The rules accept only these four fields on an approval, only while it is
 /// still pending, and only attributed to the signed-in user — see
 /// firebase/firestore.rules, match /approvals/{approvalId}.
