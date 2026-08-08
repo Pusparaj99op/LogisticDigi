@@ -21,3 +21,7 @@
 | 2026-08-08 | 04:00 | Edit | `W:\VS\LogisticDigi\services\orchestrator\src\worker.ts` | ~353 |
 | 2026-08-08 | 04:00 | Edit | `W:\VS\LogisticDigi\services\orchestrator\src\worker.ts` | ~390 |
 | 2026-08-08 | 04:18 | Edit | `W:\VS\LogisticDigi\apps\mobile\lib\main.dart` | ~525 |
+| 2026-08-08 | 07:51 | Edit | `W:\VS\LogisticDigi\apps\mobile\android\app\src\main\AndroidManifest.xml` | ~286 |
+| 2026-08-08 | 07:52 | Write | `W:\VS\LogisticDigi\apps\mobile\tool\make_icon.mjs` | ~1480 |
+| 2026-08-08 | 07:52 | Write | `W:\VS\LogisticDigi\apps\mobile\android\app\src\main\res\mipmap-anydpi-v26\ic_launcher.xml` | ~61 |
+| 2026-08-08 | 07:53 | Edit | `W:\VS\LogisticDigi\apps\mobile\pubspec.yaml` | ~734 |
