@@ -1,0 +1,22 @@
+rules_version = '2';
+
+// LogisticDigi Storage rules.
+//
+// The only object class today is a user's own profile picture, at
+// avatars/{uid}. Public read (avatars render across the app for every
+// signed-in viewer — approvals, the ledger, wherever a user is named), but a
+// user may write only their own path, same least-privilege pattern as
+// firestore.rules. A size and content-type check keeps the rule from being
+// usable as an arbitrary file-drop even though the path itself is scoped.
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /avatars/{uid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null
+        && request.auth.uid == uid
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+  }
+}
