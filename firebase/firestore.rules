@@ -1,7 +1,6 @@
 rules_version = '2';
 
 // LogisticDigi Firestore security rules.
-//
 // The governing principle: the audit trail must not be forgeable by the
 // party it describes. Runs, step records, traces, tool-call audits, payment
 // receipts, and the ledger are therefore READ-ONLY to every client. They are
