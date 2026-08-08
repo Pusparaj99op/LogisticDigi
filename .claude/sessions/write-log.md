@@ -258,3 +258,4 @@
 | 2026-08-08 | 11:28 | Write | `C:\Users\kalvi\.claude\plans\compressed-booping-kitten.md` | ~1288 |
 | 2026-08-08 | 12:37 | Edit | `W:\VS\LogisticDigi\apps\web\src\components\cargo-map.tsx` | ~1116 |
 | 2026-08-08 | 12:37 | Edit | `W:\VS\LogisticDigi\apps\web\src\components\cargo-map.tsx` | ~1115 |
+| 2026-08-08 | 14:28 | Edit | `W:\VS\LogisticDigi\README.md` | ~582 |
