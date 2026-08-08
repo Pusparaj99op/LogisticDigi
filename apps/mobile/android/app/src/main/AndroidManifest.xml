@@ -1,8 +1,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+      Declared here rather than relied on by accident. Flutter's template puts
+      INTERNET only in the debug and profile manifests, so a release build gets
+      it solely because the Firebase SDKs happen to declare it in their own
+      manifests and the merger folds them in. That works until a dependency
+      changes, and then the app ships unable to reach the network at all.
+
+      ACCESS_NETWORK_STATE is what Firestore uses to notice the device has gone
+      offline and switch to its local cache instead of hanging on every query.
+    -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
-        android:label="mobile"
+        android:label="LogisticDigi"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round">
         <activity
             android:name=".MainActivity"
             android:exported="true"

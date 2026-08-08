@@ -10,6 +10,14 @@
       ]
     },
     {
+      "collectionGroup": "runs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "tenantId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "steps",
       "queryScope": "COLLECTION",
       "fields": [
@@ -66,6 +74,14 @@
         { "fieldPath": "tenantId", "order": "ASCENDING" },
         { "fieldPath": "runId", "order": "ASCENDING" },
         { "fieldPath": "recordedAt", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "ledger",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "tenantId", "order": "ASCENDING" },
+        { "fieldPath": "recordedAt", "order": "DESCENDING" }
       ]
     },
     {

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The machine hall ground: the void black from the web app's design tokens. -->
+<resources>
+    <color name="ic_launcher_background">#0B0B0C</color>
+</resources>

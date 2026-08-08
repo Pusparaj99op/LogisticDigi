@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Modify this file to customize your launch splash screen -->
+<!--
+  The launch window shown before Flutter has drawn a frame. Painted the
+  product's own void black rather than the template's white: the app's first
+  real frame is near-black, and a white flash on every cold start reads as a
+  bug rather than as loading.
+-->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@android:color/white" />
-
-    <!-- You can insert your own image assets here -->
-    <!-- <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@mipmap/launch_image" />
-    </item> -->
+    <item android:drawable="@color/ic_launcher_background" />
 </layer-list>
