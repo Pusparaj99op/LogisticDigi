@@ -58,14 +58,14 @@ export default function UseCases() {
   }, { scope: carouselRef });
 
   return (
-    <div className="min-h-screen bg-[#0A0B0E] text-[#F3F4F6] font-[family-name:var(--font-inter)] selection:bg-[#6EE7B7] selection:text-[#0A0B0E]">
+    <div className="min-h-screen bg-[#0A0B0E] text-[#F3F4F6] font-[family-name:var(--font-inter)] selection:bg-[#FFC400] selection:text-[#0A0B0E]">
       <Navbar />
 
       {/* Hero */}
       <section className="pt-32 pb-24 px-6 max-w-6xl mx-auto text-center border-b border-[#1E2128]">
         <FadeUp>
           <h1 className="fade-up text-5xl md:text-7xl font-[family-name:var(--font-dm-serif)] mb-6 text-[#F3F4F6]">
-            The floor <span className="text-[#6EE7B7]">never sleeps.</span>
+            The floor <span className="text-[#FFC400]">never sleeps.</span>
           </h1>
           <p className="fade-up text-lg md:text-xl text-[#6B7280] max-w-2xl mx-auto">
             24/7 automated procurement and logistics coordination that obeys your absolute constraints.
@@ -77,7 +77,7 @@ export default function UseCases() {
       <section className="py-24 max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 card-grid">
           {useCases.map((uc, i) => (
-            <div key={i} className="group bg-[#111318] border border-[#1E2128] rounded-xl p-8 hover:border-[#6EE7B7]/50 hover:shadow-[0_0_30px_rgba(110,231,183,0.1)] transition-all duration-300 flex flex-col h-full">
+            <div key={i} className="group bg-[#111318] border border-[#1E2128] rounded-xl p-8 hover:border-[#FFC400]/50 hover:shadow-[0_0_30px_rgba(255,196,0,0.1)] transition-all duration-300 flex flex-col h-full">
                <div className="w-16 h-16 bg-[#0A0B0E] rounded-lg border border-[#1E2128] flex items-center justify-center p-3 mb-6">
                  <Lottie animationData={uc.anim} loop={true} className="w-full h-full" />
                </div>
@@ -111,7 +111,7 @@ export default function UseCases() {
                 "{quote.text}"
               </blockquote>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-[#1E2128] rounded-full border border-[#6EE7B7]/30"></div>
+                <div className="w-12 h-12 bg-[#1E2128] rounded-full border border-[#FFC400]/30"></div>
                 <div>
                   <div className="font-medium text-[#F3F4F6]">{quote.author}</div>
                   <div className="text-[#6B7280] text-sm font-[family-name:var(--font-jetbrains-mono)]">{quote.role}</div>
@@ -128,7 +128,7 @@ export default function UseCases() {
           <h2 className="fade-up text-4xl md:text-5xl font-[family-name:var(--font-dm-serif)] mb-8">Set them loose.</h2>
           <Link
             href="/sign-in"
-            className="fade-up inline-block px-8 py-4 bg-[#6EE7B7] text-[#0A0B0E] font-medium rounded-md hover:bg-white transition-colors shadow-[0_0_20px_rgba(110,231,183,0.3)] hover:shadow-[0_0_30px_rgba(110,231,183,0.5)]"
+            className="fade-up inline-block px-8 py-4 bg-[#FFC400] text-[#0A0B0E] font-medium rounded-md hover:bg-white transition-colors shadow-[0_0_20px_rgba(255,196,0,0.3)] hover:shadow-[0_0_30px_rgba(255,196,0,0.5)]"
           >
             Open the Console →
           </Link>

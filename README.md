@@ -16,7 +16,7 @@
 
 ## Project Description
 
-LogisticDigi is a full-stack monorepo that connects an **AI orchestrator** to a **live operations dashboard**. The AI continuously runs procurement workflows in the background — negotiating with[...]
+LogisticDigi is a full-stack monorepo that connects an **AI orchestrator** to a **live operations dashboard**. The AI continuously runs procurement workflows in the background —-negotiating with[...]
 
 Think of it as an "autopilot for your supply chain" that still asks permission before spending big.
 

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { LogoIcon } from '@/components/LogoIcon';
 
 const links = [
   { name: 'Home', path: '/' },
@@ -15,9 +16,9 @@ export function Footer() {
         
         {/* Left: Brand */}
         <div className="flex flex-col items-start gap-4">
-          <Link href="/" className="font-[family-name:var(--font-dm-serif)] text-2xl tracking-wide flex items-center gap-2 text-[#F3F4F6]">
-            <span className="w-5 h-5 bg-[#6EE7B7] block rounded-sm"></span>
-            LogisticDigi
+          <Link href="/" className="font-[family-name:var(--font-dm-serif)] text-2xl tracking-wide flex items-center gap-2.5 text-[#F3F4F6]">
+            <LogoIcon className="w-6 h-6 text-[#FFC400]" color="#FFC400" />
+            <span>LogisticDigi</span>
           </Link>
           <p className="text-sm">Agents negotiate. You decide.</p>
           <p className="text-xs text-[#F59E0B]/80 mt-2 px-3 py-1 bg-[#F59E0B]/10 rounded-full border border-[#F59E0B]/20">
@@ -29,7 +30,7 @@ export function Footer() {
         <div className="flex flex-col gap-3 md:items-center">
           <h4 className="text-[#F3F4F6] font-medium mb-2">Navigation</h4>
           {links.map((link) => (
-            <Link key={link.path} href={link.path} className="hover:text-[#6EE7B7] transition-colors text-sm">
+            <Link key={link.path} href={link.path} className="hover:text-[#FFC400] transition-colors text-sm">
               {link.name}
             </Link>
           ))}
@@ -39,7 +40,7 @@ export function Footer() {
         <div className="flex flex-col gap-4 md:items-end text-left md:text-right">
           <Link
             href="/sign-in"
-            className="px-6 py-3 bg-[#111318] border border-[#1E2128] rounded-md hover:bg-[#1E2128] hover:border-[#6EE7B7]/50 transition-all text-[#F3F4F6] text-sm font-medium shadow-[0_0_15px_rgba(110,231,183,0)] hover:shadow-[0_0_15px_rgba(110,231,183,0.1)] inline-block w-fit md:w-auto"
+            className="px-6 py-3 bg-[#111318] border border-[#1E2128] rounded-md hover:bg-[#1E2128] hover:border-[#FFC400]/50 transition-all text-[#F3F4F6] text-sm font-medium shadow-[0_0_15px_rgba(255,196,0,0)] hover:shadow-[0_0_15px_rgba(255,196,0,0.15)] inline-block w-fit md:w-auto"
           >
             Open the Console →
           </Link>
@@ -58,7 +59,7 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-6 border-t border-[#1E2128] pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
         <p>© {new Date().getFullYear()} LogisticDigi. All rights reserved.</p>
         <p className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#6EE7B7] animate-pulse"></span>
+          <span className="w-2 h-2 rounded-full bg-[#FFC400] animate-pulse"></span>
           Demonstrations run on Algorand TestNet.
         </p>
       </div>

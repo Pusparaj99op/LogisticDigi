@@ -43,14 +43,14 @@ export default function Evaluation() {
   }, { scope: tableRef });
 
   return (
-    <div className="min-h-screen bg-[#0A0B0E] text-[#F3F4F6] font-[family-name:var(--font-inter)] selection:bg-[#6EE7B7] selection:text-[#0A0B0E]">
+    <div className="min-h-screen bg-[#0A0B0E] text-[#F3F4F6] font-[family-name:var(--font-inter)] selection:bg-[#FFC400] selection:text-[#0A0B0E]">
       <Navbar />
 
       {/* Hero */}
       <section className="pt-32 pb-24 px-6 max-w-6xl mx-auto text-center border-b border-[#1E2128]">
         <FadeUp>
           <h1 className="fade-up text-5xl md:text-7xl font-[family-name:var(--font-dm-serif)] mb-6 text-[#F3F4F6]">
-            Measured. <span className="text-[#6EE7B7]">Every commit.</span>
+            Measured. <span className="text-[#FFC400]">Every commit.</span>
           </h1>
           <p className="fade-up text-lg md:text-xl text-[#6B7280] max-w-2xl mx-auto">
             Our reproducible seeded test suite throws adversarial scenarios at the agent pipeline. It must pass 100% of the time.
@@ -65,10 +65,10 @@ export default function Evaluation() {
         </FadeUp>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           <CounterCard label="Scenarios handled correctly" targetNumber={9} />
-          <CounterCard label="Budget overspends" targetNumber={0} className="border-[#6EE7B7]/30" />
-          <CounterCard label="Injected instructions obeyed" targetNumber={0} className="border-[#6EE7B7]/30" />
-          <CounterCard label="Expired quotes acted on" targetNumber={0} className="border-[#6EE7B7]/30" />
-          <CounterCard label="Bad deliveries accepted" targetNumber={0} className="border-[#6EE7B7]/30" />
+          <CounterCard label="Budget overspends" targetNumber={0} className="border-[#FFC400]/30" />
+          <CounterCard label="Injected instructions obeyed" targetNumber={0} className="border-[#FFC400]/30" />
+          <CounterCard label="Expired quotes acted on" targetNumber={0} className="border-[#FFC400]/30" />
+          <CounterCard label="Bad deliveries accepted" targetNumber={0} className="border-[#FFC400]/30" />
           <CounterCard label="Workflows completed (with guard)" targetNumber={4} suffix=" of 8" />
         </div>
       </section>
@@ -99,7 +99,7 @@ export default function Evaluation() {
                     <div>
                       <div className="flex justify-between items-start mb-4">
                         <span className="px-2 py-1 bg-[#1E2128] text-xs font-[family-name:var(--font-jetbrains-mono)] rounded text-[#6B7280]">{scen.threat}</span>
-                        <span className="text-[#6EE7B7] text-sm font-medium flex items-center gap-1">
+                        <span className="text-[#FFC400] text-sm font-medium flex items-center gap-1">
                           ✓ {scen.outcome}
                         </span>
                       </div>
@@ -113,10 +113,10 @@ export default function Evaluation() {
                   
                   {/* Back */}
                   <div 
-                    className="absolute inset-0 bg-[#1E2128] border border-[#6EE7B7]/30 rounded-xl p-6 flex flex-col"
+                    className="absolute inset-0 bg-[#1E2128] border border-[#FFC400]/30 rounded-xl p-6 flex flex-col"
                     style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
                   >
-                    <h3 className="text-[#6EE7B7] text-sm font-[family-name:var(--font-jetbrains-mono)] mb-3">System Trace</h3>
+                    <h3 className="text-[#FFC400] text-sm font-[family-name:var(--font-jetbrains-mono)] mb-3">System Trace</h3>
                     <p className="text-sm text-[#F3F4F6] leading-relaxed">{scen.detail}</p>
                   </div>
                 </div>
@@ -138,29 +138,29 @@ export default function Evaluation() {
               <tr className="border-b border-[#1E2128]">
                 <th className="pb-4 font-medium text-[#6B7280]">Metric</th>
                 <th className="pb-4 font-medium text-[#6B7280]">Standard LLM Agent</th>
-                <th className="pb-4 font-medium text-[#6EE7B7]">LogisticDigi Multi-Agent</th>
+                <th className="pb-4 font-medium text-[#FFC400]">LogisticDigi Multi-Agent</th>
               </tr>
             </thead>
             <tbody className="font-[family-name:var(--font-jetbrains-mono)] text-sm">
               <tr className="stagger-row border-b border-[#1E2128]/50 hover:bg-[#111318] transition-colors">
                 <td className="py-4">Security against prompt injection</td>
                 <td className="py-4 text-[#e5484d]">Fails (executes payload)</td>
-                <td className="py-4 text-[#6EE7B7]">Passes (vetoed by compliance)</td>
+                <td className="py-4 text-[#FFC400]">Passes (vetoed by compliance)</td>
               </tr>
               <tr className="stagger-row border-b border-[#1E2128]/50 hover:bg-[#111318] transition-colors">
                 <td className="py-4">Strict budget adherence</td>
                 <td className="py-4 text-[#e5484d]">Fails 30% of time</td>
-                <td className="py-4 text-[#6EE7B7]">100% adherence</td>
+                <td className="py-4 text-[#FFC400]">100% adherence</td>
               </tr>
               <tr className="stagger-row border-b border-[#1E2128]/50 hover:bg-[#111318] transition-colors">
                 <td className="py-4">Tool access</td>
                 <td className="py-4 text-[#e5484d]">Global (dangerous)</td>
-                <td className="py-4 text-[#6EE7B7]">Scoped per specialist</td>
+                <td className="py-4 text-[#FFC400]">Scoped per specialist</td>
               </tr>
               <tr className="stagger-row border-b border-[#1E2128]/50 hover:bg-[#111318] transition-colors">
                 <td className="py-4">Settlement mechanism</td>
                 <td className="py-4 text-[#6B7280]">Web2 APIs (slow, costly)</td>
-                <td className="py-4 text-[#6EE7B7]">Algorand Smart Contracts</td>
+                <td className="py-4 text-[#FFC400]">Algorand Smart Contracts</td>
               </tr>
             </tbody>
           </table>

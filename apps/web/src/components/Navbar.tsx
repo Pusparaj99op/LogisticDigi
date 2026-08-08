@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { LogoIcon } from '@/components/LogoIcon';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,9 +40,9 @@ export function Navbar() {
       className="sticky top-0 z-50 w-full backdrop-blur-md bg-[#0A0B0E]/80 border-b border-[#1E2128] transition-shadow duration-300 font-[family-name:var(--font-inter)] text-[#F3F4F6]"
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="font-[family-name:var(--font-dm-serif)] text-xl tracking-wide flex items-center gap-2">
-          <span className="w-4 h-4 bg-[#6EE7B7] block rounded-sm"></span>
-          LogisticDigi
+        <Link href="/" className="font-[family-name:var(--font-dm-serif)] text-xl tracking-wide flex items-center gap-2.5">
+          <LogoIcon className="w-6 h-6 text-[#FFC400]" color="#FFC400" />
+          <span>LogisticDigi</span>
         </Link>
 
         {/* Desktop Links */}
@@ -52,7 +53,7 @@ export function Navbar() {
               <Link key={link.path} href={link.path} className="relative group text-[#6B7280] hover:text-[#F3F4F6] transition-colors">
                 {link.name}
                 <div
-                  className={`absolute -bottom-1 left-0 h-0.5 bg-[#6EE7B7] transition-all duration-300 ease-out ${
+                  className={`absolute -bottom-1 left-0 h-0.5 bg-[#FFC400] transition-all duration-300 ease-out ${
                     isActive ? 'w-full' : 'w-0 group-hover:w-full'
                   }`}
                 />
@@ -99,7 +100,7 @@ export function Navbar() {
                 key={link.path}
                 href={link.path}
                 className={`text-lg font-medium transition-colors ${
-                  pathname === link.path ? 'text-[#6EE7B7]' : 'text-[#6B7280] hover:text-[#F3F4F6]'
+                  pathname === link.path ? 'text-[#FFC400]' : 'text-[#6B7280] hover:text-[#F3F4F6]'
                 }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -109,7 +110,7 @@ export function Navbar() {
             <div className="mt-auto border-t border-[#1E2128] pt-6">
               <Link
                 href="/sign-in"
-                className="w-full text-center block px-4 py-3 bg-[#6EE7B7] text-[#0A0B0E] font-medium rounded-md hover:opacity-90 transition-opacity"
+                className="w-full text-center block px-4 py-3 bg-[#FFC400] text-[#0A0B0E] font-medium rounded-md hover:opacity-90 transition-opacity"
               >
                 Open Console →
               </Link>

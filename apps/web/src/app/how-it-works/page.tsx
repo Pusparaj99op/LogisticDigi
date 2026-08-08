@@ -75,7 +75,7 @@ export default function HowItWorks() {
   }, { scope: timelineRef });
 
   return (
-    <div className="min-h-screen bg-[#0A0B0E] text-[#F3F4F6] font-[family-name:var(--font-inter)] selection:bg-[#6EE7B7] selection:text-[#0A0B0E]">
+    <div className="min-h-screen bg-[#0A0B0E] text-[#F3F4F6] font-[family-name:var(--font-inter)] selection:bg-[#FFC400] selection:text-[#0A0B0E]">
       <Navbar />
 
       {/* Hero */}
@@ -83,7 +83,7 @@ export default function HowItWorks() {
         <FadeUp>
           <h1 className="fade-up text-5xl md:text-7xl font-[family-name:var(--font-dm-serif)] mb-6 text-[#F3F4F6]">
             Six agents.<br/>
-            <span className="text-[#6EE7B7]">One mandate.</span>
+            <span className="text-[#FFC400]">One mandate.</span>
           </h1>
           <p className="fade-up text-lg md:text-xl text-[#6B7280] max-w-2xl mx-auto">
             The orchestrator delegates to specialists. Each has a narrow permission scope. None holds every key.
@@ -98,7 +98,7 @@ export default function HowItWorks() {
             <div key={agent.name} className="w-[80vw] md:w-[40vw] flex-shrink-0 px-6">
               <div className="bg-[#0A0B0E] border border-[#1E2128] rounded-xl p-8 shadow-2xl relative overflow-hidden group">
                 {/* Number Watermark */}
-                <div className="absolute -top-10 -right-10 text-[12rem] font-[family-name:var(--font-jetbrains-mono)] font-bold text-[#1E2128]/40 leading-none group-hover:text-[#6EE7B7]/10 transition-colors duration-500">
+                <div className="absolute -top-10 -right-10 text-[12rem] font-[family-name:var(--font-jetbrains-mono)] font-bold text-[#1E2128]/40 leading-none group-hover:text-[#FFC400]/10 transition-colors duration-500">
                   {i + 1}
                 </div>
                 <div className="relative z-10">
@@ -109,7 +109,7 @@ export default function HowItWorks() {
                   <div className="space-y-4 font-[family-name:var(--font-jetbrains-mono)] text-sm">
                     <div>
                       <span className="block text-[#6B7280] uppercase tracking-widest text-xs mb-1">Permission</span>
-                      <span className="text-[#6EE7B7] flex items-start gap-2">
+                      <span className="text-[#FFC400] flex items-start gap-2">
                         <span className="mt-1">✓</span> {agent.perm}
                       </span>
                     </div>
@@ -176,8 +176,8 @@ export default function HowItWorks() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <FadeUp className="col-span-1">
-               <div className="fade-up bg-[#0A0B0E] p-8 border border-[#1E2128] rounded-xl h-full hover:border-[#6EE7B7]/50 transition-colors">
-                  <div className="w-12 h-12 bg-[#6EE7B7]/10 rounded-lg flex items-center justify-center mb-6 text-[#6EE7B7]">
+               <div className="fade-up bg-[#0A0B0E] p-8 border border-[#1E2128] rounded-xl h-full hover:border-[#FFC400]/50 transition-colors">
+                  <div className="w-12 h-12 bg-[#FFC400]/10 rounded-lg flex items-center justify-center mb-6 text-[#FFC400]">
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                   </div>
                   <h3 className="text-xl font-bold mb-3">HTTP 402 Native</h3>
@@ -185,8 +185,8 @@ export default function HowItWorks() {
                </div>
             </FadeUp>
             <FadeUp className="col-span-1">
-               <div className="fade-up bg-[#0A0B0E] p-8 border border-[#1E2128] rounded-xl h-full hover:border-[#6EE7B7]/50 transition-colors" style={{ transitionDelay: '100ms' }}>
-                  <div className="w-12 h-12 bg-[#6EE7B7]/10 rounded-lg flex items-center justify-center mb-6 text-[#6EE7B7]">
+               <div className="fade-up bg-[#0A0B0E] p-8 border border-[#1E2128] rounded-xl h-full hover:border-[#FFC400]/50 transition-colors" style={{ transitionDelay: '100ms' }}>
+                  <div className="w-12 h-12 bg-[#FFC400]/10 rounded-lg flex items-center justify-center mb-6 text-[#FFC400]">
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                   </div>
                   <h3 className="text-xl font-bold mb-3">Single-use nonce</h3>
@@ -194,8 +194,8 @@ export default function HowItWorks() {
                </div>
             </FadeUp>
             <FadeUp className="col-span-1">
-               <div className="fade-up bg-[#0A0B0E] p-8 border border-[#1E2128] rounded-xl h-full hover:border-[#6EE7B7]/50 transition-colors" style={{ transitionDelay: '200ms' }}>
-                  <div className="w-12 h-12 bg-[#6EE7B7]/10 rounded-lg flex items-center justify-center mb-6 text-[#6EE7B7]">
+               <div className="fade-up bg-[#0A0B0E] p-8 border border-[#1E2128] rounded-xl h-full hover:border-[#FFC400]/50 transition-colors" style={{ transitionDelay: '200ms' }}>
+                  <div className="w-12 h-12 bg-[#FFC400]/10 rounded-lg flex items-center justify-center mb-6 text-[#FFC400]">
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
                   </div>
                   <h3 className="text-xl font-bold mb-3">Public explorer link</h3>
@@ -212,7 +212,7 @@ export default function HowItWorks() {
           <h2 className="fade-up text-4xl md:text-5xl font-[family-name:var(--font-dm-serif)] mb-8">Ready to deploy?</h2>
           <Link
             href="/sign-in"
-            className="fade-up inline-block px-8 py-4 bg-[#6EE7B7] text-[#0A0B0E] font-medium rounded-md hover:bg-white transition-colors shadow-[0_0_20px_rgba(110,231,183,0.3)] hover:shadow-[0_0_30px_rgba(110,231,183,0.5)]"
+            className="fade-up inline-block px-8 py-4 bg-[#FFC400] text-[#0A0B0E] font-medium rounded-md hover:bg-white transition-colors shadow-[0_0_20px_rgba(255,196,0,0.3)] hover:shadow-[0_0_30px_rgba(255,196,0,0.5)]"
           >
             Open the Console →
           </Link>

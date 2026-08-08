@@ -61,14 +61,14 @@ export default function Architecture() {
   }, { scope: tokenFlowRef });
 
   return (
-    <div className="min-h-screen bg-[#0A0B0E] text-[#F3F4F6] font-[family-name:var(--font-inter)] selection:bg-[#6EE7B7] selection:text-[#0A0B0E]">
+    <div className="min-h-screen bg-[#0A0B0E] text-[#F3F4F6] font-[family-name:var(--font-inter)] selection:bg-[#FFC400] selection:text-[#0A0B0E]">
       <Navbar />
 
       {/* Hero */}
       <section className="pt-32 pb-24 px-6 max-w-6xl mx-auto text-center">
         <FadeUp>
           <h1 className="fade-up text-5xl md:text-7xl font-[family-name:var(--font-dm-serif)] mb-6 text-[#F3F4F6]">
-            No agent holds <span className="text-[#6EE7B7]">every key.</span>
+            No agent holds <span className="text-[#FFC400]">every key.</span>
           </h1>
           <p className="fade-up text-lg md:text-xl text-[#6B7280] max-w-2xl mx-auto">
             A zero-trust multi-agent orchestration architecture. Funds cannot be moved without independent verification.
@@ -93,50 +93,50 @@ export default function Architecture() {
             <svg className="absolute inset-0 w-full h-full" style={{ overflow: 'visible' }}>
               <defs>
                 <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                  <polygon points="0 0, 10 3.5, 0 7" fill="#6EE7B7" />
+                  <polygon points="0 0, 10 3.5, 0 7" fill="#FFC400" />
                 </marker>
               </defs>
               
               {/* Top Left - Inventory */}
-              <path className="arrow" d="M 50%,50% L 20%,20%" stroke="#6EE7B7" strokeWidth="2" fill="none" strokeDasharray="200" strokeDashoffset="0" markerEnd="url(#arrowhead)" />
+              <path className="arrow" d="M 50%,50% L 20%,20%" stroke="#FFC400" strokeWidth="2" fill="none" strokeDasharray="200" strokeDashoffset="0" markerEnd="url(#arrowhead)" />
               <foreignObject x="10%" y="10%" width="120" height="60" className="overflow-visible">
                 <div className="bg-[#111318] border border-[#1E2128] rounded px-3 py-2 text-center text-sm absolute -translate-x-1/2 -translate-y-1/2 shadow-lg">Inventory</div>
-                <div className="text-[10px] text-[#6EE7B7] bg-[#0A0B0E] px-1 absolute -translate-x-1/2 translate-y-4">Tasks only</div>
+                <div className="text-[10px] text-[#FFC400] bg-[#0A0B0E] px-1 absolute -translate-x-1/2 translate-y-4">Tasks only</div>
               </foreignObject>
 
               {/* Top Right - Procurement */}
-              <path className="arrow" d="M 50%,50% L 80%,20%" stroke="#6EE7B7" strokeWidth="2" fill="none" strokeDasharray="200" strokeDashoffset="0" markerEnd="url(#arrowhead)" />
+              <path className="arrow" d="M 50%,50% L 80%,20%" stroke="#FFC400" strokeWidth="2" fill="none" strokeDasharray="200" strokeDashoffset="0" markerEnd="url(#arrowhead)" />
               <foreignObject x="90%" y="10%" width="120" height="60" className="overflow-visible">
                 <div className="bg-[#111318] border border-[#1E2128] rounded px-3 py-2 text-center text-sm absolute -translate-x-1/2 -translate-y-1/2 shadow-lg">Procurement</div>
-                <div className="text-[10px] text-[#6EE7B7] bg-[#0A0B0E] px-1 absolute -translate-x-1/2 translate-y-4">Tasks only</div>
+                <div className="text-[10px] text-[#FFC400] bg-[#0A0B0E] px-1 absolute -translate-x-1/2 translate-y-4">Tasks only</div>
               </foreignObject>
 
               {/* Left - Negotiation */}
-              <path className="arrow" d="M 50%,50% L 15%,50%" stroke="#6EE7B7" strokeWidth="2" fill="none" strokeDasharray="200" strokeDashoffset="0" markerEnd="url(#arrowhead)" />
+              <path className="arrow" d="M 50%,50% L 15%,50%" stroke="#FFC400" strokeWidth="2" fill="none" strokeDasharray="200" strokeDashoffset="0" markerEnd="url(#arrowhead)" />
               <foreignObject x="5%" y="50%" width="120" height="60" className="overflow-visible">
                 <div className="bg-[#111318] border border-[#1E2128] rounded px-3 py-2 text-center text-sm absolute -translate-x-1/2 -translate-y-1/2 shadow-lg">Negotiation</div>
-                <div className="text-[10px] text-[#6EE7B7] bg-[#0A0B0E] px-1 absolute -translate-x-1/2 translate-y-4">Tasks only</div>
+                <div className="text-[10px] text-[#FFC400] bg-[#0A0B0E] px-1 absolute -translate-x-1/2 translate-y-4">Tasks only</div>
               </foreignObject>
 
               {/* Right - Compliance */}
-              <path className="arrow" d="M 50%,50% L 85%,50%" stroke="#6EE7B7" strokeWidth="2" fill="none" strokeDasharray="200" strokeDashoffset="0" markerEnd="url(#arrowhead)" />
+              <path className="arrow" d="M 50%,50% L 85%,50%" stroke="#FFC400" strokeWidth="2" fill="none" strokeDasharray="200" strokeDashoffset="0" markerEnd="url(#arrowhead)" />
               <foreignObject x="95%" y="50%" width="120" height="60" className="overflow-visible">
                 <div className="bg-[#111318] border border-[#1E2128] rounded px-3 py-2 text-center text-sm absolute -translate-x-1/2 -translate-y-1/2 shadow-lg">Compliance</div>
-                <div className="text-[10px] text-[#6EE7B7] bg-[#0A0B0E] px-1 absolute -translate-x-1/2 translate-y-4">Tasks only</div>
+                <div className="text-[10px] text-[#FFC400] bg-[#0A0B0E] px-1 absolute -translate-x-1/2 translate-y-4">Tasks only</div>
               </foreignObject>
 
               {/* Bottom Left - Settlement */}
-              <path className="arrow" d="M 50%,50% L 20%,80%" stroke="#6EE7B7" strokeWidth="2" fill="none" strokeDasharray="200" strokeDashoffset="0" markerEnd="url(#arrowhead)" />
+              <path className="arrow" d="M 50%,50% L 20%,80%" stroke="#FFC400" strokeWidth="2" fill="none" strokeDasharray="200" strokeDashoffset="0" markerEnd="url(#arrowhead)" />
               <foreignObject x="10%" y="90%" width="120" height="60" className="overflow-visible">
                 <div className="bg-[#111318] border border-[#1E2128] rounded px-3 py-2 text-center text-sm absolute -translate-x-1/2 -translate-y-1/2 shadow-lg">Settlement</div>
-                <div className="text-[10px] text-[#6EE7B7] bg-[#0A0B0E] px-1 absolute -translate-x-1/2 translate-y-4">Tasks only</div>
+                <div className="text-[10px] text-[#FFC400] bg-[#0A0B0E] px-1 absolute -translate-x-1/2 translate-y-4">Tasks only</div>
               </foreignObject>
 
               {/* Bottom Right - Logistics */}
-              <path className="arrow" d="M 50%,50% L 80%,80%" stroke="#6EE7B7" strokeWidth="2" fill="none" strokeDasharray="200" strokeDashoffset="0" markerEnd="url(#arrowhead)" />
+              <path className="arrow" d="M 50%,50% L 80%,80%" stroke="#FFC400" strokeWidth="2" fill="none" strokeDasharray="200" strokeDashoffset="0" markerEnd="url(#arrowhead)" />
               <foreignObject x="90%" y="90%" width="120" height="60" className="overflow-visible">
                 <div className="bg-[#111318] border border-[#1E2128] rounded px-3 py-2 text-center text-sm absolute -translate-x-1/2 -translate-y-1/2 shadow-lg">Logistics</div>
-                <div className="text-[10px] text-[#6EE7B7] bg-[#0A0B0E] px-1 absolute -translate-x-1/2 translate-y-4">Tasks only</div>
+                <div className="text-[10px] text-[#FFC400] bg-[#0A0B0E] px-1 absolute -translate-x-1/2 translate-y-4">Tasks only</div>
               </foreignObject>
 
             </svg>
@@ -168,13 +168,13 @@ export default function Architecture() {
               {permissions.map((p, i) => (
                 <tr key={i} className="stagger-row border-b border-[#1E2128]/50 hover:bg-[#111318] transition-colors h-14">
                   <td className="text-left font-medium text-[#F3F4F6]">{p.agent}</td>
-                  <td>{p.readStock ? <span className="text-[#6EE7B7]">✓</span> : <span className="text-[#e5484d]">✗</span>}</td>
-                  <td>{p.writeStock ? <span className="text-[#6EE7B7]">✓</span> : <span className="text-[#e5484d]">✗</span>}</td>
-                  <td>{p.searchCat ? <span className="text-[#6EE7B7]">✓</span> : <span className="text-[#e5484d]">✗</span>}</td>
-                  <td>{p.negotiate ? <span className="text-[#6EE7B7]">✓</span> : <span className="text-[#e5484d]">✗</span>}</td>
-                  <td>{p.pay ? <span className="text-[#6EE7B7]">✓</span> : <span className="text-[#e5484d]">✗</span>}</td>
-                  <td>{p.book ? <span className="text-[#6EE7B7]">✓</span> : <span className="text-[#e5484d]">✗</span>}</td>
-                  <td>{p.veto ? <span className="text-[#6EE7B7]">✓</span> : <span className="text-[#e5484d]">✗</span>}</td>
+                  <td>{p.readStock ? <span className="text-[#FFC400]">✓</span> : <span className="text-[#e5484d]">✗</span>}</td>
+                  <td>{p.writeStock ? <span className="text-[#FFC400]">✓</span> : <span className="text-[#e5484d]">✗</span>}</td>
+                  <td>{p.searchCat ? <span className="text-[#FFC400]">✓</span> : <span className="text-[#e5484d]">✗</span>}</td>
+                  <td>{p.negotiate ? <span className="text-[#FFC400]">✓</span> : <span className="text-[#e5484d]">✗</span>}</td>
+                  <td>{p.pay ? <span className="text-[#FFC400]">✓</span> : <span className="text-[#e5484d]">✗</span>}</td>
+                  <td>{p.book ? <span className="text-[#FFC400]">✓</span> : <span className="text-[#e5484d]">✗</span>}</td>
+                  <td>{p.veto ? <span className="text-[#FFC400]">✓</span> : <span className="text-[#e5484d]">✗</span>}</td>
                 </tr>
               ))}
             </tbody>
@@ -199,7 +199,7 @@ export default function Architecture() {
               </div>
 
               {/* Token */}
-              <div className="anim-token absolute top-1/2 left-0 w-12 h-12 bg-[#6EE7B7] rounded-full shadow-[0_0_20px_rgba(110,231,183,0.6)] -translate-y-1/2 -translate-x-1/2 z-20 flex items-center justify-center text-[#0A0B0E] font-bold text-lg">
+              <div className="anim-token absolute top-1/2 left-0 w-12 h-12 bg-[#FFC400] rounded-full shadow-[0_0_20px_rgba(255,196,0,0.6)] -translate-y-1/2 -translate-x-1/2 z-20 flex items-center justify-center text-[#0A0B0E] font-bold text-lg">
                 $
               </div>
 
@@ -208,7 +208,7 @@ export default function Architecture() {
               <div className="absolute top-1/2 left-[16.6%] -translate-y-1/2 -translate-x-1/2 z-10 bg-[#0A0B0E] border border-[#1E2128] p-3 rounded-lg mt-16 w-32 text-[#e5484d]">Server returns HTTP 402</div>
               <div className="absolute top-1/2 left-[33.3%] -translate-y-1/2 -translate-x-1/2 z-10 bg-[#0A0B0E] border border-[#1E2128] p-3 rounded-lg mt-16 w-32">Checks Threshold</div>
               <div className="absolute top-1/2 left-[66.6%] -translate-y-1/2 -translate-x-1/2 z-10 bg-[#0A0B0E] border border-[#1E2128] p-3 rounded-lg mt-16 w-32 text-[#F59E0B]">Human Approves</div>
-              <div className="absolute top-1/2 left-[83.3%] -translate-y-1/2 -translate-x-1/2 z-10 bg-[#0A0B0E] border border-[#1E2128] p-3 rounded-lg mt-16 w-32 text-[#6EE7B7]">Agent Pays USDC</div>
+              <div className="absolute top-1/2 left-[83.3%] -translate-y-1/2 -translate-x-1/2 z-10 bg-[#0A0B0E] border border-[#1E2128] p-3 rounded-lg mt-16 w-32 text-[#FFC400]">Agent Pays USDC</div>
               <div className="absolute top-1/2 left-[100%] -translate-y-1/2 -translate-x-1/2 z-10 bg-[#0A0B0E] border border-[#1E2128] p-3 rounded-lg mt-16 w-32">Nonce on chain</div>
            </div>
         </div>
@@ -220,22 +220,22 @@ export default function Architecture() {
           <FadeUp>
             <h2 className="fade-up text-3xl font-[family-name:var(--font-dm-serif)] mb-6">Why Algorand?</h2>
             <ul className="fade-up space-y-4 text-[#6B7280]">
-              <li className="flex items-start gap-3"><span className="text-[#6EE7B7] mt-1">✓</span> <strong>Sub-second finality.</strong> Agents cannot wait 10 minutes for block confirmations. They need to pay and instantly consume an API.</li>
-              <li className="flex items-start gap-3"><span className="text-[#6EE7B7] mt-1">✓</span> <strong>Fractional penny fees.</strong> Micro-transactions for API calls are economically viable when fees are $0.0001.</li>
-              <li className="flex items-start gap-3"><span className="text-[#6EE7B7] mt-1">✓</span> <strong>Testnet Parity.</strong> We evaluate safely on TestNet before moving to MainNet with identical smart contract execution.</li>
-              <li className="flex items-start gap-3"><span className="text-[#6EE7B7] mt-1">✓</span> <strong>USDC Native.</strong> B2B commerce settles in dollars, not volatile tokens. Algorand's native USDC asset enables stable negotiation.</li>
+              <li className="flex items-start gap-3"><span className="text-[#FFC400] mt-1">✓</span> <strong>Sub-second finality.</strong> Agents cannot wait 10 minutes for block confirmations. They need to pay and instantly consume an API.</li>
+              <li className="flex items-start gap-3"><span className="text-[#FFC400] mt-1">✓</span> <strong>Fractional penny fees.</strong> Micro-transactions for API calls are economically viable when fees are $0.0001.</li>
+              <li className="flex items-start gap-3"><span className="text-[#FFC400] mt-1">✓</span> <strong>Testnet Parity.</strong> We evaluate safely on TestNet before moving to MainNet with identical smart contract execution.</li>
+              <li className="flex items-start gap-3"><span className="text-[#FFC400] mt-1">✓</span> <strong>USDC Native.</strong> B2B commerce settles in dollars, not volatile tokens. Algorand's native USDC asset enables stable negotiation.</li>
             </ul>
           </FadeUp>
           
           <FadeUp>
             <div className="fade-up bg-[#111318] border border-[#1E2128] p-6 rounded-xl shadow-2xl font-[family-name:var(--font-jetbrains-mono)] text-sm overflow-x-auto relative group">
-               <div className="absolute top-4 right-4 w-3 h-3 rounded-full bg-[#6EE7B7] animate-pulse"></div>
+               <div className="absolute top-4 right-4 w-3 h-3 rounded-full bg-[#FFC400] animate-pulse"></div>
                <div className="text-[#6B7280] mb-4 uppercase tracking-widest text-xs">Transaction Receipt</div>
                <pre className="text-[#F3F4F6]">
                  <code>
-                   <span className="text-[#6EE7B7]">TXID:</span> OMQYZ6R...9PLD<br/>
-                   <span className="text-[#6EE7B7]">FROM:</span> GZ4K7...L2P<br/>
-                   <span className="text-[#6EE7B7]">TO:</span>   A7WQ2...M8J<br/>
+                   <span className="text-[#FFC400]">TXID:</span> OMQYZ6R...9PLD<br/>
+                   <span className="text-[#FFC400]">FROM:</span> GZ4K7...L2P<br/>
+                   <span className="text-[#FFC400]">TO:</span>   A7WQ2...M8J<br/>
                    <br/>
                    <span className="text-[#F59E0B]">ASSET:</span> 10458941 (USDC)<br/>
                    <span className="text-[#F59E0B]">AMT:</span>   14,500.00<br/>
@@ -244,7 +244,7 @@ export default function Architecture() {
                    <span className="text-[#6B7280]">NOTE (NONCE):</span><br/>
                    "5e884898da28047151d0e56f8dc62927"<br/>
                    <br/>
-                   <span className="text-[#6EE7B7]">[ STATUS: CONFIRMED_ROUND_310842 ]</span>
+                   <span className="text-[#FFC400]">[ STATUS: CONFIRMED_ROUND_310842 ]</span>
                  </code>
                </pre>
             </div>
