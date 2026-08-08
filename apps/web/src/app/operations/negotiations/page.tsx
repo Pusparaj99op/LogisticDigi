@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Empty, Eyebrow, FloorPanel, Marker, type Tone } from '@/components/primitives';
+import { Empty, Eyebrow, FloorPanel } from '@/components/primitives';
 import { useNegotiationMessages, useNegotiations } from '@/components/live';
+import { NegotiationThread } from '@/components/negotiation-thread';
 import { useSession } from '@/lib/auth-context';
 
 /**
@@ -12,17 +13,11 @@ import { useSession } from '@/lib/auth-context';
  * another signed-in tenant (see useNegotiations's comment in live.ts), so
  * this reads one-sided by construction — it is still the real exchange the
  * negotiation agent had, not a chat log invented for the screen. The
- * messages are written by services/orchestrator's negotiationDocsFrom,
- * grounded in the actual offer and the actual agreed price.
+ * messages are generated live by services/orchestrator/src/negotiate-llm.ts —
+ * an LLM actually negotiating and deciding the price, not a template —
+ * and NegotiationThread animates a newly-arriving one in as it lands rather
+ * than rendering the whole transcript at once.
  */
-
-const KIND_TONE: Record<string, Tone> = {
-  proposal: 'neutral',
-  counter: 'hazard',
-  accept: 'clear',
-  reject: 'refused',
-  note: 'neutral',
-};
 
 export default function NegotiationsPage() {
   const session = useSession();
@@ -95,22 +90,7 @@ export default function NegotiationsPage() {
           ) : messages.items.length === 0 ? (
             <Empty>No messages recorded for this negotiation.</Empty>
           ) : (
-            <ul className="space-y-3 p-4">
-              {messages.items.map((message) => (
-                <li
-                  key={message.id}
-                  className="border-l-2 border-[var(--color-seam)] py-1 pl-4"
-                >
-                  <div className="flex items-center gap-2">
-                    <Marker tone={KIND_TONE[message.kind ?? 'note'] ?? 'neutral'}>
-                      {message.kind ?? 'note'}
-                    </Marker>
-                    <span className="eyebrow">{message.from}</span>
-                  </div>
-                  <p className="mt-1.5 text-sm text-[var(--color-chalk-soft)]">{message.text}</p>
-                </li>
-              ))}
-            </ul>
+            <NegotiationThread threadKey={selectedId ?? ''} messages={messages.items} />
           )}
         </FloorPanel>
       </div>

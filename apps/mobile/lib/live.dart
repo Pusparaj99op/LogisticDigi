@@ -100,6 +100,53 @@ Stream<List<Shipment>> watchShipments(String tenantId, {int max = 50}) {
       .map((snap) => snap.docs.map(Shipment.fromDoc).toList());
 }
 
+/// The six specialist agents and their real permission/restriction pair —
+/// same text as apps/web/src/components/agent-rail.tsx's AGENTS table, so
+/// web and mobile show one consistent roster rather than two invented ones.
+const List<Map<String, String>> agentRoster = [
+  {'role': 'inventory', 'name': 'Inventory', 'authority': 'Own stock only'},
+  {'role': 'procurement', 'name': 'Procurement', 'authority': 'Read the catalogue'},
+  {'role': 'negotiation', 'name': 'Negotiation', 'authority': 'Talk to counterparties'},
+  {'role': 'compliance', 'name': 'Compliance', 'authority': 'Verify and veto'},
+  {'role': 'settlement', 'name': 'Settlement', 'authority': 'Move funds, capped'},
+  {'role': 'logistics', 'name': 'Logistics', 'authority': 'Book and track cargo'},
+];
+
+/// What a step's status means for the agent executing it — ported from
+/// apps/web/src/app/operations/layout.tsx's ACTIVITY_BY_STEP_STATUS so both
+/// platforms agree on what "working/waiting/blocked" means. Only these four
+/// statuses say anything about what an agent is doing *right now*; anything
+/// else leaves it idle rather than inventing activity.
+const Map<String, String> agentActivityByStepStatus = {
+  'running': 'working',
+  'awaiting_approval': 'waiting',
+  'failed': 'blocked',
+  'cancelled': 'blocked',
+};
+
+class AgentActivity {
+  final String activity;
+  final String detail;
+  const AgentActivity(this.activity, this.detail);
+}
+
+/// Live activity per role, derived from one run's steps — a step's role maps
+/// to at most one activity, so later steps for the same role simply win.
+Map<String, AgentActivity> agentActivityFrom(List<RunStep> steps) {
+  final activity = <String, AgentActivity>{};
+  for (final step in steps) {
+    final mapped = agentActivityByStepStatus[step.status];
+    if (mapped == null) continue;
+    final detail = switch (mapped) {
+      'blocked' => step.error ?? step.skipReason ?? '${step.kind} could not complete',
+      'waiting' => 'waiting on your decision',
+      _ => '${step.kind} — ${step.stepId}',
+    };
+    activity[step.role] = AgentActivity(mapped, detail);
+  }
+  return activity;
+}
+
 /// The rules accept only these four fields on an approval, only while it is
 /// still pending, and only attributed to the signed-in user — see
 /// firebase/firestore.rules, match /approvals/{approvalId}.

@@ -105,6 +105,8 @@ class FloorScreen extends StatelessWidget {
                       final runs = runsSnap.data ?? const <RunSummary>[];
                       final active =
                           runs.where((r) => r.status == 'running' || r.status == 'paused').length;
+                      final runningRuns = runs.where((r) => r.status == 'running');
+                      final activeRunId = runningRuns.isEmpty ? null : runningRuns.first.id;
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -125,6 +127,23 @@ class FloorScreen extends StatelessWidget {
                                               for (final run in runs) _RunRow(run: run),
                                             ],
                                           ),
+                          ),
+                          const SizedBox(height: 16),
+                          // The org chart of who is acting on the operator's
+                          // behalf — mobile's version of
+                          // apps/web/src/components/agent-rail.tsx, which had
+                          // no phone equivalent until now.
+                          FloorPanel(
+                            title: 'Agents',
+                            child: activeRunId == null
+                                ? _AgentRoster(activity: const {})
+                                : StreamBuilder<List<RunStep>>(
+                                    stream: watchRunSteps(activeRunId),
+                                    builder: (context, stepsSnap) {
+                                      final steps = stepsSnap.data ?? const <RunStep>[];
+                                      return _AgentRoster(activity: agentActivityFrom(steps));
+                                    },
+                                  ),
                           ),
                           const SizedBox(height: 16),
                           FloorPanel(
@@ -206,6 +225,61 @@ class FloorScreen extends StatelessWidget {
               );
             },
           ),
+      ],
+    );
+  }
+}
+
+const Map<String, Color> _activityDot = {
+  'working': AppColors.hazard,
+  'waiting': AppColors.chalkSoft,
+  'blocked': AppColors.refused,
+};
+
+/// The six specialist agents and their real permission — same roster as
+/// apps/web/src/components/agent-rail.tsx, so a reviewer can see least
+/// privilege in the interface on either platform.
+class _AgentRoster extends StatelessWidget {
+  final Map<String, AgentActivity> activity;
+  const _AgentRoster({required this.activity});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        for (final agent in agentRoster)
+          Builder(builder: (context) {
+            final live = activity[agent['role']];
+            final dotColor = live != null ? (_activityDot[live.activity] ?? AppColors.chalkFaint) : AppColors.chalkFaint;
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppColors.seam))),
+              child: Row(
+                children: [
+                  Container(
+                    width: 6,
+                    height: 6,
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(agent['name']!, style: const TextStyle(color: AppColors.chalk, fontSize: 13)),
+                        Text(
+                          live?.detail ?? agent['authority']!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: AppColors.chalkFaint, fontSize: 11),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
       ],
     );
   }

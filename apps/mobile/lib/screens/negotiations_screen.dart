@@ -4,8 +4,9 @@
 /// Every counterparty in this system is a simulated provider rather than
 /// another signed-in tenant, so a thread reads one-sided by construction. It
 /// is still the real exchange the negotiation agent had — the messages are
-/// written by services/orchestrator's negotiationDocsFrom, grounded in the
-/// actual offer and the actual agreed price, not invented dialogue.
+/// generated live by services/orchestrator/src/negotiate-llm.ts, an LLM
+/// actually negotiating and deciding the price, not invented dialogue —
+/// and NegotiationThread animates a newly-arriving one in as it lands.
 library;
 
 import 'package:flutter/material.dart';
@@ -14,15 +15,8 @@ import '../live.dart';
 import '../models.dart';
 import '../session.dart';
 import '../theme.dart';
+import '../widgets/negotiation_thread.dart';
 import '../widgets/primitives.dart';
-
-const Map<String, Tone> _kindTone = {
-  'proposal': Tone.neutral,
-  'counter': Tone.hazard,
-  'accept': Tone.clear,
-  'reject': Tone.refused,
-  'note': Tone.neutral,
-};
 
 class NegotiationsScreen extends StatelessWidget {
   const NegotiationsScreen({super.key});
@@ -154,41 +148,7 @@ class _NegotiationCardState extends State<_NegotiationCard> {
                     return const Text('No messages recorded for this negotiation.',
                         style: TextStyle(color: AppColors.chalkFaint, fontSize: 12));
                   }
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      for (final message in messages)
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 10),
-                          padding: const EdgeInsets.only(left: 10),
-                          decoration: const BoxDecoration(
-                            border: Border(left: BorderSide(color: AppColors.seam, width: 2)),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Marker(message.kind,
-                                      tone: _kindTone[message.kind] ?? Tone.neutral),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: Text(message.from,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: eyebrowStyle()),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 5),
-                              Text(message.text,
-                                  style: const TextStyle(
-                                      color: AppColors.chalkSoft, fontSize: 12)),
-                            ],
-                          ),
-                        ),
-                    ],
-                  );
+                  return NegotiationThread(threadKey: negotiation.id, messages: messages);
                 },
               ),
             ),

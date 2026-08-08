@@ -11,6 +11,7 @@
     "serve": "tsx src/server.ts",
     "provision": "tsx src/provision.ts",
     "verify": "tsx src/verify.ts",
+    "verify-llm": "tsx src/verify-llm.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run"
   },

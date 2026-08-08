@@ -17,10 +17,17 @@ import {
   type CompiledStep,
 } from '@logisticdigi/core';
 import { guardedExecutor, type World } from '@logisticdigi/eval';
+import { routedClient, type LlmClient } from './llm/client.js';
+import { negotiateWithLlm, type NegotiateResult } from './negotiate-llm.js';
 import type { ApprovalDoc, Store } from './store.js';
 
 export type StepOutcome =
-  | { readonly kind: 'succeeded'; readonly output: Record<string, unknown> }
+  | {
+      readonly kind: 'succeeded';
+      readonly output: Record<string, unknown>;
+      /** Set only for a `negotiate` step: the LLM-generated exchange to mirror to Firestore. */
+      readonly negotiation?: Pick<NegotiateResult, 'negotiation' | 'messages'>;
+    }
   | { readonly kind: 'failed'; readonly error: string }
   | { readonly kind: 'skipped'; readonly reason: string }
   | { readonly kind: 'await_approval' };
@@ -32,6 +39,13 @@ export interface StepRunnerParams {
   readonly tenantId: string;
   readonly runId: string;
   readonly now: number;
+  /**
+   * Injected so tests can pass a fast fake instead of hitting a real
+   * provider — routedClient() makes a genuine network call, which is both
+   * slow and, in CI or offline, dependent on services this process doesn't
+   * control. Defaults to routedClient() for real orchestrator runs.
+   */
+  readonly llmClient?: LlmClient;
 }
 
 /** Deterministic id an approval doc and its step share, so a re-check finds it. */
@@ -89,9 +103,48 @@ async function runApproveStep(params: StepRunnerParams): Promise<StepOutcome> {
   return { kind: 'succeeded', output: { approved: true, amount: toJSON(amount) } };
 }
 
+/**
+ * A `negotiate` step: guardedExecutor still runs first, unchanged, for offer
+ * discovery, injection screening, and its own deterministic price (which
+ * becomes the fallback if the LLM call fails — see negotiate-llm.ts's
+ * docstring). Only afterward does an LLM actually negotiate and decide the
+ * price that replaces it.
+ */
+async function runNegotiateStep(params: StepRunnerParams): Promise<StepOutcome> {
+  const { step, world, tenantId, runId, now } = params;
+  const result = await guardedExecutor(step, world);
+  if (result.status !== 'succeeded') {
+    if (result.status === 'skipped') {
+      const reason = typeof result.output.reason === 'string' ? result.output.reason : 'skipped';
+      return { kind: 'skipped', reason };
+    }
+    return { kind: 'failed', error: result.error ?? `"${step.id}" failed with no message` };
+  }
+  if (!world.agreedOffer || !world.agreedPrice) {
+    return { kind: 'succeeded', output: result.output };
+  }
+
+  const client = params.llmClient ?? routedClient();
+  const { agreedPrice, negotiation, messages } = await negotiateWithLlm(step, world.agreedOffer, world, client, {
+    tenantId,
+    runId,
+    at: now,
+  });
+  world.agreedPrice = agreedPrice;
+
+  return {
+    kind: 'succeeded',
+    output: { ...result.output, agreedPrice: toJSON(agreedPrice) },
+    negotiation: { negotiation, messages },
+  };
+}
+
 export async function runStep(params: StepRunnerParams): Promise<StepOutcome> {
   if (params.step.kind === 'approve') {
     return runApproveStep(params);
+  }
+  if (params.step.kind === 'negotiate') {
+    return runNegotiateStep(params);
   }
 
   const result = await guardedExecutor(params.step, params.world);

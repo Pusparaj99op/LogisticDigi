@@ -2,11 +2,24 @@ import { describe, expect, it } from 'vitest';
 import { compileWorkflow, createRun, parseAmount } from '@logisticdigi/core';
 import { World } from '@logisticdigi/eval';
 import { DEFAULT_FLEET } from '@logisticdigi/sim';
+import type { LlmClient } from './llm/client.js';
 import { MemoryStore } from './memory-store.js';
 import { driveRun, type LiveRun } from './tick.js';
 
 const usdc = (amount: string) => parseAmount('USDC', amount);
 const HONEST = DEFAULT_FLEET.filter((profile) => profile.behaviours.includes('honest'));
+
+/**
+ * These tests exercise the approval/budget pipeline, not negotiation
+ * dialogue — a client that always fails is exactly right: negotiateWithLlm's
+ * own fallback (see negotiate-llm.test.ts) takes over instantly, so these
+ * stay fast and offline instead of making a real network call per run.
+ */
+class NoLlmClient implements LlmClient {
+  async complete(): Promise<string> {
+    throw new Error('no LLM in this test — the deterministic fallback should take over');
+  }
+}
 
 /** A minimal procurement workflow: discover -> quote -> negotiate -> approve -> pay -> verify. */
 function buildLiveRun(now: number, approvalThreshold: string): { live: LiveRun; store: MemoryStore } {
@@ -72,7 +85,7 @@ describe('driveRun', () => {
   it('completes a run that never crosses the approval threshold', async () => {
     // Threshold above the workflow cap: nothing can ever require approval.
     const { live, store } = buildLiveRun(0, '10000');
-    const run = await driveRun(store, 'test-runner', live, 0);
+    const run = await driveRun(store, 'test-runner', live, 0, new NoLlmClient());
 
     expect(run.status).toBe('succeeded');
     expect(store.approvals.size).toBe(0);
@@ -86,7 +99,7 @@ describe('driveRun', () => {
   it('pauses at the approval gate and resumes once a human decides', async () => {
     // Threshold at zero: any positive spend requires approval.
     const { live, store } = buildLiveRun(0, '0');
-    const paused = await driveRun(store, 'test-runner', live, 0);
+    const paused = await driveRun(store, 'test-runner', live, 0, new NoLlmClient());
 
     expect(paused.status).toBe('running');
     expect(paused.steps.get('approve_spend')?.status).toBe('awaiting_approval');
@@ -97,11 +110,11 @@ describe('driveRun', () => {
 
     // Re-driving without a decision changes nothing: it is genuinely stuck
     // until a person acts.
-    const stillPaused = await driveRun(store, 'test-runner', { ...live, run: paused }, 1_000);
+    const stillPaused = await driveRun(store, 'test-runner', { ...live, run: paused }, 1_000, new NoLlmClient());
     expect(stillPaused.steps.get('approve_spend')?.status).toBe('awaiting_approval');
 
     store.decide('run_test', 'approve_spend', true, 'operator-1');
-    const resumed = await driveRun(store, 'test-runner', { ...live, run: stillPaused }, 2_000);
+    const resumed = await driveRun(store, 'test-runner', { ...live, run: stillPaused }, 2_000, new NoLlmClient());
 
     expect(resumed.status).toBe('succeeded');
     expect(resumed.steps.get('approve_spend')?.status).toBe('succeeded');
@@ -110,11 +123,11 @@ describe('driveRun', () => {
 
   it('rejecting the approval skips the rest of the branch without paying', async () => {
     const { live, store } = buildLiveRun(0, '0');
-    const paused = await driveRun(store, 'test-runner', live, 0);
+    const paused = await driveRun(store, 'test-runner', live, 0, new NoLlmClient());
     expect(store.approvals.size).toBe(1);
 
     store.decide('run_test', 'approve_spend', false, 'operator-1');
-    const resolved = await driveRun(store, 'test-runner', { ...live, run: paused }, 1_000);
+    const resolved = await driveRun(store, 'test-runner', { ...live, run: paused }, 1_000, new NoLlmClient());
 
     expect(resolved.status).toBe('succeeded');
     expect(resolved.steps.get('approve_spend')?.status).toBe('skipped');
