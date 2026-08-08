@@ -80,9 +80,7 @@ pnpm --filter @logisticdigi/orchestrator run provision -- \
 This is the background process that actually runs procurement scenarios and writes to Firestore:
 
 ```bash
-pnpm --filter @logisticdigi/orchestrator run worker
-```
-
+pnpm --filter @logisticdigi/orc. 
 ---
 
 ## Team Members
