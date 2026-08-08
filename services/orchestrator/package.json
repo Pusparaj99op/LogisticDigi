@@ -12,6 +12,7 @@
     "provision": "tsx src/provision.ts",
     "verify": "tsx src/verify.ts",
     "verify-llm": "tsx src/verify-llm.ts",
+    "verify-zerion": "tsx src/verify-zerion.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run"
   },
