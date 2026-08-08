@@ -29,4 +29,26 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'error',
     },
   },
+  {
+    // Build-time helper scripts run under Node as CommonJS, so `require`,
+    // `process` and `console` are legitimate there. Without this they are
+    // linted against the app's browser/ESM assumptions and every one of them
+    // is reported as an undefined global.
+    files: ['scripts/**/*.js', '**/*.cjs'],
+    languageOptions: {
+      sourceType: 'commonjs',
+      globals: {
+        require: 'readonly',
+        module: 'writable',
+        process: 'readonly',
+        console: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        Buffer: 'readonly',
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
 );
