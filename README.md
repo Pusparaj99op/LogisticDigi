@@ -82,6 +82,8 @@ This is the background process that actually runs procurement scenarios and writ
 ```bash
 pnpm --filter @logisticdigi/orc. 
 ---
+pnpm --filter @logisticdigi/orchestrator run worker
+```
 
 ## Team Members
 
