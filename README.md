@@ -2,9 +2,10 @@
 
 <!-- Buttons: quick links -->
 <p align="left">
-  <a href="https://logisticdigi.vercel.app/" style="background:#FFD400;color:#000;padding:9px 16px;border-radius:0px;text-decoration:none;font-weight:700;margin:4px;display:inline-block;font-size:14px">🌐 LogisticDigi Live</a>
-  <a href="https://github.com/Pusparaj99op/LogisticDigi" style="background:#24292e;color:#fff;padding:9px 16px;border-radius:0px;text-decoration:none;font-weight:700;margin:4px;display:inline-block;font-size:14px">🐙 LogisticDigi Repo</a>
-  <a href="https://github.com/Pusparaj99op/CodeRush2.0_CoDevians_INF-03" style="background:#FF5A00;color:#fff;padding:9px 16px;border-radius:0px;text-decoration:none;font-weight:700;margin:4px;display:inline-block;font-size:14px">🏆 CodeRush 2.0 Repo</a>
+  <a href="https://logisticdigi.vercel.app/"><img src="https://img.shields.io/badge/LogisticDigi%20Live-FFD400?style=for-the-badge&logo=vercel&logoColor=black&labelColor=FFD400" alt="LogisticDigi Live" /></a>
+  <a href="https://veldar-gray.vercel.app/"><img src="https://img.shields.io/badge/CodeRush%202.0%20Web-00E5FF?style=for-the-badge&logo=vercel&logoColor=black&labelColor=00E5FF" alt="CodeRush 2.0 Web" /></a>
+  <a href="https://github.com/Pusparaj99op/LogisticDigi"><img src="https://img.shields.io/badge/LogisticDigi%20Repo-24292e?style=for-the-badge&logo=github&logoColor=white&labelColor=24292e" alt="LogisticDigi Repo" /></a>
+  <a href="https://github.com/Pusparaj99op/CodeRush2.0_CoDevians_INF-03"><img src="https://img.shields.io/badge/CodeRush%202.0%20Repo-FF5A00?style=for-the-badge&logo=github&logoColor=white&labelColor=FF5A00" alt="CodeRush 2.0 Repo" /></a>
 </p>
 
 ## Project Information
