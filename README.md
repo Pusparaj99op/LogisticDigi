@@ -8,6 +8,16 @@
   <a href="https://github.com/Pusparaj99op/CodeRush2.0_CoDevians_INF-03"><img src="https://img.shields.io/badge/CodeRush%202.0%20Repo-FF5A00?style=for-the-badge&logo=github&logoColor=white&labelColor=FF5A00" alt="CodeRush 2.0 Repo" /></a>
 </p>
 
+## Scan to Open
+
+<p align="center">
+  <a href="https://logisticdigi.vercel.app/">
+    <img src="./docs/qr-logisticdigi.png" width="300" height="300" alt="QR code linking to https://logisticdigi.vercel.app/" />
+  </a>
+  <br />
+  <sub><a href="https://logisticdigi.vercel.app/">https://logisticdigi.vercel.app/</a></sub>
+</p>
+
 ## Project Information
 
 * Team Name: CoDevians
