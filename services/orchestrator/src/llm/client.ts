@@ -163,7 +163,7 @@ export type LlmRoute = 'cloud' | 'local' | 'hybrid';
  */
 export function routedClient(route: LlmRoute = (process.env.LLM_ROUTE as LlmRoute) || 'hybrid'): LlmClient {
   const geminiKey = process.env.GEMINI_API_KEY;
-  const geminiModel = process.env.GEMINI_MODEL || 'gemini-2.0-flash';
+  const geminiModel = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
   const ollamaUrl = process.env.OLLAMA_BASE_URL || 'http://127.0.0.1:11434';
   const ollamaModel = process.env.LLM_LOCAL_MODEL || 'qwen2.5:0.5b';
 

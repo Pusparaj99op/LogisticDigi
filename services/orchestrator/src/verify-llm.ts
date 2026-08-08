@@ -19,7 +19,7 @@ async function main(): Promise<void> {
   const geminiKey = process.env.GEMINI_API_KEY;
   if (geminiKey) {
     try {
-      const reply = await new GeminiClient(geminiKey, process.env.GEMINI_MODEL || 'gemini-2.0-flash').complete(
+      const reply = await new GeminiClient(geminiKey, process.env.GEMINI_MODEL || 'gemini-2.5-flash').complete(
         PROMPT,
       );
       console.log('[verify-llm] Gemini OK:', reply.trim());
