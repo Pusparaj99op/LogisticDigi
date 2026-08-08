@@ -13,7 +13,7 @@
  */
 
 import type { AgentRole } from '@logisticdigi/core';
-import { useRuns, useRunSteps } from '@/components/live';
+import { useRuns, useRunSteps, type RunStep } from '@/components/live';
 
 export type AgentActivity = 'idle' | 'working' | 'waiting' | 'blocked';
 
@@ -42,13 +42,17 @@ const ACTIVITY_BY_STEP_STATUS: Record<string, AgentActivity> = {
  * Live agent state, derived from the newest run that is still going. Shared
  * by the rail and the mesh graph so both agree on what "working" means.
  */
-export function useAgentStates(tenantId: string | null): readonly AgentState[] {
+/** The active run's steps, shared by every hook below that needs them, so there's one live listener, not several. */
+function useActiveRunSteps(tenantId: string | null): readonly RunStep[] {
   const runs = useRuns(tenantId, 20);
   const active = runs.items.find((run) => run.status === 'running') ?? null;
   const steps = useRunSteps(active?.id ?? null);
+  return steps.items;
+}
 
+function agentStatesFromSteps(steps: readonly RunStep[]): readonly AgentState[] {
   const states: AgentState[] = [];
-  for (const step of steps.items) {
+  for (const step of steps) {
     const activity = ACTIVITY_BY_STEP_STATUS[step.status];
     if (!activity) continue;
     states.push({
@@ -63,6 +67,49 @@ export function useAgentStates(tenantId: string | null): readonly AgentState[] {
     });
   }
   return states;
+}
+
+export function useAgentStates(tenantId: string | null): readonly AgentState[] {
+  return agentStatesFromSteps(useActiveRunSteps(tenantId));
+}
+
+export interface CallerListener {
+  readonly caller: string;
+  readonly listener: string;
+}
+
+/**
+ * Who is actually calling whom right now, derived from real timestamps
+ * already on each step — not invented chatter. The listener is whichever
+ * step is currently running; the caller is the step that most recently
+ * completed before it started (the one that handed off), or the major agent
+ * if this is the first step of the run.
+ */
+export function callerListenerFrom(steps: readonly RunStep[]): CallerListener | null {
+  const running = steps.find((s) => s.status === 'running');
+  if (!running) return null;
+
+  let caller = 'major';
+  let latestCompletedAt = -Infinity;
+  for (const step of steps) {
+    if (step.completedAt == null) continue;
+    if (running.startedAt != null && step.completedAt > running.startedAt) continue;
+    if (step.completedAt > latestCompletedAt) {
+      latestCompletedAt = step.completedAt;
+      caller = step.role;
+    }
+  }
+
+  return { caller, listener: running.role };
+}
+
+/** Both the rail's per-agent activity and the mesh graph's directional edge, from one shared listener. */
+export function useAgentMeshState(tenantId: string | null): {
+  readonly states: readonly AgentState[];
+  readonly callerListener: CallerListener | null;
+} {
+  const steps = useActiveRunSteps(tenantId);
+  return { states: agentStatesFromSteps(steps), callerListener: callerListenerFrom(steps) };
 }
 
 export const AGENTS: readonly { role: AgentRole; name: string; authority: string }[] = [
