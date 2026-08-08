@@ -2,18 +2,14 @@
 
 import { Empty, Eyebrow, FloorPanel, Marker } from '@/components/primitives';
 import { useShipments } from '@/components/live';
-import { CargoGlobe } from '@/components/cargo-globe';
+import { CargoMap } from '@/components/cargo-map';
 import { useSession } from '@/lib/auth-context';
 
 /**
  * Cargo in transit.
  *
- * The globe is rendered with react-globe.gl over a plain Phong sphere — the
- * same approach as the landing page's backdrop, and deliberately not Mapbox:
- * a token that has to be provisioned before the page works at all is a
- * fragility, and the information here is the routes, which need no basemap
- * imagery to read. The shipment list below carries the same data in full,
- * because the globe shows where cargo is going and the table says what it is.
+ * Interactive OpenStreetMap centered by default at YCCE College of Engineering,
+ * Nagpur, displaying booked shipments and regional cargo routes.
  */
 
 const MODE_LABEL: Record<string, string> = {
@@ -33,17 +29,12 @@ export default function MapPage() {
         <h1 className="mt-2 text-3xl text-[var(--color-chalk)]">Cargo in transit</h1>
         <p className="mt-2 max-w-2xl text-sm text-[var(--color-chalk-soft)]">
           Shipments your agents booked, on the routes they chose. Visible to both parties to the
-          deal and nobody else.
+          deal and nobody else. Default center: YCCE College of Engineering.
         </p>
       </div>
 
-      <div className="relative h-[28rem] overflow-hidden rounded-[2px] border border-[var(--color-seam)] bg-[var(--color-steel)]">
-        <CargoGlobe shipments={shipments.items} className="absolute inset-0" />
-        {shipments.ready && shipments.items.length === 0 ? (
-          <p className="absolute inset-x-0 bottom-4 text-center text-xs text-[var(--color-chalk-faint)]">
-            No cargo booked yet — the globe fills in as the logistics agent books capacity.
-          </p>
-        ) : null}
+      <div className="relative h-[32rem] overflow-hidden rounded-[2px] border border-[var(--color-seam)] bg-[var(--color-steel)] shadow-xl">
+        <CargoMap shipments={shipments.items} className="absolute inset-0" />
       </div>
 
       <FloorPanel title="Shipments">
